@@ -83,9 +83,9 @@ body {
     padding-left: 6px;
     padding-right: 6px;
 
-    -webkit-transition: background-image 0.2s linear;
-    -webkit-transition: border-color 0.2s linear;
-    -webkit-transition: width 0.2s linear;
+    -webkit-transition: background-image 0.1s linear;
+    -webkit-transition: border-color 0.1s linear;
+    -webkit-transition: width 0.1s linear;
 }
 
 .button-blue {
@@ -213,9 +213,20 @@ function loaded() {
 window.addEventListener('load', function (e) { loaded(); setInterval(ooc, 100) }, false);
 window.addEventListener('onorientationchange', ooc, false);
 
+function is_touchy() {
+    var d = document.createElement('div');
+    d.setAttribute('ongesturestart', 'return;');
+    return (typeof d.ongesturestart == "function")
+}
+
+function set_go(e, func) {
+    e.ontouchend = func;
+    if (!is_touchy()) e.onmouseup = func;
+}
 
 function really_go(e) {
     alert("really_go");
+    set_go(e, function() { });
 }
 
 function go(e) {
@@ -224,8 +235,8 @@ function go(e) {
     e.style.width = "62px";
     setTimeout(function() {
         e.innerHTML = 'INSTALL';
-        e.onclick = really_go;
-    }, 300);
+        set_go(e, function() { really_go(e); });
+    }, 100);
 }
 
 function go_away(e) {
@@ -234,13 +245,18 @@ function go_away(e) {
     e.style.width = "40px";
     setTimeout(function() {
         e.innerHTML = 'FREE';
-        e.onclick = function() { go(e); };
-    }, 300);
+        set_go(e, function() { go(e); });
+    }, 100);
+}
+
+window.onload = function(evt) {
+    var e = document.getElementsByClassName('button')[0];
+    set_go(e, function() { go(e); });
 }
 
 document.ontouchstart = document.onmousedown = function(evt) {
     var e = document.getElementsByClassName('button-green')[0];
-    if (evt.target != e && evt.target != e.childNodes[0]) {
+    if (e && evt.target != e && evt.target != e.childNodes[0]) {
         go_away(e);
         return false;
     }
@@ -259,7 +275,7 @@ document.ontouchstart = document.onmousedown = function(evt) {
 <h1 class="title">Cydia</h1>
 <h3 class="subtitle">Jay Freeman (saurik)</h3>
 <h3 class="subtitle">Jailbreak by comex.</h3>
-<div class="button button-blue" onclick="go(this);" style="width: 40px;"><span>FREE</span></div>
+<div class="button button-blue" style="width: 40px;"><span>FREE</span></div>
 </div>
 
 <a href="faq.html" class="cell">
