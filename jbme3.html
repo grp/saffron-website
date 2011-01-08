@@ -83,8 +83,9 @@ body {
     padding-left: 6px;
     padding-right: 6px;
 
-    -webkit-transition: background-image 0.5s linear;
-    -webkit-transition: border-color 0.5s linear;
+    -webkit-transition: background-image 0.2s linear;
+    -webkit-transition: border-color 0.2s linear;
+    -webkit-transition: width 0.2s linear;
 }
 
 .button-blue {
@@ -213,18 +214,35 @@ window.addEventListener('load', function (e) { loaded(); setInterval(ooc, 100) }
 window.addEventListener('onorientationchange', ooc, false);
 
 
-function two(e) {
-    //alert("two!");
+function really_go(e) {
+    alert("really_go");
 }
 
-function one(e) {
-    var w = e.offsetWidth + "px";
+function go(e) {
+    e.innerHTML = '';
     e.className = 'button button-green';
-    e.innerHTML = 'JAILBREAK';
-    e.style.width = "50px";;
-    e.style.width = "80px";
-    e.onClick = two(this);
+    e.style.width = "62px";
+    setTimeout(function() {
+        e.innerHTML = 'INSTALL';
+        e.onclick = really_go;
+    }, 300);
 }
+
+function go_away(e) {
+    e.innerHTML = '';
+    e.className = 'button button-blue';
+    e.style.width = "40px";
+    setTimeout(function() {
+        e.innerHTML = 'FREE';
+        e.onclick = function() { go(e); };
+    }, 300);
+}
+
+document.ontouchstart = document.onmousedown = function(evt) {
+    var e = document.getElementsByClassName('button-green')[0];
+    if (evt.target != e && evt.target != e.childNodes[0]) go_away(e);
+}
+
 </script>
 </head>
 <body>
@@ -238,7 +256,7 @@ function one(e) {
 <h1 class="title">Cydia</h1>
 <h3 class="subtitle">Jay Freeman (saurik)</h3>
 <h3 class="subtitle">Jailbreak by comex.</h3>
-<div class="button button-blue" onclick="one(this);">FREE</div>
+<div class="button button-blue" onclick="go(this);" style="width: 40px;"><span>FREE</span></div>
 </div>
 
 <a href="faq.html" class="cell">
