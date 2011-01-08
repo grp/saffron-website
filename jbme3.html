@@ -1,0 +1,266 @@
+
+<html>
+<head>
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<title>JailbreakMe 3.0</title>
+<style type="text/css">
+
+body {
+    margin: 0;
+    padding: 0;
+
+    font-family: Helvetica, Arial, Verdana, sans-serif;
+    color: black;
+
+    -webkit-user-select: none;
+
+    background-color: #c8cacc;
+    -webkit-background-size: 100% 100px;
+    background-repeat: no-repeat;
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        from(#c8cacc),
+        to(#8c8d8e)
+    );
+
+    padding-bottom: 15px;
+}
+
+.header {
+    height: 60px;
+    padding-left: 10px;
+    margin-bottom: 16px;
+    position: relative;
+}
+
+.title {
+    color: black;
+    font-size: 18px;
+    text-shadow: #bebebe 0 1px 0;
+    padding-top: 2px;
+    margin-bottom: 0px;
+}
+
+.subtitle {
+    color: #353535;
+    font-size: 11px;
+    margin-top: 0;
+    margin-bottom: 2px;
+    text-shadow: #bebebe 0 1px 0;
+}
+
+.icon {
+    width: 59px;
+    height: 60px;
+    float: left;
+    margin-right: 10px;
+    border: 0;
+    padding: 0;
+    
+    -webkit-box-reflect: below -2px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(0.75, transparent), to(rgba(1, 1, 1, 0.75)));
+}
+
+.button {
+    height: 20px;
+
+    position: absolute;
+    top: 30px;
+    right: 28px;
+
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+   
+    -webkit-border-radius: 4px;
+
+    color: white;
+    font-weight: bold;
+    text-shadow: #4e4e4e 0 -1px 0;
+    padding-top: 2px;
+    font-size: 13px;
+    padding-left: 6px;
+    padding-right: 6px;
+
+    -webkit-transition: background-image 0.5s linear;
+    -webkit-transition: border-color 0.5s linear;
+}
+
+.button-blue {
+    border-top: 1px solid #404040;
+    border-right: 1px solid #404070;
+    border-left: 1px solid #404070;
+
+    background-color: #4c679c;
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(1, #60749b),
+        color-stop(0.5, #32559c)
+    );
+}
+
+.button-green {
+    border-top: 1px solid #508050;
+    border-right: 1px solid #50a060;
+    border-left: 1px solid #50a060;
+    border-bottom: 1px solid #559955;
+    
+    background-color: #7ebd63;
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(1, #8fbc7e),
+        color-stop(0.5, #6cbe47)
+    );
+}
+
+.body {
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 15px;
+    color: black;
+}
+
+.body a {
+    text-decoration: none;
+}
+
+.navbar {
+    background-color: #7f94b0;
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0%, #6d83a1),
+        color-stop(50%, #7f94b0),
+        color-stop(50%, #889bb3),
+        color-stop(100%, #b5c0ce)
+    );
+
+    height: 44px;
+    margin: 0;
+    padding: 0;
+
+    border-top: 2px solid #d4d4d4;
+    border-bottom: 1px solid #2d3033;
+
+    text-align: center;
+}
+
+.navbar span {
+    line-height: 44px;
+    font-size: 22px;
+    font-weight: bold;
+    
+    color: white;
+    text-shadow: #4e4e4e 0 -1px 0;
+}
+
+.cell {
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+    background-color: #d5d5d5;
+    
+    padding: 0;
+    margin: 0;
+    margin-bottom: -1px;
+    position: relative;
+
+    height: 44px;
+    width: 100%;
+    display: block;
+    
+    text-decoration: none;
+
+    background-repeat: no-repeat;
+    background-image: url(chevron.png);
+    background-size: 10px 13px;
+    background-position: 295px center;
+}
+
+.cell span {
+    display: block;
+    position: absolute;
+    
+    line-height: 44px;
+
+    font-weight: bold;
+    font-size: 15px;
+    padding-left: 17px;
+    color: black;
+}
+
+</style>
+<script type="text/javascript">
+
+
+var old = window.orientation;
+function ooc(e) {
+    if (old != window.orientation)
+        window.scrollTo(0, 1);
+    old = window.orientation;
+}
+
+function loaded() {
+    setTimeout(function() { window.scrollTo(0, 1); }, 10);
+}
+
+window.addEventListener('load', function (e) { loaded(); setInterval(ooc, 100) }, false);
+window.addEventListener('onorientationchange', ooc, false);
+
+
+function two(e) {
+    //alert("two!");
+}
+
+function one(e) {
+    var w = e.offsetWidth + "px";
+    e.className = 'button button-green';
+    e.innerHTML = 'JAILBREAK';
+    e.style.width = "50px";;
+    e.style.width = "80px";
+    e.onClick = two(this);
+}
+</script>
+</head>
+<body>
+
+<div class="navbar">
+<span>JailbreakMe 3.0</span>
+</div>
+
+<div class="header">
+<img class="icon" src="icon@2x.png" width="59" height="59" />
+<h1 class="title">Cydia</h1>
+<h3 class="subtitle">Jay Freeman (saurik)</h3>
+<h3 class="subtitle">Jailbreak by comex.</h3>
+<div class="button button-blue" onclick="one(this);">FREE</div>
+</div>
+
+<a href="faq.html" class="cell">
+<span>Help and Support</span>
+</a>
+
+<div class="body">
+<p>JailbreakMe is the easiest way to free your device. Experience iOS as it could be, fully customizable, themeable, and with every tweak you could possibly imagine.</p>
+<p>Safe and completely reversible (just restore in iTunes), jailbreaking gives you control of your own device. It only takes a minute or two, and as always, it's completely free.</p>  
+</div>
+
+<a href="mailto:?Subject=Jailbreak%20your%20iDevice%21&Body=Jailbreak%20your%20iPhone%2C%20iPod%20touch%2C%20or%20iPad%20directly%20from%20the%20device%20itself%21%20JailbreakMe%20is%20the%20simplest%20way%20to%20free%20your%20device.%20Experience%20iOS%20as%20it%20could%20be%2C%20fully%20customizable%2C%20themeable%2C%20and%20with%20every%20tweak%20you%20could%20possibly%20imagine.%0A%0ACheck%20it%20out%20by%20visiting%20http%3A//jailbreakme.com/%20on%20your%20iOS%20device." class="cell">
+<span>Tell a Friend</span>
+</a>
+<a href="legal.html" class="cell">
+<span>Legal Information</span>
+</a>
+
+<div class="body">
+<p>This jailbreak was brought to you by <a href="http://twitter.com/comex">comex</a>. A bunch of others helped out with various things, notably, <a href="http://chpwn.com/">chpwn</a>, [insert-names-here], and <a href="http://saurik.com/">saurik</a>.</p>
+</div>
+
+</body>
+</html>
+
