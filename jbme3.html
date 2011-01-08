@@ -240,7 +240,10 @@ function go_away(e) {
 
 document.ontouchstart = document.onmousedown = function(evt) {
     var e = document.getElementsByClassName('button-green')[0];
-    if (evt.target != e && evt.target != e.childNodes[0]) go_away(e);
+    if (evt.target != e && evt.target != e.childNodes[0]) {
+        go_away(e);
+        return false;
+    }
 }
 
 </script>
