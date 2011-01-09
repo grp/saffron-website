@@ -1,7 +1,9 @@
 
 <html>
 <head>
-<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta name="viewport" content="width=320, maximum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <title>JailbreakMe 3.0</title>
 <style type="text/css">
 
@@ -13,6 +15,7 @@ body {
     color: black;
 
     -webkit-user-select: none;
+    -webkit-text-size-adjust: none;
 
     background-color: #c8cacc;
     -webkit-background-size: 100% 100px;
@@ -181,6 +184,17 @@ body {
     
     color: white;
     text-shadow: #4e4e4e 0 -1px 0;
+}
+
+@media only screen and (width: 480px) { 
+    .navbar {
+        height: 32px;
+    }
+
+    .navbar span {
+        font-size: 18px;
+        line-height: 34px;
+    }
 }
 
 .cell {
