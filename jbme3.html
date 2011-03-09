@@ -16,57 +16,23 @@ body {
 
     -webkit-user-select: none;
     -webkit-text-size-adjust: none;
-
-    background-color: #c8cacc;
-    -webkit-background-size: 100% 100px;
-    background-repeat: no-repeat;
-    background-image: -webkit-gradient(
-        linear,
-        left bottom,
-        left top,
-        from(#c8cacc),
-        to(#8c8d8e)
-    );
-
-    padding-bottom: 15px;
 }
 
-.header {
-    height: 60px;
-    padding-left: 10px;
-    margin-bottom: 16px;
-    position: relative;
-}
-
-.title {
-    color: black;
-    font-size: 18px;
-    text-shadow: #bebebe 0 1px 0;
-    padding-top: 2px;
-    margin-bottom: 0px;
-}
-
-.subtitle {
-    color: #353535;
-    font-size: 11px;
-    margin-top: 0;
-    margin-bottom: 2px;
-    text-shadow: #bebebe 0 1px 0;
-}
-
-.icon {
-    width: 59px;
-    height: 60px;
-    float: left;
+.body {
+    margin-left: 10px;
     margin-right: 10px;
-    border: 0;
-    padding: 0;
-    
-    -webkit-box-reflect: below -2px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(0.75, transparent), to(rgba(1, 1, 1, 0.75)));
+    font-size: 15px;
+    color: black;
 }
+
+.body a {
+    text-decoration: none;
+}
+
 
 .button {
     height: 20px;
+    line-height: 16px; 
 
     position: absolute;
     top: 30px;
@@ -144,59 +110,6 @@ body {
     );
 }
 
-.body {
-    margin-left: 10px;
-    margin-right: 10px;
-    font-size: 15px;
-    color: black;
-}
-
-.body a {
-    text-decoration: none;
-}
-
-.navbar {
-    background-color: #7f94b0;
-    background-image: -webkit-gradient(
-        linear,
-        left bottom,
-        left top,
-        color-stop(0%, #6d83a1),
-        color-stop(50%, #7f94b0),
-        color-stop(50%, #889bb3),
-        color-stop(100%, #b5c0ce)
-    );
-
-    height: 42px;
-    margin: 0;
-    padding: 0;
-
-    border-top: 2px solid #d4d4d4;
-    border-bottom: 1px solid #2d3033;
-
-    text-align: center;
-}
-
-.navbar span {
-    line-height: 44px;
-    font-size: 22px;
-    font-weight: bold;
-    
-    color: white;
-    text-shadow: #4e4e4e 0 -1px 0;
-}
-
-@media only screen and (width: 480px) { 
-    .navbar {
-        height: 32px;
-    }
-
-    .navbar span {
-        font-size: 18px;
-        line-height: 34px;
-    }
-}
-
 .cell {
     border-top: 1px solid #e5e5e5;
     border-bottom: 1px solid #e5e5e5;
@@ -230,6 +143,259 @@ body {
     padding-left: 17px;
     color: black;
 }
+
+@media only screen and (device-width: 768px) {
+    body {
+        background-color: #c8cacc;
+        background-repeat: no-repeat;
+        background-image: -webkit-gradient(
+            linear,
+            left bottom,
+            left top,
+            from(#656565),
+            to(#959595)
+        );
+    }
+
+    .container {
+        margin-left: 10%;
+        margin-right: 10%;
+        margin-top: 25%;
+        margin-bottom: 25%;
+        position: relative;
+        overflow: hidden;
+
+        background-color: #e1e1e1;
+
+        -webkit-border-radius: 15px;
+        -webkit-box-shadow: 0 0 50px black;
+    }
+
+    .container2 {
+        display: table-row;
+    }
+
+    .header {
+        float: left;
+        position: relative;
+        width: 40%
+    }
+    
+    .notheader {
+        float: right;
+        width: 59%;
+        border-left: solid 1px black;
+    }
+
+    .cell:last-child {
+        -webkit-border-bottom-right-radius: 15px;
+    }
+
+    .body {
+        padding-left: 15px;
+        padding-right: 15px;
+        font-size: 16px;
+    }
+
+    .icon {
+        display: none;
+    }
+
+    .bigicon {
+        margin-top: 10%;
+        margin-bottom: 10%;
+        margin-bottom: 25%;
+        width: 190px;
+        height: 190px;
+        -webkit-background-size: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        background-image: url(holybejesus.png);
+
+        -webkit-box-reflect: below 4px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(0.8, transparent), to(rgba(1, 1, 1, 0.5)));
+    }
+
+    .headertext {
+        width: 100%;
+    }
+
+    .cell {
+        border-top: solid 1px #b5b5b5;
+        border-bottom: solid 1px #b5b5b5;
+        background-color: #d5d5d5;
+    }
+
+    .title {
+        width: 100%;
+        text-align: center;
+        font-size: 30px;
+        margin-bottom: 0;
+        padding-bottom: 2px;
+    }
+
+    .subtitle {
+        font-size: 17px;
+        width: 100%;
+        margin: 0;
+        padding-bottom: 1px;
+        text-align: center;
+        color: #888888;
+    }
+
+    .navbar {
+        background-color: #7f94b0;
+        background-image: -webkit-gradient(
+            linear,
+            left bottom,
+            left top,
+            color-stop(0%, #a8abbb),
+            color-stop(100%, #ffffff)
+        );
+
+        -webkit-border-top-left-radius: 15px;
+        -webkit-border-top-right-radius: 15px;
+
+        height: 43px;
+        margin: 0;
+        padding: 0;
+
+        border-bottom: solid 1px #797D92;
+
+        text-align: center;
+    }
+
+    .navbar span {
+        line-height: 44px;
+        font-size: 22px;
+        font-weight: bold;
+    
+        color: #808080;
+        text-shadow: white 0 1px 0;
+    }
+    
+    .button {
+        margin-top: 12px;
+
+        position: static;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    }
+}
+
+@media only screen and (device-width: 768px) and (orientation: portrait) {
+    .container {
+    }
+
+}
+
+@media only screen and (device-width: 768px) and (orientation: landscape) {
+    .container {
+        margin-top: 8%;
+        margin-bottom: 8%;
+        margin-left: 15%;
+        margin-right: 15%;
+    }
+}
+
+@media only screen and (device-width: 320px) {
+body {
+    background-color: #c8cacc;
+    -webkit-background-size: 100% 100px;
+    background-repeat: no-repeat;
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        from(#c8cacc),
+        to(#8c8d8e)
+    );
+
+    padding-bottom: 15px;
+}
+
+.header {
+    height: 60px;
+    padding-left: 10px;
+    margin-bottom: 16px;
+    position: relative;
+}
+
+.title {
+    color: black;
+    font-size: 18px;
+    text-shadow: #bebebe 0 1px 0;
+    padding-top: 2px;
+    margin-bottom: 0px;
+}
+
+.subtitle {
+    color: #353535;
+    font-size: 11px;
+    margin-top: 0;
+    margin-bottom: 2px;
+    text-shadow: #bebebe 0 1px 0;
+}
+
+.bigicon {
+    display: none;
+}
+
+.icon {
+    width: 59px;
+    height: 60px;
+    float: left;
+    margin-right: 10px;
+    border: 0;
+    padding: 0;
+    
+    -webkit-box-reflect: below -2px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(0.75, transparent), to(rgba(1, 1, 1, 0.75)));
+}
+
+.navbar {
+    background-color: #7f94b0;
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0%, #6d83a1),
+        color-stop(50%, #7f94b0),
+        color-stop(50%, #889bb3),
+        color-stop(100%, #b5c0ce)
+    );
+
+    height: 42px;
+    margin: 0;
+    padding: 0;
+
+    border-top: 2px solid #d4d4d4;
+    border-bottom: 1px solid #2d3033;
+
+    text-align: center;
+}
+
+.navbar span {
+    line-height: 44px;
+    font-size: 22px;
+    font-weight: bold;
+    
+    color: white;
+    text-shadow: #4e4e4e 0 -1px 0;
+}
+
+}
+
+@media only screen and (device-width: 320px) and (orientation: landscape) { 
+    .navbar {
+        height: 32px;
+    }
+
+    .navbar span {
+        font-size: 18px;
+        line-height: 34px;
+    }
+}
+
 
 </style>
 <script type="text/javascript">
@@ -302,36 +468,56 @@ document.ontouchstart = document.onmousedown = function(evt) {
 </head>
 <body>
 
+<div class="container">
+<div class="container2">
 <div class="navbar">
 <span>JailbreakMe 3.0</span>
 </div>
 
 <div class="header">
 <img class="icon" src="icon@2x.png" width="59" height="59" />
+<div class="bigicon"></div>
+<div class="headertext">
 <h1 class="title">Cydia</h1>
 <h3 class="subtitle">Jay Freeman (saurik)</h3>
 <h3 class="subtitle">Jailbreak by comex.</h3>
-<div class="button button-blue" style="width: 40px;"><span>FREE</span></div>
+<div class="button button-blue" style="width: 40px;">FREE</div>
+</div>
+</div>
+
+<div class="notheader">
+
+<div class="body">
+<p>JailbreakMe is the easiest way to free your device. Experience iOS as it could be, fully customizable, themeable, and with every tweak you could possibly imagine.</p>
+<p>Safe and completely reversible (just restore in iTunes), jailbreaking gives you control of your own device. It only takes a minute or two, and as always, it's completely free.</p>
 </div>
 
 <a href="faq.html" class="cell">
 <span>Help and Support</span>
 </a>
-
-<div class="body">
-<p>JailbreakMe is the easiest way to free your device. Experience iOS as it could be, fully customizable, themeable, and with every tweak you could possibly imagine.</p>
-<p>Safe and completely reversible (just restore in iTunes), jailbreaking gives you control of your own device. It only takes a minute or two, and as always, it's completely free.</p>  
-</div>
-
 <a href="mailto:?Subject=Jailbreak%20your%20iDevice%21&Body=Jailbreak%20your%20iPhone%2C%20iPod%20touch%2C%20or%20iPad%20directly%20from%20the%20device%20itself%21%20JailbreakMe%20is%20the%20simplest%20way%20to%20free%20your%20device.%20Experience%20iOS%20as%20it%20could%20be%2C%20fully%20customizable%2C%20themeable%2C%20and%20with%20every%20tweak%20you%20could%20possibly%20imagine.%0A%0ACheck%20it%20out%20by%20visiting%20http%3A//jailbreakme.com/%20on%20your%20iOS%20device." class="cell">
 <span>Tell a Friend</span>
 </a>
-<a href="legal.html" class="cell">
-<span>Legal Information</span>
-</a>
+
+<!--div class="body">
+<p>(Note to media organizations: JailbreakMe uses just one of many paths into iOS. Malicious people will always find a way in, through this path or another. Jailbreaking itself does not affect the security of your device.)</p>
+</div-->
 
 <div class="body">
-<p>This jailbreak was brought to you by <a href="http://twitter.com/comex">comex</a>. A bunch of others helped out with various things, notably, <a href="http://chpwn.com/">chpwn</a>, [insert-names-here], and <a href="http://saurik.com/">saurik</a>.</p>
+<p>This jailbreak was brought to you by <a href="http://twitter.com/comex">comex</a>, with the help of many others, including: <a href="http://chpwn.com/">Grant Paul (chpwn)</a>, [insert-names-here], and <a href="http://saurik.com/">Jay Freeman (saurik)</a>. <a href="legal.html">Legal Information.</a></p>
+</div>
+
+<a href="media.html" class="cell">
+<span>A Note to Media Organizations</span>
+</a>
+
+<!--a href="legal.html" class="cell">
+<span>Legal Information</span>
+</a-->
+
+
+</div>
+</div>
 </div>
 
 </body>
