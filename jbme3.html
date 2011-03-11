@@ -11,7 +11,7 @@ body {
     margin: 0;
     padding: 0;
 
-    font-family: Helvetica, Arial, Verdana, sans-serif;
+    font-family: Helvetica NeueUI, Helvetica Neue, Helvetica, Arial, Verdana, sans-serif;
     color: black;
 
     -webkit-user-select: none;
@@ -29,51 +29,89 @@ body {
     text-decoration: none;
 }
 
-
-.button {
-    height: 20px;
-    line-height: 16px; 
-
-    position: absolute;
-    top: 30px;
-    right: 28px;
-
-    text-align: center;
+.button-container {
+    z-index: 10;
     display: table-cell;
     vertical-align: middle;
-   
-    -webkit-border-radius: 4px;
+}
 
+.button-container, .button, .button-bottom, .button-text {
+    height: 21px;
+    padding-top: 2px;
+    padding-left: 6px;
+    padding-right: 6px;
+    -webkit-border-radius: 4px;
+    
+    width: 36px;
+}
+
+.button, .button-bottom {
+    -webkit-transition-property: -webkit-transform, background-image, border-color;
+    -webkit-transition-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
+    -webkit-transition-duration: 0.2s;
+}
+
+.button-blue .button, .button-blue .button-bottom {
+    -webkit-transform: scale(1, 1);
+}
+
+.button-green .button, .button-green .button-bottom {
+    -webkit-transform: scale(1.419, 1);
+}
+
+.button-green .button-text {
+    width: 37px;
+    margin-left: -8px;
+}
+
+
+.button-text {
+    position: absolute;
+    margin-top: 13px;
+    margin-left: 1px;
+    text-align: center;
+    
     color: white;
     font-weight: bold;
     text-shadow: #4e4e4e 0 -1px 0;
-    padding-top: 2px;
     font-size: 13px;
-    padding-left: 6px;
-    padding-right: 6px;
-
-    -webkit-transition: background-image 0.1s linear;
-    -webkit-transition: border-color 0.1s linear;
-    -webkit-transition: width 0.1s linear;
+    line-height: 16px; 
 }
 
-.button-blue {
-    border-top: 1px solid #404040;
-    border-right: 1px solid #404070;
-    border-left: 1px solid #404070;
+.button-bottom {
+    position: absolute;
+    margin-top: 13px;
+    border: 1px solid white;
+}
 
-    background-color: #4c679c;
+.button {
+    
+    position: absolute;
+
+   
+    -webkit-border-radius: 4px;
+    
+    -webkit-box-shadow: 0 -1px 0px #79797b;
+
+}
+
+.button-blue .button {
+    border-top: 1px solid #404040;
+    border-right: 1px solid #3a568d;
+    border-left: 1px solid #3a568d;
+    border-bottom: 1px solid #2e5194;
+
     background-image: -webkit-gradient(
         linear,
         left bottom,
         left top,
-        color-stop(1, #60749b),
-        color-stop(0.5, #32559c)
+        color-stop(1, #566684),
+        color-stop(0.95, #60749b),
+        color-stop(0, #235194)
     );
 }
 
-.button-blue:active {
-    background-color: #3c578c;
+.button-blue .button:active {
     background-image: -webkit-gradient(
         linear,
         left bottom,
@@ -83,30 +121,30 @@ body {
     );
 }
 
-.button-green {
-    border-top: 1px solid #508050;
-    border-right: 1px solid #50a060;
-    border-left: 1px solid #50a060;
-    border-bottom: 1px solid #559955;
+.button-green .button {
+    border-top: 1px solid #424243;
+    border-right: 1px solid #6c9858;
+    border-left: 1px solid #6c9858;
+    border-bottom: 1px solid #559a38;
     
-    background-color: #7ebd63;
     background-image: -webkit-gradient(
         linear,
         left bottom,
         left top,
-        color-stop(1, #8fbc7e),
-        color-stop(0.5, #6cbe47)
+        color-stop(1, #739565),
+        color-stop(0.95, #8fbb7f),
+        color-stop(0, #6cbe47)
     );
 }
 
-.button-green:active {
-    background-color: #6ead53;
+.button-green .button:active {
     background-image: -webkit-gradient(
         linear,
         left bottom,
         left top,
-        color-stop(1, #7fac6e),
-        color-stop(0.5, #5cae37)
+        color-stop(1, #739565),
+        color-stop(0.9, #8fbb7f),
+        color-stop(0, #6cbe47)
     );
 }
 
@@ -144,7 +182,7 @@ body {
     color: black;
 }
 
-@media only screen and (device-width: 768px) {
+@media only screen and (min-device-width: 768px) {
     body {
         background-color: #c8cacc;
         background-repeat: no-repeat;
@@ -276,20 +314,19 @@ body {
     .button {
         margin-top: 12px;
 
-        position: static;
         margin-left: auto;
         margin-right: auto;
         display: block;
     }
 }
 
-@media only screen and (device-width: 768px) and (orientation: portrait) {
+@media only screen and (min-device-width: 768px) and (orientation: portrait) {
     .container {
     }
 
 }
 
-@media only screen and (device-width: 768px) and (orientation: landscape) {
+@media only screen and (min-device-width: 768px) and (orientation: landscape) {
     .container {
         margin-top: 8%;
         margin-bottom: 8%;
@@ -401,72 +438,83 @@ body {
 <script type="text/javascript">
 
 
-var old = window.orientation;
+var old_orientation = window.orientation;
 function ooc(e) {
-    if (old != window.orientation)
+    if (old_orientation != window.orientation)
         window.scrollTo(0, 1);
-    old = window.orientation;
+    old_orientation = window.orientation;
 }
 
 function loaded() {
     setTimeout(function() { window.scrollTo(0, 1); }, 10);
-}
-
-window.addEventListener('load', function (e) { loaded(); setInterval(ooc, 100) }, false);
-window.addEventListener('onorientationchange', ooc, false);
-
-function is_touchy() {
-    var d = document.createElement('div');
-    d.setAttribute('ongesturestart', 'return;');
-    return (typeof d.ongesturestart == "function")
-}
-
-function set_go(e, func) {
-    e.ontouchend = func;
-    if (!is_touchy()) e.onmouseup = func;
-}
-
-function really_go(e) {
-    alert("really_go");
-    set_go(e, function() { });
-}
-
-function go(e) {
-    e.innerHTML = '';
-    e.className = 'button button-green';
-    e.style.width = "62px";
-    setTimeout(function() {
-        e.innerHTML = 'INSTALL';
-        set_go(e, function() { really_go(e); });
-    }, 100);
-}
-
-function go_away(e) {
-    e.innerHTML = '';
-    e.className = 'button button-blue';
-    e.style.width = "40px";
-    setTimeout(function() {
-        e.innerHTML = 'FREE';
-        set_go(e, function() { go(e); });
-    }, 100);
-}
-
-window.onload = function(evt) {
-    var e = document.getElementsByClassName('button')[0];
+    setInterval(ooc, 100);
+    var e = document.getElementById('button-container');
+    e.text = e.getElementsByClassName('button-text')[0].firstChild
     set_go(e, function() { go(e); });
 }
 
+window.addEventListener('load', loaded, false);
+window.addEventListener('onorientationchange', ooc, false);
+
+var is_touchy = (function() {
+    var d = document.createElement('div');
+    d.setAttribute('ongesturestart', 'return;');
+    return (typeof d.ongesturestart == "function")
+})();
+
+function set_go(e, func) {
+    e.ontouchend = func;
+    if (!is_touchy) e.onmouseup = func;
+}
+
+function really_go(e) {
+    set_go(e, null);
+    alert('Преве́д');
+}
+
+var active = false;
+
+function go(e) {
+    active = true;
+    e.text.data = '';
+    e.className = 'button-container button-green';
+    setTimeout(function() {
+        e.text.data = 'INSTALL';
+        set_go(e, function() { really_go(e); });
+    }, 200);
+}
+
+function go_away(e) {
+    e.text.data = '';
+    e.className = 'button-container button-blue';
+    setTimeout(function() {
+        e.text.data = 'FREE';
+        set_go(e, function() { go(e); });
+        active = false;
+    }, 200);
+}
+
 document.ontouchstart = document.onmousedown = function(evt) {
-    var e = document.getElementsByClassName('button-green')[0];
-    if (e && evt.target != e && evt.target != e.childNodes[0]) {
-        go_away(e);
-        return false;
+    if(!active) return false;
+    var e = document.getElementById('button-container');
+    for(var target = evt.target; target; target = target.parentNode) {
+        if(target == e) return false;
     }
+    go_away(e);
+    return false;
 }
 
 </script>
 </head>
 <body>
+
+<div style="-webkit-transform: scale(1); position: absolute; top: 50px; left: 400px; z-index: 2">
+<div class="button-container button-blue" id="button-container">
+<div class="button-bottom"></div>
+<div class="button"></div>
+<div class="button-text">FREE</div>
+</div>
+</div>
 
 <div class="container">
 <div class="container2">
@@ -481,7 +529,7 @@ document.ontouchstart = document.onmousedown = function(evt) {
 <h1 class="title">Cydia</h1>
 <h3 class="subtitle">Jay Freeman (saurik)</h3>
 <h3 class="subtitle">Jailbreak by comex.</h3>
-<div class="button button-blue" style="width: 40px;">FREE</div>
+<!--<div class="button button-blue" style="width: 40px;">FREE</div>-->
 </div>
 </div>
 
@@ -500,12 +548,14 @@ document.ontouchstart = document.onmousedown = function(evt) {
 </a>
 
 <!--div class="body">
-<p>(Note to media organizations: JailbreakMe uses just one of many paths into iOS. Malicious people will always find a way in, through this path or another. Jailbreaking itself does not affect the security of your device.)</p>
+<p>(Note to media organizations: JailbreakMe uses just one of many paths into iOS. Malicious people will always find a way in, through this path or another. Jailbreaking itself does not affect the security of your device (yes it does).)</p>
 </div-->
 
 <div class="body">
 <p>This jailbreak was brought to you by <a href="http://twitter.com/comex">comex</a>, with the help of many others, including: <a href="http://chpwn.com/">Grant Paul (chpwn)</a>, [insert-names-here], and <a href="http://saurik.com/">Jay Freeman (saurik)</a>. <a href="legal.html">Legal Information.</a></p>
 </div>
+
+todo fix :select
 
 <a href="media.html" class="cell">
 <span>A Note to Media Organizations</span>
