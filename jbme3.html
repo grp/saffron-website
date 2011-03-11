@@ -481,7 +481,7 @@ function go(e) {
     setTimeout(function() {
         e.text.data = 'INSTALL';
         set_go(e, function() { really_go(e); });
-    }, 200);
+    }, 270);
 }
 
 function go_away(e) {
@@ -491,7 +491,7 @@ function go_away(e) {
         e.text.data = 'FREE';
         set_go(e, function() { go(e); });
         active = false;
-    }, 200);
+    }, 270);
 }
 
 document.ontouchstart = document.onmousedown = function(evt) {
