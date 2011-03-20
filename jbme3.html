@@ -37,12 +37,19 @@ body {
 
 .button-container, .button, .button-bottom, .button-text {
     height: 21px;
-    padding-top: 2px;
-    padding-left: 6px;
-    padding-right: 6px;
     -webkit-border-radius: 4px;
     
-    width: 36px;
+    width: 48px;
+}
+
+.button-text {
+    width: 50px;
+}
+
+.button-wrapper {
+    padding-left: 6px;
+    padding-right: 6px;
+    width: 50px;
 }
 
 .button, .button-bottom {
@@ -61,16 +68,15 @@ body {
 
 .button-green .button-text {
     width: 37px;
-    margin-left: -8px;
+    margin-left: -2px;
 }
 
 
 .button-text {
     position: absolute;
-    margin-top: 13px;
-    margin-left: 1px;
+    margin-top: 2px;
     text-align: center;
-    
+
     color: white;
     font-weight: bold;
     text-shadow: #4e4e4e 0 -1px 0;
@@ -80,19 +86,14 @@ body {
 
 .button-bottom {
     position: absolute;
-    margin-top: 13px;
+    /*margin-top: 13px;*/
     border: 1px solid white;
 }
 
 .button {
-    
     position: absolute;
-
-   
     -webkit-border-radius: 4px;
-    
     -webkit-box-shadow: 0 -1px 0px #79797b;
-
 }
 
 .button-blue .button {
@@ -210,19 +211,30 @@ body {
     }
 
     .container2 {
+        display: table;
+    }
+
+    .container3 {
         display: table-row;
     }
 
     .header {
-        float: left;
+        /*float: left;*/
         position: relative;
-        width: 40%
+        width: 40%;
+        display: table-cell;
+
+        padding-top: 5%;
+        padding-bottom: 5%;
+        vertical-align: top;
     }
-    
+
     .notheader {
-        float: right;
+        /*float: right;*/
         width: 59%;
         border-left: solid 1px black;
+        display: table-cell;
+        vertical-align: bottom;
     }
 
     .cell:last-child {
@@ -230,9 +242,16 @@ body {
     }
 
     .body {
-        padding-left: 15px;
-        padding-right: 15px;
+        padding-left: 5px;
+        padding-right: 5px;
+        margin-bottom: 10px;
+        margin-top: 10px;
         font-size: 16px;
+    }
+
+    .body p {
+        margin-top: 10px;
+        margin-bottom: 10px;
     }
 
     .icon {
@@ -240,9 +259,7 @@ body {
     }
 
     .bigicon {
-        margin-top: 10%;
-        margin-bottom: 10%;
-        margin-bottom: 25%;
+        margin-bottom: 50px;
         width: 190px;
         height: 190px;
         -webkit-background-size: 100%;
@@ -280,6 +297,10 @@ body {
         color: #888888;
     }
 
+    .navbar-container {
+        width: 100%;
+    }
+
     .navbar {
         background-color: #7f94b0;
         background-image: -webkit-gradient(
@@ -311,12 +332,11 @@ body {
         text-shadow: white 0 1px 0;
     }
     
-    .button {
-        margin-top: 12px;
-
+    .button-wrapper {
+        position: static;
+        margin-top: 5px;
         margin-left: auto;
         margin-right: auto;
-        display: block;
     }
 }
 
@@ -336,93 +356,122 @@ body {
 }
 
 @media only screen and (device-width: 320px) {
-body {
-    background-color: #c8cacc;
-    -webkit-background-size: 100% 100px;
-    background-repeat: no-repeat;
-    background-image: -webkit-gradient(
-        linear,
-        left bottom,
-        left top,
-        from(#c8cacc),
-        to(#8c8d8e)
-    );
-
-    padding-bottom: 15px;
-}
-
-.header {
-    height: 60px;
-    padding-left: 10px;
-    margin-bottom: 16px;
-    position: relative;
-}
-
-.title {
-    color: black;
-    font-size: 18px;
-    text-shadow: #bebebe 0 1px 0;
-    padding-top: 2px;
-    margin-bottom: 0px;
-}
-
-.subtitle {
-    color: #353535;
-    font-size: 11px;
-    margin-top: 0;
-    margin-bottom: 2px;
-    text-shadow: #bebebe 0 1px 0;
-}
-
-.bigicon {
-    display: none;
-}
-
-.icon {
-    width: 59px;
-    height: 60px;
-    float: left;
-    margin-right: 10px;
-    border: 0;
-    padding: 0;
+    .button-container {
+        position: absolute;
+        right: 25px;
+        top: 20px;
+    }
     
-    -webkit-box-reflect: below -2px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(0.75, transparent), to(rgba(1, 1, 1, 0.75)));
-}
-
-.navbar {
-    background-color: #7f94b0;
-    background-image: -webkit-gradient(
-        linear,
-        left bottom,
-        left top,
-        color-stop(0%, #6d83a1),
-        color-stop(50%, #7f94b0),
-        color-stop(50%, #889bb3),
-        color-stop(100%, #b5c0ce)
-    );
-
-    height: 42px;
-    margin: 0;
-    padding: 0;
-
-    border-top: 2px solid #d4d4d4;
-    border-bottom: 1px solid #2d3033;
-
-    text-align: center;
-}
-
-.navbar span {
-    line-height: 44px;
-    font-size: 22px;
-    font-weight: bold;
+    body {
+        background-color: #c8cacc;
+        -webkit-background-size: 100% 100px;
+        background-repeat: no-repeat;
+        background-image: -webkit-gradient(
+            linear,
+            left bottom,
+            left top,
+            from(#c8cacc),
+            to(#8c8d8e)
+        );
     
-    color: white;
-    text-shadow: #4e4e4e 0 -1px 0;
+        padding-bottom: 15px;
+    }
+
+    .header {
+        height: 60px;
+        padding-left: 10px;
+        margin-bottom: 16px;
+        position: relative;
+    }
+    
+    .title {
+        color: black;
+        font-size: 18px;
+        text-shadow: #bebebe 0 1px 0;
+        padding-top: 2px;
+        margin-bottom: 0px;
+    }
+    
+    .subtitle {
+        color: #353535;
+        font-size: 11px;
+        margin-top: 0;
+        margin-bottom: 2px;
+        text-shadow: #bebebe 0 1px 0;
+    }
+    
+    .bigicon {
+        display: none;
+    }
+    
+    .icon {
+        width: 59px;
+        height: 60px;
+        float: left;
+        margin-right: 10px;
+        border: 0;
+        padding: 0;
+        
+        -webkit-box-reflect: below -2px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(0.75, transparent), to(rgba(1, 1, 1, 0.75)));
+    }
+    
+    .navbar {
+        background-color: #7f94b0;
+        background-image: -webkit-gradient(
+            linear,
+            left bottom,
+            left top,
+            color-stop(0%, #6d83a1),
+            color-stop(50%, #7f94b0),
+            color-stop(50%, #889bb3),
+            color-stop(100%, #b5c0ce)
+        );
+    
+        height: 42px;
+        margin: 0;
+        padding: 0;
+    
+        border-top: 2px solid #d4d4d4;
+        border-bottom: 1px solid #2d3033;
+    
+        text-align: center;
+    }
+    
+    .navbar span {
+        line-height: 44px;
+        font-size: 22px;
+        font-weight: bold;
+        
+        color: white;
+        text-shadow: #4e4e4e 0 -1px 0;
+    }    
+
+    .body {
+        line-height: 1.3em;
+    }
+
+    .button-holder {
+        position: absolute;
+    }
+
+    .button-wrapper {
+        position: relative;
+    }
 }
 
+@media only screen and (device-width: 320px) and (orientation: portrait) {
+    .button-holder {
+        top: 12px;
+        left: 240px;
+    }
 }
 
 @media only screen and (device-width: 320px) and (orientation: landscape) { 
+    .button-holder {
+        top: 12px;
+        left: 400px;
+    }
+
     .navbar {
         height: 32px;
     }
@@ -454,7 +503,7 @@ function loaded() {
 }
 
 window.addEventListener('load', loaded, false);
-window.addEventListener('onorientationchange', ooc, false);
+window.addEventListener('orientationchange', ooc, false);
 
 var is_touchy = (function() {
     var d = document.createElement('div');
@@ -469,7 +518,7 @@ function set_go(e, func) {
 
 function really_go(e) {
     set_go(e, null);
-    alert('Преве́д');
+    alert('really_go');
 }
 
 var active = false;
@@ -481,6 +530,7 @@ function go(e) {
     setTimeout(function() {
         e.text.data = 'INSTALL';
         set_go(e, function() { really_go(e); });
+        steal();
     }, 200);
 }
 
@@ -491,36 +541,40 @@ function go_away(e) {
         e.text.data = 'FREE';
         set_go(e, function() { go(e); });
         active = false;
+        unsteal();
     }, 200);
 }
 
-document.ontouchstart = document.onmousedown = function(evt) {
-    if(!active) return false;
-    var e = document.getElementById('button-container');
-    for(var target = evt.target; target; target = target.parentNode) {
-        if(target == e) return false;
+function unsteal() {
+    document.ontouchstart = document.onmousedown = undefined; 
+}
+
+function steal() {
+    document.ontouchstart = document.onmousedown = function(evt) {
+        if(!active) return false;
+        var e = document.getElementById('button-container');
+        for(var target = evt.target; target; target = target.parentNode) {
+            if(target == e) return false;
+        }
+        go_away(e);
+        return false;
     }
-    go_away(e);
-    return false;
 }
 
 </script>
 </head>
 <body>
 
-<div style="-webkit-transform: scale(1); position: absolute; top: 50px; left: 400px; z-index: 2">
-<div class="button-container button-blue" id="button-container">
-<div class="button-bottom"></div>
-<div class="button"></div>
-<div class="button-text">FREE</div>
-</div>
-</div>
-
 <div class="container">
-<div class="container2">
+
+<div class="navbar-container">
 <div class="navbar">
 <span>JailbreakMe 3.0</span>
 </div>
+</div>
+
+<div class="container2">
+<div class="container3">
 
 <div class="header">
 <img class="icon" src="icon@2x.png" width="59" height="59" />
@@ -530,6 +584,15 @@ document.ontouchstart = document.onmousedown = function(evt) {
 <h3 class="subtitle">Jay Freeman (saurik)</h3>
 <h3 class="subtitle">Jailbreak by comex.</h3>
 <!--<div class="button button-blue" style="width: 40px;">FREE</div>-->
+</div>
+<div class="button-holder">
+<div style="-webkit-transform: scale(1); z-index: 2;" class="button-wrapper">
+<div class="button-container button-blue" id="button-container">
+<div class="button-bottom"></div>
+<div class="button"></div>
+<div class="button-text">FREE</div>
+</div>
+</div>
 </div>
 </div>
 
@@ -555,7 +618,7 @@ document.ontouchstart = document.onmousedown = function(evt) {
 <p>This jailbreak was brought to you by <a href="http://twitter.com/comex">comex</a>, with the help of many others, including: <a href="http://chpwn.com/">Grant Paul (chpwn)</a>, [insert-names-here], and <a href="http://saurik.com/">Jay Freeman (saurik)</a>. <a href="legal.html">Legal Information.</a></p>
 </div>
 
-todo fix :select
+<!--todo fix :select-->
 
 <a href="media.html" class="cell">
 <span>A Note to Media Organizations</span>
@@ -568,6 +631,8 @@ todo fix :select
 
 </div>
 </div>
+</div>
+
 </div>
 
 </body>
