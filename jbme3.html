@@ -414,8 +414,16 @@ body {
         
         -webkit-box-reflect: below -2px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(0.75, transparent), to(rgba(1, 1, 1, 0.75)));
     }
+
+    .navbar-container {
+        height: 44px;
+    }
     
     .navbar {
+        position: fixed;
+        z-index: 31337;
+        width: 320px;
+
         background-color: #7f94b0;
         background-image: -webkit-gradient(
             linear,
@@ -431,7 +439,7 @@ body {
         margin: 0;
         padding: 0;
     
-        border-top: 2px solid #d4d4d4;
+        border-top: 1px solid #d4d4d4;
         border-bottom: 1px solid #2d3033;
     
         text-align: center;
@@ -623,10 +631,6 @@ function steal() {
 <a href="media.html" class="cell">
 <span>A Note to Media Organizations</span>
 </a>
-
-<!--a href="legal.html" class="cell">
-<span>Legal Information</span>
-</a-->
 
 
 </div>
