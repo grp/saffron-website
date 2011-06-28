@@ -6,6 +6,7 @@ if(preg_match('!^Mozilla/5\.0 \((\w+).*OS ([0-9_]+) like Mac OS X.*Mobile/([^ ]+
     $small_device = $device != 'iPad';
     $pdf = "./${device}_${version}_$build.pdf";
     $supported = file_exists($pdf);
+    $device = 'mobile';
 } else {
     $device = 'computer';
     $small_device = false;
@@ -28,8 +29,10 @@ body {
 
     font-family: Helvetica NeueUI, Helvetica Neue, Helvetica, Arial, Verdana, sans-serif;
     color: black;
+}
 
-    -webkit-user-select: none;
+* {
+    -webkit-user-select: none !important;
     -webkit-text-size-adjust: none;
 }
 
@@ -186,7 +189,6 @@ body {
     
     padding: 0;
     margin: 0;
-    margin-bottom: -1px;
     position: relative;
 
     height: 44px;
@@ -199,6 +201,42 @@ body {
     background-image: url(chevron.png);
     background-size: 25px 13px;
     background-position: center right;
+    
+    /* disable gray selected overlay thingy */
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    
+    /* disable tap-and-hold menu */
+    -webkit-touch-callout: none;
+}
+
+/* i love (read: hate) css */
+.cell + .cell {
+    margin-top: -1px;
+}
+
+.cell:active {
+    border-top: 1px solid #0099FF;
+    border-bottom: 1px solid #0066F2;
+
+    background-repeat: no-repeat, repeat-x;
+    background-image: url(chevron_white.png), -webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        color-stop(0, #0099FF),
+        color-stop(1, #0066F2)
+    );
+    background-size: 25px 13px, 100% 44px;
+    background-position: center right, top left;
+}
+
+.cell:active + .cell {
+    /* so, there's this weird thing that our cells are put margin-top -1px */
+    /* so that they look good when multiple of them are in a row, however  */
+    /* that makes the selected cells look one pixel off when they are above*/
+    /* a deselected cell. so, set the color to the bottom color of the cell*/
+    /* above, which is hidden. if that makes any sense (probably does not) */
+    border-top: 1px solid #0066F2;
 }
 
 .cell span {
@@ -213,26 +251,86 @@ body {
     color: black;
 }
 
+.cell:active span {
+    color: white;
+}
+
 
 .navbar-label {
     width: 100%;
     position: absolute;
+    text-align: center;
     line-height: 44px;
     font-size: 22px;
     font-weight: bold;
 }
 
+#back-taptarget {
+    top: 6px;
+    left: 8px;
+    height: 32px;
+    width: 52px;
+    position: absolute;
+    z-index: 9999999;
+    
+    /* disable gray selected overlay thingy */
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    
+    /* disable tap-and-hold menu */
+    -webkit-touch-callout: none;
+}
+
+#back-container {
+    height: 32px;
+    margin-top: <?php if ($small_device) { ?> 6px <?php } else { ?> 7px <?php } ?>;
+    <?php if ($small_device) { echo "margin-left: -2px"; } ?>;
+    position: absolute;
+}
+
+<?php function back_image($press, $two, $mini = false) {
+    global $small_device;
+    echo "UINavigationBar" . ($mini ? "Mini" : "") . ($small_device ? "Default" : "Silver") . "Back" . ($press ? "Pressed" : "") . ($two ? "@2x" : "") . ".png";
+} ?>
+
 #back-button {
-    left: 0;
-    padding-top: 8px;
-    font-family: Helvetica NeueUI, Helvetica Neue, Helvetica, Arial, Verdana, sans-serif;
+    line-height: 0px;
+    margin: 0;
+    padding: 0;
+    height: 0px;
+    color: white;
+
+    border-width: 15px 5px 15px 14px;
+}
+
+#back-button {
+    -webkit-border-image: url(<?php back_image(FALSE, FALSE); ?>) 15 5 15 14 stretch;
+}
+
+#back-taptarget:active + #back-container > #back-button {
+    -webkit-border-image: url(<?php back_image(TRUE, FALSE); ?>) 15 5 15 14 stretch;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2) {
+    #back-button {
+        -webkit-border-image: url(<?php back_image(FALSE, TRUE); ?>) 30 10 30 28 stretch;
+    }
+
+    #back-taptarget:active + #back-container > #back-button {
+        -webkit-border-image: url(<?php back_image(TRUE, TRUE); ?>) 30 10 30 28 stretch;
+    }
+}
+
+#back-text {
+    font-family: "Helvetica NeueUI", Helvetica Neue, Helvetica, Arial, Verdana, sans-serif;
     text-shadow: #4e4e4e 0 -1px 0;
     font-weight: bold;
     font-size: 13px;
-    line-height: 16px; 
-    color: white;
+    
+    padding-right: 3px;
+    margin-top: -1px;
 }
 
+/*
 #back-button > div {
     position: absolute;
     padding: 5px 8px 5px 11px;
@@ -308,6 +406,7 @@ body {
     background-color: #caccd4;
 <?php } ?>
 }
+*/
 
 .navbar-label, #back-button, .navigation-view-2-container, .navigation-view-1 {
     -webkit-transition-property: -webkit-transform, opacity;
@@ -336,7 +435,7 @@ body {
     -webkit-transform: translateX(100%);
     position: absolute;
     width: 100%;
-    height: 100%;
+    <?php if (!$small_device) echo "height: 100%;" ?>
     overflow: auto;
 }
 
@@ -361,9 +460,9 @@ body {
 }
 
 .container.moreinfo .navigation-view-2a { display: block; }
-.container.legal .navigation-view-2b { display: block; }
-.container.page2c .navigation-view-2c { display: block; }
-.container.page2d .navigation-view-2d { display: block; }
+.container.share .navigation-view-2b { display: block; }
+.container.legal .navigation-view-2c { display: block; }
+.container.media .navigation-view-2d { display: block; }
 
 
 <?php if(!$small_device) { ?>
@@ -385,13 +484,16 @@ body {
     margin-right: 10%;
     margin-top: 25%;
     margin-bottom: 25%;
-    position: relative;
+    position: static;
+    background-color: #e1e1e1;
+    -webkit-box-shadow: 0 0 50px black;
+    -webkit-border-radius: 15px;
+}
+
+.container-rounded {
+    position:relative; 
     overflow: hidden;
 
-    background-color: #e1e1e1;
-
-    -webkit-border-radius: 15px;
-    -webkit-box-shadow: 0 0 50px black;
 }
 
 .container2 {
@@ -421,8 +523,10 @@ body {
     vertical-align: top;
 }
 
-.cell:last-child {
-    -webkit-border-bottom-right-radius: 15px;
+
+.body-header {
+    font-weight: bold;
+    font-size: 17px;
 }
 
 .body {
@@ -430,7 +534,7 @@ body {
     padding-right: 5px;
     margin-bottom: 10px;
     margin-top: 10px;
-    font-size: 16px;
+    font-size: 15px;
 }
 
 .body p {
@@ -663,19 +767,121 @@ body {
         line-height: 34px;
     }
     #back-button {
-        line-height: 10px; 
         margin-top: -3px;
         margin-left: -1px;
     }
 
-    #back-button > div {
+    /*#back-button > div {
         padding-bottom: 6px;
         -webkit-mask-box-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnPjxwYXRoIGQ9J20gMCwxMC45OTQ0NjM3NzU5IGMgMCwwLjAgOS4wMTc2ODE0LC0xMC43NTAxNDIzNTg2IDEwLjUyMDYyOCwtMTAuODcyMzAzMDY3MiBDIDEyLjAyMzU3NSwwLjAgMTM3LjYwMzE0LDAuMCAxMzcuNjAzMTQsMC4wIGwgMCwyMS4xMzM4MDMxMDM0IGMgMCwwLjAgLTEyNC45MTE1ODgsLTAuMTIyMTYwNjM1NDY4IC0xMjcuMDgyNTEyLDAuMCBDIDguODUwNjg3NCwyMS4wMTE2NDI0NjggMCwxMC45OTQ0NjM3NzU5IDAsMTAuOTk0NDYzNzc1OSB6JyAvPjwvc3ZnPgo%3D) 0 0 0 10 repeat repeat;
+    }*/
+
+    #back-taptarget {
+        top: 6px;
+        left: 8px;
+        height: 24px;
+        width: 52px;
     }
 
+    #back-container {
+        height: 24px;
+        margin-top: <?php if ($small_device) { ?> 7px <?php } else { ?> 7px <?php } ?>;
+        <?php if ($small_device) { echo "margin-left: -2px"; } ?>;
+        position: absolute;
+    }
+
+    #back-button {
+        border-width: 12px 4px 12px 10px;
+    }
+
+    #back-button {
+        -webkit-border-image: url(<?php back_image(FALSE, FALSE, TRUE); ?>) 12 4 12 10 stretch;
+    }
+
+    #back-taptarget:active + #back-container > #back-button {
+        -webkit-border-image: url(<?php back_image(TRUE, FALSE, TRUE); ?>) 12 4 12 10 stretch;
+    }
+
+    #back-text {
+        font-size: 12px;
+   
+        padding-left: 2px;
+        padding-right: 3px;
+        margin-top: -1px;
+    }
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2) and (orientation: landscape) {
+    #back-button {
+        -webkit-border-image: url(<?php back_image(FALSE, TRUE, TRUE); ?>) 24 8 24 20 stretch;
+    }
+    
+    #back-taptarget:active + #back-container > #back-button {
+        -webkit-border-image: url(<?php back_image(TRUE, TRUE, TRUE); ?>) 24 8 24 20 stretch;
+    }
 }
 
 <?php } // small_device ?>
+
+.split-column-left {
+    margin-top: -10px;
+}
+
+@media only screen and (orientation: landscape) {
+    margin-top: -13px;
+}
+
+.question-answer {
+
+}
+
+.question {
+    font-weight: bold;
+    margin-bottom: 5px;
+    margin-top: 10px;
+}
+
+.answer {
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+<?php if (!$small_device) { ?>
+.split-column-left {
+    float: left;
+    width: 50%;
+    margin: 0;
+    padding: 0;
+}
+
+.split-column-right {
+    float: right:
+    width: 50%;
+    margin: 0;
+    padding: 0;
+}
+
+.body {
+    font-size: 16px;
+    line-height: 19px;
+}
+
+.split-column-left .body, .split-column-right .body {
+    /*text-align: justify;*/
+    font-size: 15px;
+    line-height: 16px;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+@media only screen and (orientation: landscape) {
+    .split-column-left .body, .split-column-right .body {
+        font-size: 15px;
+        line-height: 18px;
+    }
+}
+
+<?php } ?>
 
 </style>
 </head>
@@ -683,13 +889,21 @@ body {
 <iframe id="hax" src="about:blank"></iframe>
 
 <div class="container">
-
+<div class="container-rounded">
 <div class="navbar-container">
 
 <div class="navbar">
+
+<div id="back-taptarget"></div>
+<div id="back-container">
+<div id="back-button">
+<div id="back-text">Back</div>
+</div>
+</div>
+
 <div class="navbar-label" id="first-label">JailbreakMe</div>
 <div class="navbar-label" id="second-label">More Information</div>
-<div id="back-button">
+<!--div id="back-button">
 <div id="bb-highlight">JailbreakMe</div>
 <div id="bb-bottom">JailbreakMe</div>
 <div id="bb-top">JailbreakMe</div>
@@ -697,17 +911,85 @@ body {
 <div class="button-shadow" id="bb-shadow"></div>
 JailbreakMe
 </div>
+</div-->
 </div>
 </div>
 
 <div class="navigation-view-container">
-
 <div class="navigation-view-2-container">
+
 <div class="navigation-view navigation-view-2a">
-<?php for($i = 0; $i < 1000; $i++) echo "Two<br>"; ?>
+
+<div class="split-column-left">
+<div class="body">
+    <div class="question-answer">
+    <p class="question">What's a jailbreak?</p>
+    <p class="answer">Jailbreaking your device means installing a small program that removes restrictions in the default software. A jailbroken device can run apps and extensions (themes and tweaks) not approved by Apple. Jailbreaking does not slow down your device or use extra battery, and you can still use all your existing apps and buy new ones from the App Store. Jailbreaking simply enables you to do more with your device, nothing is taken away.</p>
+    </div>
+
+    <div class="question-answer">
+    <p class="question">Is JailbreakMe reversible?
+    <p class="answer">Yes! If you ever decide that you want to undo your jailbreak, connect your device to your computer, sync to make a full backup, press Restore in iTunes to wipe the device, and load your backup when prompted. All your App Store apps and the information in them will be preserved as usual.</p>
+    </div>
 </div>
+</div>
+
+<div class="split-column-right">
+<div class="body">
+    <div class="question-answer">
+    <p class="question">Can jailbreaking "brick" my device?</p>
+    <p class="answer">JailbreakMe provides a safe jailbreak that <em>cannot</em> put your device into an unusable state on its own. You will have full access to your jailbroken device, which gives you the power to modify it in ways that can put it in a state where you have to connect your device to iTunes and "restore" from a recently-synced backup. However, it should not be possible to render your device as permanently non-interactive as a brick, no matter what you choose to install. <!--(Sticking to using the default repositories in Cydia minimizes problems.)--></p>
+    </div>
+
+    <div class="question-answer">
+    <p class="question">Is this legal in the United States?</p>
+    <p class="answer">The Library of Congress approved a DMCA exemption in 2010 for jailbreaking cell phones, including the iPhone.</p>
+    </div>
+
+    <div class="question-answer">
+    <p class="question">How can I get help with jailbreaking?</p>
+    <p class="answer">If you need technical help with jailbreaking, you can try websites like <a href="http://jailbreakqa.com/">Jailbreak QA</a> and <a href="http://reddit.com/r/jailbreak">/r/jailbreak</a>.</p>
+    </div>
+</div>
+</div>
+
+</div>
+
 <div class="navigation-view navigation-view-2b">
-Legal information
+
+Twitter:
+<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://jailbreakme.com/?ref=twitter" data-text="Jailbreak your iOS device with JailbreakMe!" data-count="none" data-via="comex" data-related="iphone_dev:chpwn">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+
+<br />
+
+Facebook:
+<iframe src="http://www.facebook.com/plugins/like.php?app_id=140062982734813&amp;href=jailbreakme.com%3Fref%3Dfacebook&amp;send=false&amp;layout=standard&amp;width=50&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;font&amp;height=80" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:50px; height:80px;" allowTransparency="true"></iframe>
+<br />
+
+Email:
+<a href="mailto:?Subject=Jailbreak%20your%20iOS%20device!%21&Body=Jailbreak%20your%20iPhone%2C%20iPod%20touch%2C%20or%20iPad%20directly%20from%20the%20device%20itself%21%20JailbreakMe%20is%20the%20simplest%20way%20to%20free%20your%20device.%20Experience%20iOS%20as%20it%20could%20be%2C%20fully%20customizable%2C%20themeable%2C%20and%20with%20every%20tweak%20you%20could%20possibly%20imagine.%0A%0ACheck%20it%20out%20by%20visiting%20http%3A//jailbreakme.com/%20on%20your%20iOS%20device." class="cell" ontouchstart=""><span>Email</span></a>
+
+</div>
+
+<div class="navigation-view navigation-view-2c">
+egal information
+</div>
+
+<div class="navigation-view navigation-view-2d">
+
+<div class="body">
+<p class="body-header">About JailbreakMe</p>
+<p>JailbreakMe was created because 
+
+<p>JailbreakMe uses just one of many paths into iOS. Malicious people will always find a way in, through this path or another. Jailbreaking itself does not disable the majority of security measures on the device — the sandbox on App Store applications, for example, is still in place — it just does the minimum necessary to allow things <em>you</em> install to have full access to your device.</p>
+
+<p>But jailbreaking is not about allowing in things Apple rejects, although that is a side effect.</p>
+
+<p class="body-header">Contact Us</p>
+<p>Media organizeations can contact us at <a href="mailto:jailbreakme@somedomain.com"></a>.
+
+</div>
+
 </div>
 </div>
 
@@ -724,6 +1006,8 @@ Legal information
 <h3 class="subtitle">Jay Freeman (saurik)</h3>
 <h3 class="subtitle">Jailbreak by comex.</h3>
 </div>
+
+<?php if ($device != "computer") { ?>
 <div class="button-holder">
 <div style="-webkit-transform: scale(1); z-index: 2;" class="button-wrapper">
 <div class="button-container button-blue" id="button-container">
@@ -731,36 +1015,32 @@ Legal information
 </div>
 </div>
 </div>
+<?php } else { ?>
+<p style="color: red; font-weight: bold; text-align: center; margin-left: 30px; margin-right: 30px;">Come back on your iOS device to use JailbreakMe.</p>
+<?php } ?>
+
 </div>
 
 <div class="notheader">
 
 <div class="body">
-<p><i>Finally.</i></p>
-<p>JailbreakMe is the easiest way to free your device. Experience iOS as it could be, fully customizable, themeable, and with every tweak you could possibly imagine.</p>
-<p>Safe and completely reversible (just restore in iTunes), jailbreaking gives you control of your own device. It only takes a minute or two, and as always, it's completely free.</p>
-<?php if(!$supported) { ?>
-<p style="color: red; font-weight: bold">Come here on a supported device to try it, etc. text</p>
-<?php } ?>
+<p><i>Finally.</i> JailbreakMe is the easiest way to free your device. Experience iOS as it could be, fully customizable, themeable, and with every tweak you could possibly imagine.</p>
+<p>Safe and completely reversible (just restore in iTunes), jailbreaking gives you control over the device you own. It only takes a minute or two, and as always, it's completely free.</p>
 </div>
 
-<a href="#moreinfo" class="cell" onclick="return goto('moreinfo')">
+<a href="#moreinfo" class="cell" ontouchstart="" onclick="return goto('moreinfo');">
 <span>More Information</span>
 </a>
-<a href="mailto:?Subject=Jailbreak%20your%20iDevice%21&Body=Jailbreak%20your%20iPhone%2C%20iPod%20touch%2C%20or%20iPad%20directly%20from%20the%20device%20itself%21%20JailbreakMe%20is%20the%20simplest%20way%20to%20free%20your%20device.%20Experience%20iOS%20as%20it%20could%20be%2C%20fully%20customizable%2C%20themeable%2C%20and%20with%20every%20tweak%20you%20could%20possibly%20imagine.%0A%0ACheck%20it%20out%20by%20visiting%20http%3A//jailbreakme.com/%20on%20your%20iOS%20device." class="cell">
+<a href="#share" class="cell" ontouchstart="" onclick="return goto('share');">
 <span>Tell a Friend</span>
 </a>
 
-<!--div class="body">
-<p>(Note to media organizations: JailbreakMe uses just one of many paths into iOS. Malicious people will always find a way in, through this path or another. Jailbreaking itself does not affect the security of your device (yes it does).)</p>
-</div-->
-
 <div class="body">
-<p>This jailbreak was brought to you by <a href="http://twitter.com/comex">comex</a>, with the help of many others, including: <a href="http://chpwn.com/">Grant Paul (chpwn)</a>, [insert-names-here], and <a href="http://saurik.com/">Jay Freeman (saurik)</a>. <a href="legal.html">Legal Information.</a></p>
+<p>This jailbreak was brought to you by <a href="http://twitter.com/comex">comex</a>, with the help of <a href="http://chpwn.com/">Grant Paul (chpwn)</a>, <a href="http://saurik.com/">Jay Freeman (saurik)</a>, and many others. Please don't use this for piracy. <a href="#legal" onclick="return goto('legal');">Legal information.</a></p>
 </div>
 
-<a href="#legal" class="cell" onclick="return goto('legal')">
-<span>Legal Information</span>
+<a href="#media" class="cell" ontouchstart="" onclick="return goto('media')">
+<span>Media Organizations</span>
 </a>
 
 </div>
@@ -769,6 +1049,7 @@ Legal information
 </div>
 </div>
 
+</div>
 </div>
 
 <script type="text/javascript">
@@ -781,10 +1062,13 @@ function goto(where) {
     window.location.hash = currentPage = '#' + where;
 
     container.className = 'container ' + where + initial;
-    if(where) {
-        document.getElementById('second-label').innerHTML = {'moreinfo': small_device ? 'More Info' : 'More Information', 'legal': 'Legal Information'}[where];
+    if (where) {
+        document.getElementById('second-label').innerHTML = {'moreinfo': small_device ? 'More Info' : 'More Information', 'legal': small_device ? 'Legal Info' : 'Legal Information', 'share': 'Share', 'media': 'Media'}[where];
         setTimeout(function() {
             container.className = 'container page2 ' + where + initial;
+            <?php if ($small_device) { ?> setTimeout(function() {
+                window.scrollTo(0, 1);
+            }, 350); <?php } ?>
         }, 0);
     }
 
@@ -801,26 +1085,34 @@ var old_orientation = window.orientation;
     }
 })();
 
-setTimeout(function() { window.scrollTo(0, 1); }, 10);
+// try a few times, it usually needs some time to get ready
+// before this starts working. not sure why, but it does.
+window.onload = function() {
+    setTimeout(function() { window.scrollTo(0, 1); }, 10);
+    setTimeout(function() { window.scrollTo(0, 1); }, 50);
+    setTimeout(function() { window.scrollTo(0, 1); }, 150);
+    setTimeout(function() { window.scrollTo(0, 1); }, 250);
+};
+
 setInterval(window.onorientationchange, 100);
     
-var bbs = document.getElementById('bb-shadow');
+var bbs = document.getElementById('back-taptarget');
 bbs.onmouseup = bbs.ontouchend = function() {
     goto('');
 }
 
 var buttonContainer = document.getElementsByClassName('button-container')[0];
-var buttonShadow = document.getElementsByClassName('button-shadow')[1];
+var buttonShadow = document.getElementsByClassName('button-shadow')[0];
 var buttonText = buttonShadow.parentNode.firstChild;
 
 <?php
-if($supported) {
+if ($supported) {
 ?>
 
 var buttonState = 0;
 
 buttonContainer.ontouchend = buttonContainer.onmouseup = function() {
-    switch(buttonState) {
+    switch (buttonState) {
     case 0:
         buttonState = 1;
         buttonText.data = '';
@@ -834,7 +1126,7 @@ buttonContainer.ontouchend = buttonContainer.onmouseup = function() {
         }, 0);
         break;
     case 2:
-        if(!pdf) return false;
+        if (!pdf) return false;
         buttonState = 3;
         document.getElementById('hax').src = pdf;
         buttonContainer.className = 'button-container button-green button-disabled';
@@ -844,11 +1136,11 @@ buttonContainer.ontouchend = buttonContainer.onmouseup = function() {
 
 document.ontouchstart = document.onmousedown = function(evt) {
     var result = false;
-    for(var target = evt.target; target; target = target.parentNode) {
-        if(target.tagName == 'A') result = true;
-        if(target == buttonContainer) return false;
+    for (var target = evt.target; target; target = target.parentNode) {
+        if (target.tagName == 'A') result = true;
+        if (target == buttonContainer) return false;
     }
-    if(buttonState != 2) return result;
+    if (buttonState != 2) return true;
 
     // we clicked outside
     buttonState = -1;
@@ -862,13 +1154,14 @@ document.ontouchstart = document.onmousedown = function(evt) {
             buttonState = 0;
         }, 270);
     }, 0);
-    return result;
+
+    return false;
 }
 
 <?php } else { /* supported */ ?>
-document.ontouchstart = document.onmousedown = function(evt) {
+/*document.ontouchstart = document.onmousedown = function(evt) {
     return false;
-}
+}*/
 
 <?php } /* supported */ ?>
 </script>
