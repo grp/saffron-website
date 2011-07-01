@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: text/html; charset=utf-8');
 $user_agent = $_SERVER['HTTP_USER_AGENT'];
 if(preg_match('!^Mozilla/5\.0 \((\w+).*OS ([0-9_]+) like Mac OS X.*Mobile/([^ ]+)!', $user_agent, $matches)) {
     list($_, $device, $version, $build) = $matches;
@@ -13,7 +14,7 @@ if(preg_match('!^Mozilla/5\.0 \((\w+).*OS ([0-9_]+) like Mac OS X.*Mobile/([^ ]+
     $supported = false;
 }
 
-//$device = 'iPhone'; $small_device = $supported = true;
+$device = 'iPhone'; $small_device = $supported = true;
 ?>
 <html>
 <head>
@@ -36,10 +37,15 @@ body {
     -webkit-text-size-adjust: none;
 }
 
+ul {
+    padding-left: 10px;
+}
+
+li {
+    padding-bottom: 15px;
+}
+
 .body {
-    margin-left: 10px;
-    margin-right: 10px;
-    font-size: 15px;
     color: black;
 }
 
@@ -52,6 +58,10 @@ body {
     opacity: 0.001;
     top: 0; left: 0;
     width: 20px; height: 40px;
+}
+
+.container {
+    overflow: hidden;
 }
 
 .button-container {
@@ -435,12 +445,12 @@ body {
     -webkit-transform: translateX(100%);
     position: absolute;
     width: 100%;
-    <?php if (!$small_device) echo "height: 100%;" ?>
-    overflow: auto;
+    top: 0; left: 0;
 }
 
 .page2 .navigation-view-2-container {
     -webkit-transform: translateX(0);
+    position: relative;
 }
     
 
@@ -457,12 +467,14 @@ body {
 
 .page2 .navigation-view-1 {
     -webkit-transform: translateX(-100%);
+    position: absolute;
+    top: 44px; left: 0;
 }
 
-.container.moreinfo .navigation-view-2a { display: block; }
-.container.share .navigation-view-2b { display: block; }
-.container.legal .navigation-view-2c { display: block; }
-.container.media .navigation-view-2d { display: block; }
+.container.moreinfo .navigation-view-moreinfo { display: block; }
+.container.success .navigation-view-success { display: block; }
+.container.failure .navigation-view-failure { display: block; }
+.container.legal .navigation-view-legal { display: block; }
 
 
 <?php if(!$small_device) { ?>
@@ -482,18 +494,24 @@ body {
 .container {
     margin-left: 10%;
     margin-right: 10%;
-    margin-top: 25%;
-    margin-bottom: 25%;
     position: static;
+    margin-top: 25%;
+    -webkit-transform: translateY(0);
+    -webkit-transition-property: -webkit-transform;
+    -webkit-transition-duration: 0.3s;
+    -webkit-transition-timing-function: ease-in-out;
     background-color: #e1e1e1;
     -webkit-box-shadow: 0 0 50px black;
     -webkit-border-radius: 15px;
 }
 
+body.apage2 .container {
+    -webkit-transform: translateY(-100px);
+}
+
 .container-rounded {
     position:relative; 
     overflow: hidden;
-
 }
 
 .container2 {
@@ -527,14 +545,6 @@ body {
 .body-header {
     font-weight: bold;
     font-size: 17px;
-}
-
-.body {
-    padding-left: 5px;
-    padding-right: 5px;
-    margin-bottom: 10px;
-    margin-top: 10px;
-    font-size: 15px;
 }
 
 .body p {
@@ -725,6 +735,7 @@ body {
 
 .body {
     line-height: 1.3em;
+    padding: 0;
 }
 
 .button-holder {
@@ -823,16 +834,16 @@ body {
 
 <?php } // small_device ?>
 
-.split-column-left {
-    margin-top: -10px;
-}
-
 @media only screen and (orientation: landscape) {
     margin-top: -13px;
 }
 
 .question-answer {
+    padding: 10px 20px !important;
+}
 
+.question-answer:nth-child(odd) {
+    background-color: #ddd;
 }
 
 .question {
@@ -847,38 +858,9 @@ body {
 }
 
 <?php if (!$small_device) { ?>
-.split-column-left {
-    float: left;
-    width: 50%;
-    margin: 0;
-    padding: 0;
-}
-
-.split-column-right {
-    float: right:
-    width: 50%;
-    margin: 0;
-    padding: 0;
-}
-
 .body {
     font-size: 16px;
     line-height: 19px;
-}
-
-.split-column-left .body, .split-column-right .body {
-    /*text-align: justify;*/
-    font-size: 15px;
-    line-height: 16px;
-    padding-left: 6px;
-    padding-right: 6px;
-}
-
-@media only screen and (orientation: landscape) {
-    .split-column-left .body, .split-column-right .body {
-        font-size: 15px;
-        line-height: 18px;
-    }
 }
 
 <?php } ?>
@@ -918,10 +900,8 @@ JailbreakMe
 <div class="navigation-view-container">
 <div class="navigation-view-2-container">
 
-<div class="navigation-view navigation-view-2a">
+<div class="navigation-view navigation-view-moreinfo body">
 
-<div class="split-column-left">
-<div class="body">
     <div class="question-answer">
     <p class="question">What's a jailbreak?</p>
     <p class="answer">Jailbreaking your device means installing a small program that removes restrictions in the default software. A jailbroken device can run apps and extensions (themes and tweaks) not approved by Apple. Jailbreaking does not slow down your device or use extra battery, and you can still use all your existing apps and buy new ones from the App Store. Jailbreaking simply enables you to do more with your device, nothing is taken away.</p>
@@ -931,64 +911,101 @@ JailbreakMe
     <p class="question">Is JailbreakMe reversible?
     <p class="answer">Yes! If you ever decide that you want to undo your jailbreak, connect your device to your computer, sync to make a full backup, press Restore in iTunes to wipe the device, and load your backup when prompted. All your App Store apps and the information in them will be preserved as usual.</p>
     </div>
-</div>
-</div>
-
-<div class="split-column-right">
-<div class="body">
     <div class="question-answer">
     <p class="question">Can jailbreaking "brick" my device?</p>
-    <p class="answer">JailbreakMe provides a safe jailbreak that <em>cannot</em> put your device into an unusable state on its own. You will have full access to your jailbroken device, which gives you the power to modify it in ways that can put it in a state where you have to connect your device to iTunes and "restore" from a recently-synced backup. However, it should not be possible to render your device as permanently non-interactive as a brick, no matter what you choose to install. <!--(Sticking to using the default repositories in Cydia minimizes problems.)--></p>
+    <p class="answer">JailbreakMe provides a safe jailbreak that <em>cannot</em> put your device into an unusable state on its own. You will have full access to your jailbroken device, which gives you the power to modify it in ways that can put it in a state where you have to connect your device to iTunes and "restore" from a recently-synced backup. However, it should not be possible to render your device as permanently non-interactive as a brick, no matter what you choose to install.</p>
     </div>
-
+    
     <div class="question-answer">
     <p class="question">Is this legal in the United States?</p>
     <p class="answer">The Library of Congress approved a DMCA exemption in 2010 for jailbreaking cell phones, including the iPhone.</p>
+    </div>
+
+    
+    <div class="question-answer">
+    <p class="question">Can jailbreaking make my device less secure?</p>
+    <div class="answer">By itself, jailbreaking does not make you vulnerable.
+    <p>However, a common mistake for jailbreakers is to install OpenSSH but forget to change the passwords for root and mobile; this lets anyone log into your device over the Internet.  If you install OpenSSH, remember to change the password!</p>
+    </div>
     </div>
 
     <div class="question-answer">
     <p class="question">How can I get help with jailbreaking?</p>
     <p class="answer">If you need technical help with jailbreaking, you can try websites like <a href="http://jailbreakqa.com/">Jailbreak QA</a> and <a href="http://reddit.com/r/jailbreak">/r/jailbreak</a>.</p>
     </div>
-</div>
-</div>
+    
+    <div class="question-answer">
+    <p class="question">Isn't there a risk hackers will make the exploit from this site into an iPhone virus?</p>
+    <div class="answer">
+When I released JailbreakMe 2.0 last year, some media reports focused on the security implications of releasing an exploit for unpatched vulnerabilities.  I am not sure myself what to think of this, but here are some facts:
 
-</div>
-
-<div class="navigation-view navigation-view-2b">
-
-Twitter:
-<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://jailbreakme.com/?ref=twitter" data-text="Jailbreak your iOS device with JailbreakMe!" data-count="none" data-via="comex" data-related="iphone_dev:chpwn">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-
-<br />
-
-Facebook:
-<iframe src="http://www.facebook.com/plugins/like.php?app_id=140062982734813&amp;href=jailbreakme.com%3Fref%3Dfacebook&amp;send=false&amp;layout=standard&amp;width=50&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;font&amp;height=80" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:50px; height:80px;" allowTransparency="true"></iframe>
-<br />
-
-Email:
-<a href="mailto:?Subject=Jailbreak%20your%20iOS%20device!%21&Body=Jailbreak%20your%20iPhone%2C%20iPod%20touch%2C%20or%20iPad%20directly%20from%20the%20device%20itself%21%20JailbreakMe%20is%20the%20simplest%20way%20to%20free%20your%20device.%20Experience%20iOS%20as%20it%20could%20be%2C%20fully%20customizable%2C%20themeable%2C%20and%20with%20every%20tweak%20you%20could%20possibly%20imagine.%0A%0ACheck%20it%20out%20by%20visiting%20http%3A//jailbreakme.com/%20on%20your%20iOS%20device." class="cell" ontouchstart=""><span>Email</span></a>
-
+<p>▻ I did not create the vulnerabilities, only discover them.  Releasing an exploit demonstrates the flaw, making it easier for others to use it for malice, but they have long been present and exploitable.  Although releasing a jailbreak is certainly not the usual way to report a vulnerability, it still has the effect of making iOS more secure in the long run.</p>
+<p>▻ There's always a first time, but I think there's a good chance the security impact of these vulnerabilities will remain theoretical.  Despite JailbreakMe 2.0 being open sourced after an updated version of iOS was released, which would have made it relatively easy to modify the code into an attack, I didn't hear about any such modification except a proof of concept that showed up much later.  The only iPhone virus ever to attack the general public was a trivial one that affected jailbreakers who installed OpenSSH (not installed by default) but left it at the default password.</p>
+<p>▻ Along with the jailbreak, I am releasing a patch for the main vulnerability which anyone especially security conscious can install to render themselves immune; due to the nature of iOS, this patch can only be installed on a jailbroken device.   Until Apple releases an update, jailbreaking will ironically be the best way to remain secure.</p>
+<p>▻ Jailbreaking improves the mobile experience of millions of users, including many who were encourged to try it by the ease of use of web-based jailbreaks.  I'm not just doing this to be flashy: there is considerable benefit to writing this kind of tool rather than one that requires a connected computer.</p>
+    </div>
+    </div>
 </div>
 
-<div class="navigation-view navigation-view-2c">
-egal information
+
+<div class="navigation-view navigation-view-success body">
+<p>Thanks for playing!.  If the jailbreak didn't work correctly, please <a href="mailto:comexk@gmail.com?subject=<?php echo urlencode('failz: ' . $user_agent); ?>">email me</a>.</p>
+<p>I greatly appreciate donations... insert box here</p>
+<div class="question-answer">
+<p class="question">About Upgrading</p>
+<p class="answer"></p>
 </div>
 
-<div class="navigation-view navigation-view-2d">
-
-<div class="body">
-<p class="body-header">About JailbreakMe</p>
-<p>JailbreakMe was created because 
-
-<p>JailbreakMe uses just one of many paths into iOS. Malicious people will always find a way in, through this path or another. Jailbreaking itself does not disable the majority of security measures on the device — the sandbox on App Store applications, for example, is still in place — it just does the minimum necessary to allow things <em>you</em> install to have full access to your device.</p>
-
-<p>But jailbreaking is not about allowing in things Apple rejects, although that is a side effect.</p>
-
-<p class="body-header">Contact Us</p>
-<p>Media organizeations can contact us at <a href="mailto:jailbreakme@somedomain.com"></a>.
 
 </div>
+
+<div class="navigation-view navigation-view-failure">
+It w
+
+</div>
+
+<div class="navigation-view navigation-view-legal">
+Various parts of saffron use code from the following:<br>
+<br>
+<a href="http://tukaani.org/xz/">XZ Utils</a><br>
+<br>
+<a href="http://www.zlib.net/">zlib</a><br>
+<br>
+<a href="http://www.openbsd.org/">OpenBSD</a>:<br>
+
+Copyright (c) 1991, 1993, 1994 The Regents of the University of California.  All rights reserved.<br>
+<br>
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+<ol>
+<li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</li>
+<li>Neither the name of the University nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.</li>
+</ol>
+<br>
+THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.<br>
+<br>
+<a href="http://www.feep.net/libtar/">libtar:</a><br>
+Copyright (c) 1998-2003  University of Illinois Board of Trustees<br>
+Copyright (c) 1998-2003  Mark D. Roth<br>
+All rights reserved.<br>
+<br>
+Developed by: Campus Information Technologies and Educational Services, University of Illinois at Urbana-Champaign<br>
+<br>
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the ``Software''), to deal with the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:<br>
+<br>
+<ul>
+<li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimers.</li>
+<li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimers in the documentation and/or other materials provided with the distribution.</li>
+<li>Neither the names of Campus Information Technologies and Educational Services, University of Illinois at Urbana-Champaign, nor the names of its contributors may be used to endorse or promote products derived from this Software without specific prior written permission.</li>
+</ul>
+<br>
+THE SOFTWARE IS PROVIDED ``AS IS'', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE CONTRIBUTORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS WITH THE SOFTWARE.
+<br>
+<br>
+<br>
+Thanks!
+</div>
+
 
 </div>
 </div>
@@ -1031,7 +1048,7 @@ egal information
 <a href="#moreinfo" class="cell" ontouchstart="" onclick="return goto('moreinfo');">
 <span>More Information</span>
 </a>
-<a href="#share" class="cell" ontouchstart="" onclick="return goto('share');">
+<a href="mailto:?Subject=Jailbreak%20your%20iOS%20device!%21&Body=Jailbreak%20your%20iPhone%2C%20iPod%20touch%2C%20or%20iPad%20directly%20from%20the%20device%20itself%21%20JailbreakMe%20is%20the%20simplest%20way%20to%20free%20your%20device.%20Experience%20iOS%20as%20it%20could%20be%2C%20fully%20customizable%2C%20themeable%2C%20and%20with%20every%20tweak%20you%20could%20possibly%20imagine.%0A%0ACheck%20it%20out%20by%20visiting%20http%3A//jailbreakme.com/%20on%20your%20iOS%20device." class="cell" ontouchstart="" onclick="return goto('share');">
 <span>Tell a Friend</span>
 </a>
 
@@ -1057,20 +1074,34 @@ var pdf = null;
 var container = document.getElementsByClassName('container')[0];
 var currentPage;
 var small_device = <?php echo $small_device ? 'true' : 'false'; ?>;
+
+function scrollo() {
+    <?php if(!$small_device) { ?>
+    var wt = '';
+    if(currentPage == 'moreinfo') {
+        var mt = window.getComputedStyle(container, null).marginTop;
+        wt = 'translateY(' + (-parseInt(mt.substring(0, mt.length - 2)) + 30) + 'px)';
+    }
+    container.style.WebkitTransform = wt;
+    <?php } ?>
+    window.scrollTo(0, 1);
+}
 function goto(where) {
     var initial = typeof currentPage == 'undefined' ? ' freeze' : '';
-    window.location.hash = currentPage = '#' + where;
+    var old = currentPage;
+    if(old == where) return;
+    window.location.hash = '#' + (currentPage = where);
 
-    container.className = 'container ' + where + initial;
     if (where) {
-        document.getElementById('second-label').innerHTML = {'moreinfo': small_device ? 'More Info' : 'More Information', 'legal': small_device ? 'Legal Info' : 'Legal Information', 'share': 'Share', 'media': 'Media'}[where];
+        container.className = 'container ' + where + initial;
+        document.getElementById('second-label').innerHTML = {'moreinfo': small_device ? 'More Info' : 'More Information', 'legal': small_device ? 'Legal Info' : 'Legal Information', 'share': 'Share'}[where];
         setTimeout(function() {
             container.className = 'container page2 ' + where + initial;
-            <?php if ($small_device) { ?> setTimeout(function() {
-                window.scrollTo(0, 1);
-            }, 350); <?php } ?>
         }, 0);
+    } else {
+        container.className = 'container ' + old + initial;
     }
+    setTimeout(scrollo, initial ? 0 : 450);
 
     return false;
 }
@@ -1078,7 +1109,7 @@ function goto(where) {
 var old_orientation = window.orientation;
 (window.onorientationchange = function(e) {
     if (old_orientation != window.orientation)
-        window.scrollTo(0, 1);
+        scrollo();
     old_orientation = window.orientation;
     if(window.location.hash != currentPage) {
         goto(window.location.hash.substring(1));
