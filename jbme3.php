@@ -625,6 +625,15 @@ body.apage2 .container {
     background-color: #dadada;
 }
 
+<?php if (!$small_device) { ?>
+
+.question-answer:last-child {
+    -webkit-border-bottom-right-radius: 15px;
+    -webkit-border-bottom-left-radius: 15px;
+}
+
+<?php } ?>
+
 #sdiv1 {
     padding-top: 63px;
     float: right;
