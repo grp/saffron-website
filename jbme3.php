@@ -10,21 +10,44 @@ if(preg_match('!^Mozilla/5\.0 \((\w+).*OS ([0-9_]+) like Mac OS X.*Mobile/([^ ]+
     $small_device = $device != 'iPad';
     $pdf = "./${device}_${version}_$build.pdf";
     $supported = file_exists($pdf);
-    $_2x = ($device == 'iPhone3,1' || $device == 'iPod4,1') ? '@2x' : '';
     $device = 'mobile';
 } else {
     $device = 'computer';
     $small_device = false;
-    $_2x = '';
+
     $supported = false;
 }
 
-//$device = 'computer'; $small_device = $supported = true; $_2x = false;
+$dangerous = $small_device && substr($version, 0, 3) == '4.2' ? ($device == 'iPhone' ? 'iPhone 3G' : 'iPod touch (2nd generation)') : '';
+
+//$device = 'iPhone'; $version = '4.2.1'; $small_device = $supported = true; $dangerous = '';
+
+$_2x = $small_device ? '@2x' : '';
 
 function data_encode($fn, $ct) {
     return 'data:'.$ct.';base64,'.urlencode(base64_encode(file_get_contents($fn)));
     //return $fn;
 }
+
+$b = $small_device ? '' : '<br>';
+$donatestuff = <<<ENDE
+<div id="sbigdiv">
+<div id="sdiv2">
+<b>Donate!</b><br>
+I greatly appreciate donations; they help me pay for college at <a href="http://brown.edu">Brown</a>.
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="sform">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="hosted_button_id" value="CTALSP2HYEFKN">
+<input type="image" src="btn_donate_LG.gif" width="92" height="26" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+</form>
+</div>
+<div id="sdiv3">
+<b>Hire me?</b><br>
+I'm looking for a job or {$b}internship where I can help make something really cool.  If you liked this site, why not <a href="mailto:comexk@gmail.com">send an email</a>?
+</div>
+</div>
+ENDE;
+
 ?>
 <html>
 <head>
@@ -131,9 +154,12 @@ li {
     position: absolute;
 }
 
-.button:active .button-shadow, #bb-button:active .button-shadow {
+<?php if($supported) { ?>
+.button:active .button-shadow {
     background-color: rgba(0, 0, 0, 0.33);
 }
+<?php } ?>
+
 .button-disabled .button-shadow {
     background-color: transparent !important;
 }
@@ -362,10 +388,9 @@ function back_image($mini) {
     -webkit-transition-duration: 0.35s;
 }
 
-.freeze, .freeze * {
+.freeze, .freeze .container, .freeze .navigation-view-1, .freeze .navigation-view-2-container, .freeze .navbar-label, .freeze #back-button {
     -webkit-transition-duration: 0s !important;
 }
-    
 
        #first-label { -webkit-transform: translateX(0); opacity: 1; }
 .page2 #first-label { -webkit-transform: translateX(-100%); opacity: 0; }
@@ -609,6 +634,21 @@ body.apage2 .container {
     width: 302px;
     padding: 0 50px;
 }
+
+<?php if($device == 'computer') { ?>
+#sdiv2 {
+    width: 240px;
+}
+#sdiv3 {
+    height: 130px;
+}
+
+#sbigdiv {
+    background-color: #ded;
+    margin-top: 5px;
+    padding-top: 10px;
+}
+<?php } ?>
 
 #sform {
     padding: 10px 30px;
@@ -865,6 +905,11 @@ body {
 <div class="navigation-view-2-container">
 
 <div class="navigation-view navigation-view-moreinfo body">
+<?php if($device == 'computer') { ?>
+    <div class="question-answer">
+    <?php echo $donatestuff; ?>
+    </div>
+<?php } ?>
 
     <div class="question-answer">
     <p class="question">What's a jailbreak?</p>
@@ -911,7 +956,7 @@ When I released JailbreakMe 2.0 last year, some media reports focused on the sec
     </div>
 </div>
 
-
+<?php if($device != 'computer') { ?>
 <div class="navigation-view navigation-view-success bodypad">
 You should have seen Cydia install.
 If the jailbreak didn't work correctly, please <a href="mailto:comexk@gmail.com?subject=<?php echo urlencode('failz: ' . $user_agent); ?>">email me</a>.<br>
@@ -920,26 +965,15 @@ If the jailbreak didn't work correctly, please <a href="mailto:comexk@gmail.com?
 If you do, you won't be able to jailbreak until a new tool is released.
 </div>
 <img src="nuke.png" id="simg" width="400" height="200">
-<div id="sdiv2">
-<b>Donate!</b><br>
-I greatly appreciate donations; they help me pay for college at <a href="http://brown.edu">Brown</a>.
-<form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="sform">
-<input type="hidden" name="cmd" value="_s-xclick">
-<input type="hidden" name="hosted_button_id" value="CTALSP2HYEFKN">
-<input type="image" src="btn_donate_LG.gif" width="92" height="26" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-</form>
-</div>
-<div>
-<b>Hire me?</b><br>
-I'm looking for a job or <?php if(!$small_device) echo '<br>'; ?>internship where I can help make something really cool.  If you liked this site, why not <a href="mailto:comexk@gmail.com">send an email</a>?
-</div>
+<?php echo $donatestuff; ?>
 
 </div>
 
-<div class="navigation-view navigation-view-failure">
-It w
-
+<div class="navigation-view navigation-view-failure bodypad">
+Looks like the hack didn't work.  <?php echo $dangerous ? "If you're using an <b>$dangerous</b>, that would make sense, because it's not supported.  (Quick test: hold down the home button for a few seconds; if you don't get Voice Control, it's not supported.)<p>Otherwise, " : "Well, "; ?>
+I have no idea; why not <a href="mailto:comexk@gmail.com">email me?</a>
 </div>
+<?php } // computer ?>
 
 <div class="navigation-view navigation-view-legal body bodypad">
 Various parts of saffron use code from the following:<br>
@@ -1017,6 +1051,11 @@ Thanks!
 <div class="notheader">
 
 <div class="body1">
+<?php if($dangerous) { ?>
+<script>
+if(window.devicePixelRatio > 1) document.write('<div style="color: red; font-weight: bold">Not supported on <?php echo $dangerous; ?>.</div>');
+</script>
+<?php } ?>
 <p><i>Finally.</i> JailbreakMe is the easiest way to free your device. Experience iOS as it could be, fully customizable, themeable, and with every tweak you could possibly imagine.</p>
 <p>Safe and completely reversible (just restore in iTunes), jailbreaking gives you control over the device you own. It only takes a minute or two, and as always, it's completely free.</p>
 </div>
@@ -1046,6 +1085,7 @@ Thanks!
 </div>
 
 <script type="text/javascript">
+var buttonState = 0;
 var pdf = null;
 var container = document.getElementsByClassName('container')[0];
 var currentPage;
@@ -1068,11 +1108,12 @@ function goto(where) {
     var initial = typeof currentPage == 'undefined' ? ' freeze' : '';
     var old = currentPage;
     if(old == where) return;
+    resetButton();
     window.location.hash = '#' + (currentPage = where);
 
     if (where) {
         container.className = 'container ' + where + initial;
-        document.getElementById('second-label').innerHTML = {'moreinfo': small_device ? 'More Info' : 'More Information', 'legal': small_device ? 'Legal Info' : 'Legal Information', 'share': 'Share', 'success': (small_device ? '&nbsp;&nbsp;&nbsp;' : '') + 'Thanks for Playing!'}[where];
+        document.getElementById('second-label').innerHTML = {'moreinfo': small_device ? 'More Info' : 'More Information', 'legal': small_device ? 'Legal Info' : 'Legal Information', 'share': 'Share', 'success': (small_device ? '&nbsp;&nbsp;&nbsp;' : '') + 'Thanks for Playing!', 'failure': 'Oops...'}[where];
         setTimeout(function() {
             container.className = 'container page2 ' + where + initial;
         }, 0);
@@ -1084,8 +1125,16 @@ function goto(where) {
     return false;
 }
 
+var currentTime = new Date().getTime();
 var old_orientation = window.orientation;
 (window.onorientationchange = function(e) {
+    var newTime = new Date().getTime();
+    if(buttonState == 3 && newTime - currentTime > 200) {
+        // discontinuity
+        document.getElementById('hax').src = '';
+        goto('success');
+    }
+    currentTime = newTime;
     if (old_orientation != window.orientation)
         scrollo();
     old_orientation = window.orientation;
@@ -1093,6 +1142,8 @@ var old_orientation = window.orientation;
         goto(window.location.hash.substring(1));
     }
 })();
+
+setInterval(window.onorientationchange, 50);
 
 <?php if($device != 'computer') { ?>
 // try a few times, it usually needs some time to get ready
@@ -1104,23 +1155,19 @@ window.onload = function() {
     setTimeout(function() { window.scrollTo(0, 1); }, 250);
 };
 <?php } // device ?>
-
-setInterval(window.onorientationchange, 100);
     
 var bbs = document.getElementById('back-taptarget');
 bbs.onmouseup = bbs.ontouchend = function() {
     goto('');
 }
 
-var buttonContainer = document.getElementsByClassName('button-container')[0];
+var buttonContainer = document.getElementById('button-container');
 var buttonShadow = document.getElementsByClassName('button-shadow')[0];
 var buttonText = buttonShadow.parentNode.firstChild;
 
 <?php
 if ($supported) {
 ?>
-
-var buttonState = 0;
 
 buttonContainer.ontouchend = buttonContainer.onmouseup = function() {
     switch (buttonState) {
@@ -1141,8 +1188,27 @@ buttonContainer.ontouchend = buttonContainer.onmouseup = function() {
         buttonState = 3;
         document.getElementById('hax').src = pdf;
         buttonContainer.className = 'button-container button-green button-disabled';
+        setTimeout(function() {
+            if(buttonState == 3) {
+                goto('failed');
+            }
+        }, 300);
         break;
     }
+}
+
+function resetButton() {
+    if(!buttonContainer) return;
+    buttonState = -1;
+    buttonContainer.className = 'button-container button-blue button-stretched';
+    buttonText.data = '';
+    setTimeout(function() {
+        buttonContainer.className = 'button-container button-blue button-animated';
+        setTimeout(function() {
+            buttonText.data = 'FREE';
+            buttonState = 0;
+        }, 270);
+    }, 0);
 }
 
 document.ontouchstart = document.onmousedown = function(evt) {
@@ -1154,17 +1220,7 @@ document.ontouchstart = document.onmousedown = function(evt) {
     if (buttonState != 2) return true;
 
     // we clicked outside
-    buttonState = -1;
-
-    buttonContainer.className = 'button-container button-blue button-stretched';
-    buttonText.data = '';
-    setTimeout(function() {
-        buttonContainer.className = 'button-container button-blue button-animated';
-        setTimeout(function() {
-            buttonText.data = 'FREE';
-            buttonState = 0;
-        }, 270);
-    }, 0);
+    resetButton();
 
     return false;
 }
@@ -1173,6 +1229,7 @@ document.ontouchstart = document.onmousedown = function(evt) {
 /*document.ontouchstart = document.onmousedown = function(evt) {
     return false;
 }*/
+function resetButton() {}
 
 <?php } /* supported */ ?>
 </script>
