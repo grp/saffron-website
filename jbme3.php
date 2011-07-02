@@ -466,7 +466,7 @@ body {
     margin-right: 10%;
     position: static;
     margin-top: 25%;
-    /*-webkit-transform: translateY(0);*/
+    <?php if ($device == 'computer') echo "-webkit-transform: translateY(0);" ?>
     -webkit-transition-property: -webkit-transform;
     -webkit-transition-duration: 0.3s;
     -webkit-transition-timing-function: ease-in-out;
@@ -1114,8 +1114,8 @@ var currentPage;
 var small_device = <?php echo $small_device ? 'true' : 'false'; ?>;
 
 function scrollo() {
-/*
-    <?php if(!$small_device) { ?>
+
+    <?php if($device == 'computer') { ?>
     var wt = '';
     if(currentPage == 'moreinfo' || currentPage == 'legal') {
         var mt = window.getComputedStyle(container, null).marginTop;
@@ -1123,7 +1123,6 @@ function scrollo() {
     }
     container.style.WebkitTransform = wt;
     <?php } ?>
-*/
     <?php if($device != 'computer') { ?>
     window.scrollTo(0, 1);
     <?php } ?>
