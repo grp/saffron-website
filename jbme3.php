@@ -1,20 +1,30 @@
 <?php
+error_reporting(E_ALL);
+//ob_start('ob_gzhandler');
 header('Content-Type: text/html; charset=utf-8');
 $user_agent = $_SERVER['HTTP_USER_AGENT'];
+
 if(preg_match('!^Mozilla/5\.0 \((\w+).*OS ([0-9_]+) like Mac OS X.*Mobile/([^ ]+)!', $user_agent, $matches)) {
     list($_, $device, $version, $build) = $matches;
     $version = str_replace('_', '.' ,$version);
     $small_device = $device != 'iPad';
     $pdf = "./${device}_${version}_$build.pdf";
     $supported = file_exists($pdf);
+    $_2x = ($device == 'iPhone3,1' || $device == 'iPod4,1') ? '@2x' : '';
     $device = 'mobile';
 } else {
     $device = 'computer';
     $small_device = false;
+    $_2x = '';
     $supported = false;
 }
 
-$device = 'iPhone'; $small_device = $supported = true;
+//$device = 'computer'; $small_device = $supported = true; $_2x = false;
+
+function data_encode($fn, $ct) {
+    return 'data:'.$ct.';base64,'.urlencode(base64_encode(file_get_contents($fn)));
+    //return $fn;
+}
 ?>
 <html>
 <head>
@@ -47,6 +57,10 @@ li {
 
 .body {
     color: black;
+}
+
+.body1 {
+    padding: 1px 10px;
 }
 
 .body a {
@@ -199,7 +213,7 @@ li {
     
     padding: 0;
     margin: 0;
-    position: relative;
+    /*position: relative;*/
 
     height: 44px;
     width: 100%;
@@ -208,7 +222,7 @@ li {
     text-decoration: none;
 
     background-repeat: no-repeat;
-    background-image: url(chevron.png);
+    background-image: url(<?php echo data_encode('chevron.svg', 'image/svg+xml'); ?>);
     background-size: 25px 13px;
     background-position: center right;
     
@@ -229,7 +243,7 @@ li {
     border-bottom: 1px solid #0066F2;
 
     background-repeat: no-repeat, repeat-x;
-    background-image: url(chevron_white.png), -webkit-gradient(
+    background-image: url(<?php echo data_encode('chevron_white.svg', 'image/svg+xml'); ?>), -webkit-gradient(
         linear,
         left top,
         left bottom,
@@ -297,10 +311,14 @@ li {
     position: absolute;
 }
 
-<?php function back_image($press, $two, $mini = false) {
-    global $small_device;
-    echo "UINavigationBar" . ($mini ? "Mini" : "") . ($small_device ? "Default" : "Silver") . "Back" . ($press ? "Pressed" : "") . ($two ? "@2x" : "") . ".png";
-} ?>
+<?php
+function back_image($mini) {
+    global $small_device, $_2x;
+    $fn = data_encode("UINavigationBar" . ($mini ? "Mini" : "") . ($small_device ? "Default" : "Silver") . "Back" . $_2x . ".png", 'image/png');
+    $lines = $_2x ? '30 10 30 28' : '15 5 15 14';
+    echo "url($fn) $lines stretch";
+}
+?>
 
 #back-button {
     line-height: 0px;
@@ -310,25 +328,19 @@ li {
     color: white;
 
     border-width: 15px 5px 15px 14px;
+    -webkit-border-image: <?php back_image(false); ?>;
 }
 
-#back-button {
-    -webkit-border-image: url(<?php back_image(FALSE, FALSE); ?>) 15 5 15 14 stretch;
+#back-shadow {
+    position: absolute;
+    width: 52px;
+    height: 30px;
+    left: -14px;
+    top: -15px;
+    -webkit-mask-box-image: <?php back_image(false); ?>;
+    z-index: -1;
 }
 
-#back-taptarget:active + #back-container > #back-button {
-    -webkit-border-image: url(<?php back_image(TRUE, FALSE); ?>) 15 5 15 14 stretch;
-}
-
-@media only screen and (-webkit-min-device-pixel-ratio: 2) {
-    #back-button {
-        -webkit-border-image: url(<?php back_image(FALSE, TRUE); ?>) 30 10 30 28 stretch;
-    }
-
-    #back-taptarget:active + #back-container > #back-button {
-        -webkit-border-image: url(<?php back_image(TRUE, TRUE); ?>) 30 10 30 28 stretch;
-    }
-}
 
 #back-text {
     font-family: "Helvetica NeueUI", Helvetica Neue, Helvetica, Arial, Verdana, sans-serif;
@@ -340,83 +352,9 @@ li {
     margin-top: -1px;
 }
 
-/*
-#back-button > div {
-    position: absolute;
-    padding: 5px 8px 5px 11px;
-    -webkit-mask-box-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnPjxwYXRoIGQ9J20gMCwxMy45OTI5NTM4OTY2IGMgMCwwLjAgOS4wMTc2ODE0LC0xMy42ODE5OTkzNjU1IDEwLjUyMDYyOCwtMTMuODM3NDc2NjMxIEMgMTIuMDIzNTc1LDAuMCAxMzcuNjAzMTQsMC4wIDEzNy42MDMxNCwwLjAgbCAwLDI2Ljg5NzU2NzU4NjIgYyAwLDAuMCAtMTI0LjkxMTU4OCwtMC4xNTU0NzcxNzI0MTQgLTEyNy4wODI1MTIsMC4wIEMgOC44NTA2ODc0LDI2Ljc0MjA5MDQxMzggMCwxMy45OTI5NTM4OTY2IDAsMTMuOTkyOTUzODk2NiB6JyAvPjwvc3ZnPgo%3D) 0 0 0 10 repeat repeat;
-    -webkit-mask-origin: border;
-    -webkit-mask-size: 30px 30px;
-    border-radius: 4px;
+#back-taptarget:active + #back-container #back-shadow {
+    background-color: rgba(0, 0, 0, 0.33);
 }
-#bb-button {
-<?php if($small_device) { ?>
-    background-image: -webkit-gradient(
-        linear,
-        left top,
-        left bottom,
-        color-stop(0, #8ea4c1),
-        color-stop(0.5, #5877a2),
-        color-stop(0.5, #476999),
-        color-stop(1, #4a6c9b)
-    );
-<?php } else { ?>
-    background-image: -webkit-gradient(
-        linear,
-        left top,
-        left bottom,
-        color-stop(0, #b2b6bc),
-        color-stop(1, #6b737e)
-    );
-<?php } ?>
-}
-
-#bb-top, #bb-bottom, #bb-highlight {
-    padding-right: 10px !important;
-    margin-left: -1px;
-}
-
-#bb-top {
-    margin-top: -1px;
-<?php if($small_device) { ?>
-    background-image: -webkit-gradient(
-        linear,
-        left top,
-        left bottom,
-        color-stop(0, #30363e),
-        color-stop(0.5, #415878),
-        color-stop(0.5, #354e71),
-        color-stop(1, #375073)
-    );
-<?php } else { ?>
-    background-image: -webkit-gradient(
-        linear,
-        left top,
-        left bottom,
-        color-stop(0, #4e4f51),
-        color-stop(1, #565b64)
-    );
-<?php } ?>
-}
-
-#bb-bottom, #bb-highlight {
-    margin-top: 1px;
-<?php if($small_device) { ?>
-    background-color: #375073;
-<?php } else { ?>
-    background-color: #565b64;
-<?php } ?>
-}
-
-#bb-highlight {
-    margin-top: 2px;
-<?php if($small_device) { ?>
-    background-color: #9cacc0;
-<?php } else { ?>
-    background-color: #caccd4;
-<?php } ?>
-}
-*/
 
 .navbar-label, #back-button, .navigation-view-2-container, .navigation-view-1 {
     -webkit-transition-property: -webkit-transform, opacity;
@@ -505,6 +443,7 @@ body {
     -webkit-border-radius: 15px;
 }
 
+
 body.apage2 .container {
     -webkit-transform: translateY(-100px);
 }
@@ -539,6 +478,9 @@ body.apage2 .container {
     border-left: solid 1px black;
     display: table-cell;
     vertical-align: top;
+
+    overflow: hidden;
+    -webkit-border-bottom-right-radius: 15px;
 }
 
 
@@ -642,6 +584,34 @@ body.apage2 .container {
         margin-left: 15%;
         margin-right: 15%;
     }
+}
+
+.question-answer {
+    margin: -5px;
+}
+
+.question-answer:nth-child(odd) {
+    background-color: #dadada;
+}
+
+#sdiv1 {
+    padding-top: 63px;
+    float: right;
+    width: 240px;
+}
+
+#simg {
+    padding-top: 10px;
+}
+
+#sdiv2 {
+    float: left;
+    width: 302px;
+    padding: 0 50px;
+}
+
+#sform {
+    padding: 10px 30px;
 }
 
 <?php } else { // small_device ?>
@@ -782,11 +752,6 @@ body {
         margin-left: -1px;
     }
 
-    /*#back-button > div {
-        padding-bottom: 6px;
-        -webkit-mask-box-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnPjxwYXRoIGQ9J20gMCwxMC45OTQ0NjM3NzU5IGMgMCwwLjAgOS4wMTc2ODE0LC0xMC43NTAxNDIzNTg2IDEwLjUyMDYyOCwtMTAuODcyMzAzMDY3MiBDIDEyLjAyMzU3NSwwLjAgMTM3LjYwMzE0LDAuMCAxMzcuNjAzMTQsMC4wIGwgMCwyMS4xMzM4MDMxMDM0IGMgMCwwLjAgLTEyNC45MTE1ODgsLTAuMTIyMTYwNjM1NDY4IC0xMjcuMDgyNTEyLDAuMCBDIDguODUwNjg3NCwyMS4wMTE2NDI0NjggMCwxMC45OTQ0NjM3NzU5IDAsMTAuOTk0NDYzNzc1OSB6JyAvPjwvc3ZnPgo%3D) 0 0 0 10 repeat repeat;
-    }*/
-
     #back-taptarget {
         top: 6px;
         left: 8px;
@@ -802,15 +767,11 @@ body {
     }
 
     #back-button {
-        border-width: 12px 4px 12px 10px;
+        -webkit-border-image: <?php back_image(true); ?>;
     }
 
-    #back-button {
-        -webkit-border-image: url(<?php back_image(FALSE, FALSE, TRUE); ?>) 12 4 12 10 stretch;
-    }
-
-    #back-taptarget:active + #back-container > #back-button {
-        -webkit-border-image: url(<?php back_image(TRUE, FALSE, TRUE); ?>) 12 4 12 10 stretch;
+    #back-shadow {
+        -webkit-mask-box-image: <?php back_image(true); ?>;
     }
 
     #back-text {
@@ -822,14 +783,26 @@ body {
     }
 }
 
-@media only screen and (-webkit-min-device-pixel-ratio: 2) and (orientation: landscape) {
-    #back-button {
-        -webkit-border-image: url(<?php back_image(FALSE, TRUE, TRUE); ?>) 24 8 24 20 stretch;
-    }
-    
-    #back-taptarget:active + #back-container > #back-button {
-        -webkit-border-image: url(<?php back_image(TRUE, TRUE, TRUE); ?>) 24 8 24 20 stretch;
-    }
+.question-answer:nth-child(odd) {
+    background-color: #ddd;
+}
+
+
+#sdiv1 {
+    margin-top: 14px;
+}
+
+#sdiv2 {
+    margin-bottom: -12px;
+}
+
+#simg {
+    width: 300px;
+    height: 150px;
+}
+
+#sform {
+    padding: 10px 20px;
 }
 
 <?php } // small_device ?>
@@ -838,12 +811,12 @@ body {
     margin-top: -13px;
 }
 
-.question-answer {
-    padding: 10px 20px !important;
+.bodypad {
+    padding: 15px !important;
 }
 
-.question-answer:nth-child(odd) {
-    background-color: #ddd;
+.question-answer {
+    padding: 10px 20px !important;
 }
 
 .question {
@@ -864,7 +837,6 @@ body {
 }
 
 <?php } ?>
-
 </style>
 </head>
 <body>
@@ -880,20 +852,12 @@ body {
 <div id="back-container">
 <div id="back-button">
 <div id="back-text">Back</div>
+<div id="back-shadow"></div>
 </div>
 </div>
 
 <div class="navbar-label" id="first-label">JailbreakMe</div>
 <div class="navbar-label" id="second-label">More Information</div>
-<!--div id="back-button">
-<div id="bb-highlight">JailbreakMe</div>
-<div id="bb-bottom">JailbreakMe</div>
-<div id="bb-top">JailbreakMe</div>
-<div id="bb-button" role="button">
-<div class="button-shadow" id="bb-shadow"></div>
-JailbreakMe
-</div>
-</div-->
 </div>
 </div>
 
@@ -942,20 +906,33 @@ When I released JailbreakMe 2.0 last year, some media reports focused on the sec
 <p>▻ I did not create the vulnerabilities, only discover them.  Releasing an exploit demonstrates the flaw, making it easier for others to use it for malice, but they have long been present and exploitable.  Although releasing a jailbreak is certainly not the usual way to report a vulnerability, it still has the effect of making iOS more secure in the long run.</p>
 <p>▻ There's always a first time, but I think there's a good chance the security impact of these vulnerabilities will remain theoretical.  Despite JailbreakMe 2.0 being open sourced after an updated version of iOS was released, which would have made it relatively easy to modify the code into an attack, I didn't hear about any such modification except a proof of concept that showed up much later.  The only iPhone virus ever to attack the general public was a trivial one that affected jailbreakers who installed OpenSSH (not installed by default) but left it at the default password.</p>
 <p>▻ Along with the jailbreak, I am releasing a patch for the main vulnerability which anyone especially security conscious can install to render themselves immune; due to the nature of iOS, this patch can only be installed on a jailbroken device.   Until Apple releases an update, jailbreaking will ironically be the best way to remain secure.</p>
-<p>▻ Jailbreaking improves the mobile experience of millions of users, including many who were encourged to try it by the ease of use of web-based jailbreaks.  I'm not just doing this to be flashy: there is considerable benefit to writing this kind of tool rather than one that requires a connected computer.</p>
+<p>▻ Jailbreak apps and tweaks improve the mobile experience of millions of users, including many who were encourged to try it by the ease of use of web-based jailbreaks.  I'm not just doing this to be flashy: there is considerable benefit to writing this kind of tool rather than one that requires a connected computer.</p>
     </div>
     </div>
 </div>
 
 
-<div class="navigation-view navigation-view-success body">
-<p>Thanks for playing!.  If the jailbreak didn't work correctly, please <a href="mailto:comexk@gmail.com?subject=<?php echo urlencode('failz: ' . $user_agent); ?>">email me</a>.</p>
-<p>I greatly appreciate donations... insert box here</p>
-<div class="question-answer">
-<p class="question">About Upgrading</p>
-<p class="answer"></p>
+<div class="navigation-view navigation-view-success bodypad">
+You should have seen Cydia install.
+If the jailbreak didn't work correctly, please <a href="mailto:comexk@gmail.com?subject=<?php echo urlencode('failz: ' . $user_agent); ?>">email me</a>.<br>
+<div id="sdiv1">
+<b>Now don't upgrade!</b><br>
+If you do, you won't be able to jailbreak until a new tool is released.
 </div>
-
+<img src="nuke.png" id="simg" width="400" height="200">
+<div id="sdiv2">
+<b>Donate!</b><br>
+I greatly appreciate donations; they help me pay for college at <a href="http://brown.edu">Brown</a>.
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="sform">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="hosted_button_id" value="CTALSP2HYEFKN">
+<input type="image" src="btn_donate_LG.gif" width="92" height="26" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+</form>
+</div>
+<div>
+<b>Hire me?</b><br>
+I'm looking for a job or <?php if(!$small_device) echo '<br>'; ?>internship where I can help make something really cool.  If you liked this site, why not <a href="mailto:comexk@gmail.com">send an email</a>?
+</div>
 
 </div>
 
@@ -964,7 +941,7 @@ It w
 
 </div>
 
-<div class="navigation-view navigation-view-legal">
+<div class="navigation-view navigation-view-legal body bodypad">
 Various parts of saffron use code from the following:<br>
 <br>
 <a href="http://tukaani.org/xz/">XZ Utils</a><br>
@@ -981,7 +958,6 @@ Redistribution and use in source and binary forms, with or without modification,
 <li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</li>
 <li>Neither the name of the University nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.</li>
 </ol>
-<br>
 THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.<br>
 <br>
 <a href="http://www.feep.net/libtar/">libtar:</a><br>
@@ -1026,7 +1002,7 @@ Thanks!
 
 <?php if ($device != "computer") { ?>
 <div class="button-holder">
-<div style="-webkit-transform: scale(1); z-index: 2;" class="button-wrapper">
+<div style="z-index: 2;" class="button-wrapper">
 <div class="button-container button-blue" id="button-container">
 <div class="button" role="button">FREE<div class="button-shadow"></div></div>
 </div>
@@ -1040,7 +1016,7 @@ Thanks!
 
 <div class="notheader">
 
-<div class="body">
+<div class="body1">
 <p><i>Finally.</i> JailbreakMe is the easiest way to free your device. Experience iOS as it could be, fully customizable, themeable, and with every tweak you could possibly imagine.</p>
 <p>Safe and completely reversible (just restore in iTunes), jailbreaking gives you control over the device you own. It only takes a minute or two, and as always, it's completely free.</p>
 </div>
@@ -1052,12 +1028,12 @@ Thanks!
 <span>Tell a Friend</span>
 </a>
 
-<div class="body">
+<div class="body1">
 <p>This jailbreak was brought to you by <a href="http://twitter.com/comex">comex</a>, with the help of <a href="http://chpwn.com/">Grant Paul (chpwn)</a>, <a href="http://saurik.com/">Jay Freeman (saurik)</a>, and many others. Please don't use this for piracy. <a href="#legal" onclick="return goto('legal');">Legal information.</a></p>
 </div>
 
-<a href="#media" class="cell" ontouchstart="" onclick="return goto('media')">
-<span>Media Organizations</span>
+<a href="#media" class="cell" ontouchstart="" onclick="return goto('legal')">
+<span>Legal</span>
 </a>
 
 </div>
@@ -1078,13 +1054,15 @@ var small_device = <?php echo $small_device ? 'true' : 'false'; ?>;
 function scrollo() {
     <?php if(!$small_device) { ?>
     var wt = '';
-    if(currentPage == 'moreinfo') {
+    if(currentPage == 'moreinfo' || currentPage == 'legal') {
         var mt = window.getComputedStyle(container, null).marginTop;
         wt = 'translateY(' + (-parseInt(mt.substring(0, mt.length - 2)) + 30) + 'px)';
     }
     container.style.WebkitTransform = wt;
     <?php } ?>
+    <?php if($device != 'computer') { ?>
     window.scrollTo(0, 1);
+    <?php } ?>
 }
 function goto(where) {
     var initial = typeof currentPage == 'undefined' ? ' freeze' : '';
@@ -1094,7 +1072,7 @@ function goto(where) {
 
     if (where) {
         container.className = 'container ' + where + initial;
-        document.getElementById('second-label').innerHTML = {'moreinfo': small_device ? 'More Info' : 'More Information', 'legal': small_device ? 'Legal Info' : 'Legal Information', 'share': 'Share'}[where];
+        document.getElementById('second-label').innerHTML = {'moreinfo': small_device ? 'More Info' : 'More Information', 'legal': small_device ? 'Legal Info' : 'Legal Information', 'share': 'Share', 'success': (small_device ? '&nbsp;&nbsp;&nbsp;' : '') + 'Thanks for Playing!'}[where];
         setTimeout(function() {
             container.className = 'container page2 ' + where + initial;
         }, 0);
@@ -1116,6 +1094,7 @@ var old_orientation = window.orientation;
     }
 })();
 
+<?php if($device != 'computer') { ?>
 // try a few times, it usually needs some time to get ready
 // before this starts working. not sure why, but it does.
 window.onload = function() {
@@ -1124,6 +1103,7 @@ window.onload = function() {
     setTimeout(function() { window.scrollTo(0, 1); }, 150);
     setTimeout(function() { window.scrollTo(0, 1); }, 250);
 };
+<?php } // device ?>
 
 setInterval(window.onorientationchange, 100);
     
@@ -1197,8 +1177,8 @@ document.ontouchstart = document.onmousedown = function(evt) {
 <?php } /* supported */ ?>
 </script>
 <?php if($supported) {
-$js = 'data:application/pdf;base64,' . urlencode(base64_encode(file_get_contents($pdf)));
-echo "<script>pdf = '$js'</script>\n";
+$url = data_encode($pdf, 'application/pdf');
+echo "<script>pdf = '$url'</script>\n";
 }
 ?>
 </body>
