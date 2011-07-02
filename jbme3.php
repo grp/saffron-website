@@ -55,6 +55,12 @@ ENDE;
 <meta name="format-detection" content="telephone=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>JailbreakMe 3.0</title>
+
+<!-- hey there, source code reader, who probably wants to ask if you can use this design on your homepage. -->
+<!-- while I don't have an issue with it, the code is SO horrible and awful that it's much, much easier to -->
+<!-- just make your own version of the design, which is completely cool with us: most of the design's from -->
+<!-- apple's websites and apps anyway. -->
+
 <style type="text/css">
 
 body {
