@@ -901,6 +901,12 @@ body {
 <body>
 <iframe id="hax" src="about:blank"></iframe>
 
+<!-- preload images -->
+<img style="display: none; -webkit-border-image: <?php back_image(true, false); ?>" />
+<img style="display: none; -webkit-border-image: <?php back_image(false, false); ?>" />
+<img style="display: none; -webkit-border-image: <?php back_image(true, true); ?>" />
+<img style="display: none; -webkit-border-image: <?php back_image(false, true); ?>" />
+
 <div class="container">
 <div class="container-rounded">
 <div class="navbar-container">
