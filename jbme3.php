@@ -465,7 +465,7 @@ body {
     margin-right: 10%;
     position: static;
     margin-top: 25%;
-    -webkit-transform: translateY(0);
+    /*-webkit-transform: translateY(0);*/
     -webkit-transition-property: -webkit-transform;
     -webkit-transition-duration: 0.3s;
     -webkit-transition-timing-function: ease-in-out;
