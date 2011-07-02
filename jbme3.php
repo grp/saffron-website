@@ -1063,7 +1063,7 @@ if(window.devicePixelRatio > 1) document.write('<div style="color: red; font-wei
 <a href="#moreinfo" class="cell" ontouchstart="" onclick="return goto('moreinfo');">
 <span>More Information</span>
 </a>
-<a href="mailto:?Subject=Jailbreak%20your%20iOS%20device!%21&Body=Jailbreak%20your%20iPhone%2C%20iPod%20touch%2C%20or%20iPad%20directly%20from%20the%20device%20itself%21%20JailbreakMe%20is%20the%20simplest%20way%20to%20free%20your%20device.%20Experience%20iOS%20as%20it%20could%20be%2C%20fully%20customizable%2C%20themeable%2C%20and%20with%20every%20tweak%20you%20could%20possibly%20imagine.%0A%0ACheck%20it%20out%20by%20visiting%20http%3A//jailbreakme.com/%20on%20your%20iOS%20device." class="cell" ontouchstart="" onclick="return goto('share');">
+<a href="mailto:?Subject=Jailbreak%20your%20iOS%20device%21&Body=Jailbreak%20your%20iPhone%2C%20iPod%20touch%2C%20or%20iPad%20directly%20from%20the%20device%20itself%21%20JailbreakMe%20is%20the%20simplest%20way%20to%20free%20your%20device.%20Experience%20iOS%20as%20it%20could%20be%2C%20fully%20customizable%2C%20themeable%2C%20and%20with%20every%20tweak%20you%20could%20possibly%20imagine.%0A%0ACheck%20it%20out%20by%20visiting%20http%3A//jailbreakme.com/%20on%20your%20iOS%20device." class="cell" ontouchstart="">
 <span>Tell a Friend</span>
 </a>
 
