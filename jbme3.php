@@ -1114,6 +1114,7 @@ var currentPage;
 var small_device = <?php echo $small_device ? 'true' : 'false'; ?>;
 
 function scrollo() {
+/*
     <?php if(!$small_device) { ?>
     var wt = '';
     if(currentPage == 'moreinfo' || currentPage == 'legal') {
@@ -1122,6 +1123,7 @@ function scrollo() {
     }
     container.style.WebkitTransform = wt;
     <?php } ?>
+*/
     <?php if($device != 'computer') { ?>
     window.scrollTo(0, 1);
     <?php } ?>
