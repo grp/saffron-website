@@ -92,7 +92,7 @@ li {
     padding: 1px 10px;
 }
 
-.body a, .body1 a {
+.body a {
     text-decoration: none;
 }
 
@@ -344,9 +344,9 @@ li {
 }
 
 <?php
-function back_image($mini, $pressed) {
+function back_image($mini) {
     global $small_device, $_2x;
-    $fn = data_encode("UINavigationBar" . ($mini ? "Mini" : "") . ($small_device ? "Default" : "Silver") . "Back" . ($pressed ? "Pressed" : "") . $_2x . ".png", 'image/png');
+    $fn = data_encode("UINavigationBar" . ($mini ? "Mini" : "") . ($small_device ? "Default" : "Silver") . "Back" . $_2x . ".png", 'image/png');
     $lines = ($_2x ? '30 10 30 28' : '15 5 15 14');
     if ($mini) $lines = ($_2x ? '24 8 24 20' : '12 4 12 10');
     echo "url($fn) $lines stretch";
@@ -361,22 +361,16 @@ function back_image($mini, $pressed) {
     color: white;
 
     border-width: 15px 5px 15px 14px;
-    -webkit-border-image: <?php back_image(false, false); ?>;
-}
-
-#back-taptarget:active + #back-container > #back-button {
-    -webkit-border-image: <?php back_image(false, true); ?>;
+    -webkit-border-image: <?php back_image(false); ?>;
 }
 
 #back-shadow {
-    display: none;
     position: absolute;
     width: 52px;
     height: 30px;
     left: -14px;
     top: -15px;
-    border-width: 15px 5px 15px 14px;
-    -webkit-border-image: <?php back_image(false, true); ?>;
+    -webkit-mask-box-image: <?php back_image(false); ?>;
     z-index: -1;
 }
 
@@ -401,7 +395,7 @@ function back_image($mini, $pressed) {
     -webkit-transition-duration: 0.35s;
 }
 
-.freeze, .freeze .container, .freeze .navigation-view-1, .freeze .navigation-view-2-container, .freeze .navbar-label, .freeze #back-button {*/
+.freeze, .freeze .container, .freeze .navigation-view-1, .freeze .navigation-view-2-container, .freeze .navbar-label, .freeze #back-button {
     -webkit-transition-duration: 0s !important;
 }
 
@@ -410,7 +404,7 @@ function back_image($mini, $pressed) {
        #second-label { -webkit-transform: translateX(60%); opacity: 0; }
 .page2 #second-label { -webkit-transform: translateX(0); opacity: 1; }
        #back-button { -webkit-transform: translateX(50%); opacity: 0; }
-.page2 #back-button { -webkit-transform: translateX(0); margin-left: 9px; opacity: 1; }
+.page2 #back-button { -webkit-transform: translateX(9px); opacity: 1; }
 
 
 .navigation-view-container {
@@ -829,17 +823,13 @@ body {
     }
 
     #back-button {
-            border-width: 12px 4px 12px 10px;
+        -webkit-border-image: <?php back_image(true); ?>;
     }
-    
-    #back-button {
-        -webkit-border-image: <?php back_image(true, false); ?>;
+
+    #back-shadow {
+        -webkit-mask-box-image: <?php back_image(true); ?>;
     }
-               
-    #back-taptarget:active + #back-container > #back-button {
-        -webkit-border-image: <?php back_image(true, true); ?>;
-    }
-   
+
     #back-text {
         font-size: 12px;
    
@@ -1100,7 +1090,7 @@ if(window.devicePixelRatio > 1) document.write('<div style="color: red; font-wei
 </a>
 
 <div class="body1">
-<p>This jailbreak was brought to you by <a href="http://twitter.com/comex">comex</a>, with the help of <a href="http://chpwn.com/">Grant Paul (chpwn)</a>, <a href="http://saurik.com/">Jay Freeman (saurik)</a>, and many others. Please don't use this for piracy.</p>
+<p>This jailbreak was brought to you by <a href="http://twitter.com/comex">comex</a>, with the help of <a href="http://chpwn.com/">Grant Paul (chpwn)</a>, <a href="http://saurik.com/">Jay Freeman (saurik)</a>, and many others. Please don't use this for piracy. <a href="#legal" onclick="return goto('legal');">Legal information.</a></p>
 </div>
 
 <a href="#media" class="cell" ontouchstart="" onclick="return goto('legal')">
@@ -1125,12 +1115,12 @@ var small_device = <?php echo $small_device ? 'true' : 'false'; ?>;
 
 function scrollo() {
     <?php if(!$small_device) { ?>
-    /*var wt = '';
+    var wt = '';
     if(currentPage == 'moreinfo' || currentPage == 'legal') {
         var mt = window.getComputedStyle(container, null).marginTop;
         wt = 'translateY(' + (-parseInt(mt.substring(0, mt.length - 2)) + 30) + 'px)';
     }
-    container.style.WebkitTransform = wt;*/
+    container.style.WebkitTransform = wt;
     <?php } ?>
     <?php if($device != 'computer') { ?>
     window.scrollTo(0, 1);
