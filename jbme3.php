@@ -347,7 +347,8 @@ li {
 function back_image($mini, $pressed) {
     global $small_device, $_2x;
     $fn = data_encode("UINavigationBar" . ($mini ? "Mini" : "") . ($small_device ? "Default" : "Silver") . "Back" . ($pressed ? "Pressed" : "") . $_2x . ".png", 'image/png');
-    $lines = $_2x ? '30 10 30 28' : '15 5 15 14';
+    $lines = ($_2x ? '30 10 30 28' : '15 5 15 14');
+    if ($mini) $lines = ($_2x ? '24 8 24 20' : '12 4 12 10');
     echo "url($fn) $lines stretch";
 }
 ?>
