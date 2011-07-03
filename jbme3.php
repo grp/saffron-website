@@ -8,19 +8,19 @@ if(preg_match('!^Mozilla/5\.0 \((\w+).*OS ([0-9_]+) like Mac OS X.*Mobile/([^ ]+
     list($_, $device, $version, $build) = $matches;
     $version = str_replace('_', '.' ,$version);
     $small_device = $device != 'iPad';
-    $pdf = "./${device}_${version}_$build.pdf";
+    $pdf = "_/${device}_${version}_$build.pdf";
     $supported = file_exists($pdf);
     $device = 'mobile';
 } else {
     $device = 'computer';
     $small_device = false;
-
+    $pdf = null;
     $supported = false;
 }
 
 $dangerous = $small_device && substr($version, 0, 3) == '4.2' ? ($device == 'iPhone' ? 'iPhone 3G' : 'iPod touch (2nd generation)') : '';
 
-$device = 'iPhone'; $version = '4.3.1'; $small_device = $supported = true; $dangerous = '';
+//$device = 'iPhone'; $version = '4.3.1'; $small_device = $supported = true; $dangerous = '';
 
 $_2x = ($small_device && substr($version, 0, 3) != '4.2') ? '@2x' : '';
 
@@ -1166,7 +1166,7 @@ var currentTime = new Date().getTime();
 var old_orientation = window.orientation;
 (window.onorientationchange = function(e) {
     var newTime = new Date().getTime();
-    if(buttonState == 3 && newTime - currentTime > 200) {
+    if(buttonState == 3 && newTime - currentTime > 900) {
         // discontinuity
         document.getElementById('hax').src = '';
         goto('success');
@@ -1229,13 +1229,13 @@ buttonContainer.ontouchend = buttonContainer.onmouseup = function() {
             if(buttonState == 3) {
                 goto('failed');
             }
-        }, 300);
+        }, 1000);
         break;
     }
 }
 
 function resetButton() {
-    if(!buttonContainer) return;
+    if(!buttonContainer || buttonState <= 0) return;
     buttonState = -1;
     buttonContainer.className = 'button-container button-blue button-stretched';
     buttonText.data = '';
