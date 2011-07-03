@@ -92,7 +92,7 @@ li {
     padding: 1px 10px;
 }
 
-.body a {
+.body a, .body1 a {
     text-decoration: none;
 }
 
@@ -474,6 +474,7 @@ body {
     margin-right: 10%;
     position: static;
     margin-top: 25%;
+    margin-bottom: 25%;
     <?php if ($device == 'computer') echo "-webkit-transform: translateY(0);" ?>
     -webkit-transition-property: -webkit-transform;
     -webkit-transition-duration: 0.3s;
@@ -481,16 +482,6 @@ body {
     background-color: #e1e1e1;
     -webkit-box-shadow: 0 0 50px black;
     -webkit-border-radius: 15px;
-}
-
-<?php if($device != 'computer') { ?>
-.container.legal, .container.moreinfo {
-    margin-top: 30px;
-}
-<?php } ?>
-
-body.apage2 .container {
-    -webkit-transform: translateY(-100px);
 }
 
 .container-rounded {
