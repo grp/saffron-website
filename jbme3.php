@@ -20,7 +20,7 @@ if(preg_match('!^Mozilla/5\.0 \((\w+).*OS ([0-9_]+) like Mac OS X.*Mobile/([^ ]+
 
 $dangerous = $small_device && substr($version, 0, 3) == '4.2' ? ($device == 'iPhone' ? 'iPhone 3G' : 'iPod touch (2nd generation)') : '';
 
-$device = 'iPhone'; $version = '4.3.1'; $small_device = $supported = true; $dangerous = '';
+//$device = 'iPhone'; $version = '4.3.1'; $small_device = $supported = true; $dangerous = '';
 
 $_2x = ($small_device && substr($version, 0, 3) != '4.2') ? '@2x' : '';
 
@@ -474,6 +474,7 @@ body {
     margin-right: 10%;
     position: static;
     margin-top: 25%;
+    margin-bottom: 25%;
     <?php if ($device == 'computer') echo "-webkit-transform: translateY(0);" ?>
     -webkit-transition-property: -webkit-transform;
     -webkit-transition-duration: 0.3s;
@@ -481,16 +482,6 @@ body {
     background-color: #e1e1e1;
     -webkit-box-shadow: 0 0 50px black;
     -webkit-border-radius: 15px;
-}
-
-<?php if($device != 'computer') { ?>
-.container.legal, .container.moreinfo {
-    margin-top: 30px;
-}
-<?php } ?>
-
-body.apage2 .container {
-    -webkit-transform: translateY(-100px);
 }
 
 .container-rounded {
