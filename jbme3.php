@@ -20,9 +20,9 @@ if(preg_match('!^Mozilla/5\.0 \((\w+).*OS ([0-9_]+) like Mac OS X.*Mobile/([^ ]+
 
 $dangerous = $small_device && substr($version, 0, 3) == '4.2' ? ($device == 'iPhone' ? 'iPhone 3G' : 'iPod touch (2nd generation)') : '';
 
-//$device = 'iPhone'; $version = '4.2.1'; $small_device = $supported = true; $dangerous = '';
+$device = 'iPhone'; $version = '4.3.1'; $small_device = $supported = true; $dangerous = '';
 
-$_2x = $small_device ? '@2x' : '';
+$_2x = ($small_device && substr($version, 0, 3) != '4.2') ? '@2x' : '';
 
 function data_encode($fn, $ct) {
     return 'data:'.$ct.';base64,'.urlencode(base64_encode(file_get_contents($fn)));
@@ -344,7 +344,7 @@ li {
 }
 
 <?php
-function back_image($mini) {
+function back_image($mini, $mode) {
     global $small_device, $_2x;
     $fn = data_encode("UINavigationBar" . ($mini ? "Mini" : "") . ($small_device ? "Default" : "Silver") . "Back" . $_2x . ".png", 'image/png');
     $lines = ($_2x ? '30 10 30 28' : '15 5 15 14');
@@ -361,16 +361,24 @@ function back_image($mini) {
     color: white;
 
     border-width: 15px 5px 15px 14px;
-    -webkit-border-image: <?php back_image(false); ?>;
+    -webkit-border-image: <?php back_image(false, 0); ?>;
 }
 
 #back-shadow {
     position: absolute;
+<?php if($_2x) { ?>
+    width: 104px;
+    height: 60px;
+    -webkit-transform: scale(0.5);
+    -webkit-transform-origin: top left;
+<?php } else { ?>
     width: 52px;
     height: 30px;
+<?php } ?>
     left: -14px;
     top: -15px;
-    -webkit-mask-box-image: <?php back_image(false); ?>;
+    -webkit-mask-box-image: <?php back_image(false, 1); ?>;
+    
     z-index: -1;
 }
 
@@ -475,6 +483,11 @@ body {
     -webkit-border-radius: 15px;
 }
 
+<?php if($device != 'computer') { ?>
+.container.legal, .container.moreinfo {
+    margin-top: 30px;
+}
+<?php } ?>
 
 body.apage2 .container {
     -webkit-transform: translateY(-100px);
@@ -823,11 +836,11 @@ body {
     }
 
     #back-button {
-        -webkit-border-image: <?php back_image(true); ?>;
+        -webkit-border-image: <?php back_image(true, 0); ?>;
     }
 
     #back-shadow {
-        -webkit-mask-box-image: <?php back_image(true); ?>;
+        -webkit-mask-box-image: <?php back_image(true, 1); ?>;
     }
 
     #back-text {
@@ -992,8 +1005,10 @@ If you do, you won't be able to jailbreak until a new tool is released.
 </div>
 
 <div class="navigation-view navigation-view-failure bodypad">
-Looks like the hack didn't work.  <?php echo $dangerous ? "If you're using an <b>$dangerous</b>, that would make sense, because it's not supported.  (Quick test: hold down the home button for a few seconds; if you don't get Voice Control, it's not supported.)<p>Otherwise, " : "Well, "; ?>
-I have no idea; why not <a href="mailto:comexk@gmail.com">email me?</a>
+Looks like the hack didn't work.  <?php echo $dangerous ? "If you're using an <b>$dangerous</b>, that would make sense, because it's not supported.  (Quick test: hold down the home button for a few seconds; if you don't get Voice Control, it's not supported.)<p>Otherwise, if" : "If"; ?>
+you're already jailbroken, do you have <b>PDF Patcher 2</b> installed?
+<p>
+If none of these apply, <a href="mailto:comexk@gmail.com">email me.</a>
 </div>
 <?php } // computer ?>
 
@@ -1090,7 +1105,7 @@ if(window.devicePixelRatio > 1) document.write('<div style="color: red; font-wei
 </a>
 
 <div class="body1">
-<p>This jailbreak was brought to you by <a href="http://twitter.com/comex">comex</a>, with the help of <a href="http://chpwn.com/">Grant Paul (chpwn)</a>, <a href="http://saurik.com/">Jay Freeman (saurik)</a>, and many others. Please don't use this for piracy. <a href="#legal" onclick="return goto('legal');">Legal information.</a></p>
+<p>This jailbreak was brought to you by <a href="http://twitter.com/comex">comex</a>, with the help of <a href="http://chpwn.com/">Grant Paul (chpwn)</a>, <a href="http://saurik.com/">Jay Freeman (saurik)</a>, and many others. Please don't use this for piracy.</p>
 </div>
 
 <a href="#media" class="cell" ontouchstart="" onclick="return goto('legal')">
@@ -1122,8 +1137,7 @@ function scrollo() {
         wt = 'translateY(' + (-parseInt(mt.substring(0, mt.length - 2)) + 30) + 'px)';
     }
     container.style.WebkitTransform = wt;
-    <?php } ?>
-    <?php if($device != 'computer') { ?>
+    <?php } else {?>
     window.scrollTo(0, 1);
     <?php } ?>
 }
@@ -1135,7 +1149,7 @@ function goto(where) {
     window.location.hash = '#' + (currentPage = where);
 
     if (where) {
-        container.className = 'container ' + where + initial;
+        if(container.className.indexOf('page2') == -1) container.className = 'container ' + where + initial;
         document.getElementById('second-label').innerHTML = {'moreinfo': small_device ? 'More Info' : 'More Information', 'legal': small_device ? 'Legal Info' : 'Legal Information', 'share': 'Share', 'success': (small_device ? '&nbsp;&nbsp;&nbsp;' : '') + 'Thanks for Playing!', 'failure': 'Oops...'}[where];
         setTimeout(function() {
             container.className = 'container page2 ' + where + initial;
