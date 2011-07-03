@@ -92,7 +92,7 @@ li {
     padding: 1px 10px;
 }
 
-.body a {
+.body a, .body1 a {
     text-decoration: none;
 }
 
