@@ -143,8 +143,8 @@ li {
 <?php } else { ?>
     margin-top: 7px;
 <?php } ?>
-<?php if(!$supported) { ?>
-    opacity: 0.7;
+<?php if (!$supported) { ?>
+    opacity: 0.4;
 <?php } ?>
 }
 
@@ -225,7 +225,6 @@ li {
     -webkit-transition-timing-function: ease-in-out;
     -webkit-transition-duration: 0.2s;
     -webkit-transform: scaleX(1);
-    
 }
 
 .button-squashed .button {
@@ -233,10 +232,8 @@ li {
 }
 
 .button-stretched .button {
-
     -webkit-transform: scaleX(1.417);
 }
-
 
 .cell {
     border-top: 1px solid #e5e5e5;
@@ -1096,6 +1093,8 @@ Thanks!
 <script>
 if(window.devicePixelRatio > 1) document.write('<div style="color: red; font-weight: bold">Not supported on <?php echo $dangerous; ?>.</div>');
 </script>
+<?php } else if (!$supported && $device != 'computer') { ?>
+<p style="color: red; font-weight: bold; text-align: center; <?php if ($small_device) echo "margin-top: 5px;"; ?>">Not supported on your device and firwmare combination. You might want to <a href="http://jailbrea.kr/">try here</a> for an alternate method.</p>
 <?php } ?>
 <p><i>Finally.</i> JailbreakMe is the easiest way to free your device. Experience iOS as it could be, fully customizable, themeable, and with every tweak you could possibly imagine.</p>
 <p>Safe and completely reversible (just restore in iTunes), jailbreaking gives you control over the device you own. It only takes a minute or two, and as always, it's completely free.</p>
