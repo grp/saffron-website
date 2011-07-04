@@ -19,7 +19,6 @@ if(preg_match('!^Mozilla/5\.0 \((\w+).*OS ([0-9_]+) like Mac OS X.*Mobile/([^ ]+
 }
 
 $dangerous = $small_device && substr($version, 0, 3) == '4.2' ? ($device == 'iPhone' ? 'iPhone 3G' : 'iPod touch (2nd generation)') : '';
-$supported = true;
 
 //$device = 'iPhone'; $version = '4.3.1'; $small_device = $supported = true; $dangerous = '';
 
@@ -1276,9 +1275,6 @@ document.ontouchstart = document.onmousedown = function(evt) {
 }
 
 <?php } else { /* supported */ ?>
-/*document.ontouchstart = document.onmousedown = function(evt) {
-    return false;
-}*/
 function resetButton() {}
 
 <?php } /* supported */ ?>
