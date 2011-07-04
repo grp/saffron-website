@@ -1080,7 +1080,7 @@ Thanks!
 <h3 class="subtitle">Jailbreak by comex.</h3>
 </div>
 
-<?php if ($device != "computer") { ?>
+<?php if ($supported) { ?>
 <div class="button-holder">
 <div style="z-index: 2;" class="button-wrapper">
 <div class="button-container button-blue" id="button-container">
@@ -1088,7 +1088,9 @@ Thanks!
 </div>
 </div>
 </div>
-<?php } else { ?>
+<?php } else if ($device != 'computer' && !$small_device) { ?>
+<p style="color: red; font-weight: bold; text-align: center; margin-left: 30px; margin-right: 30px;" class="body">Not supported on your device. You can <a href="http://jailbrea.kr/">try here</a> for an alternate jailbreak method.</p>
+<?php } else if ($device == 'computer') { ?>
 <p style="color: red; font-weight: bold; text-align: center; margin-left: 30px; margin-right: 30px;">Come back on your iOS device to use JailbreakMe.</p>
 <?php } ?>
 
@@ -1101,8 +1103,8 @@ Thanks!
 <script>
 if(window.devicePixelRatio > 1) document.write('<div style="color: red; font-weight: bold">Not supported on <?php echo $dangerous; ?>.</div>');
 </script>
-<?php } else if (!$supported && $device != 'computer') { ?>
-<p style="color: red; font-weight: bold; text-align: center; <?php if ($small_device) echo "margin-top: 5px;"; ?>">Not supported on your device and firwmare combination. You might want to <a href="http://jailbrea.kr/">try here</a> for an alternate method.</p>
+<?php } else if (!$supported && $device != 'computer' && $small_device) { ?>
+<p style="color: red; font-weight: bold; text-align: center; margin-top: 5px;">Not supported on your device. You can <a href="http://jailbrea.kr/">try here</a> for an alternate method.</p>
 <?php } ?>
 <p><i>Finally.</i> JailbreakMe is the easiest way to free your device. Experience iOS as it could be, fully customizable, themeable, and with every tweak you could possibly imagine.</p>
 <p>Safe and completely reversible (just restore in iTunes), jailbreaking gives you control over the device you own. It only takes a minute or two, and as always, it's completely free.</p>
