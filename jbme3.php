@@ -607,12 +607,6 @@ body {
     margin-right: auto;
 }
 
-@media only screen and (orientation: portrait) {
-    .container {
-    }
-
-}
-
 @media only screen and (orientation: landscape) {
     .container {
         margin-top: 8%;
@@ -642,11 +636,12 @@ body {
 #sdiv1 {
     padding-top: 63px;
     float: right;
-    width: 240px;
+    width: 286px;
 }
 
 #simg {
     padding-top: 10px;
+    margin-left: -10px;
 }
 
 #sdiv2 {
@@ -654,6 +649,24 @@ body {
     width: 302px;
     padding: 0 50px;
 }
+
+@media only screen and (orientation: portrait) {
+    #simg {
+        width: 340px;
+        height: 170px;
+        margin-top: -10px;
+    }
+    #sdiv1 {
+        width: 250px;
+        padding-top: 40px;
+    }
+    #sdiv2 {
+        width: 300px;
+        padding: 0 18px;
+    }
+
+}
+
 
 <?php if($device == 'computer') { ?>
 #sdiv2 {
