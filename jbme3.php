@@ -1015,7 +1015,7 @@ If you do, you won't be able to jailbreak until a new tool is released.
 
 <div class="navigation-view navigation-view-failure bodypad">
 Looks like the hack didn't work.  <?php echo $dangerous ? "If you're using an <b>$dangerous</b>, that would make sense, because it's not supported.  (Quick test: hold down the home button for a few seconds; if you don't get Voice Control, it's not supported.)<p>Otherwise, if" : "If"; ?>
-you're already jailbroken, do you have <b>PDF Patcher 2</b> installed?
+ you're already jailbroken, do you have <b>PDF Patcher 2</b> installed?
 <p>
 Otherwise, <a href="mailto:comexk@gmail.com">email me.</a>
 </div>
