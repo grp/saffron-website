@@ -59,7 +59,10 @@ ENDE;
 <!-- hey there, source code reader, who probably wants to ask if you can use this design on your homepage. -->
 <!-- while I don't have an issue with it, the code is SO horrible and awful that it's much, much easier to -->
 <!-- just make your own version of the design, which is completely cool with us: most of the design's from -->
-<!-- apple's websites and apps anyway. -->
+<!-- apple's app store app anyway. again: you can use the design (but not the content) where you want, but -->
+<!-- it's awful, so for your sake, make your own. also, see Cydia's Info.plist for another of these equal- -->
+<!-- line-length paragraphs, which inspired this one. it's actually easier than i thought it'd be to make! -->
+<!-- chpwn -->
 
 <style type="text/css">
 
@@ -67,6 +70,7 @@ body {
     margin: 0;
     padding: 0;
 
+    /* helvetica neue is only availble on retina devices, but it's the system font there, so use it if we can */
     font-family: Helvetica NeueUI, Helvetica Neue, Helvetica, Arial, Verdana, sans-serif;
     color: black;
 }
@@ -92,6 +96,7 @@ li {
     padding: 1px 10px;
 }
 
+/* links look better like this */
 .body a, .body1 a {
     text-decoration: none;
 }
