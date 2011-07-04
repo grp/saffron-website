@@ -19,6 +19,7 @@ if(preg_match('!^Mozilla/5\.0 \((\w+).*OS ([0-9_]+) like Mac OS X.*Mobile/([^ ]+
 }
 
 $dangerous = $small_device && substr($version, 0, 3) == '4.2' ? ($device == 'iPhone' ? 'iPhone 3G' : 'iPod touch (2nd generation)') : '';
+$supported = true;
 
 //$device = 'iPhone'; $version = '4.3.1'; $small_device = $supported = true; $dangerous = '';
 
@@ -597,11 +598,17 @@ body {
     text-shadow: white 0 1px 0;
 }
 
+.button-holder {
+    position: relative;
+    width: 100%;
+}
+
+
 .button-wrapper {
-    position: static;
+    position: absolute;
     margin-top: 5px;
-    margin-left: auto;
-    margin-right: auto;
+    left: 50%;
+    margin-left: -31px;
 }
 
 @media only screen and (orientation: landscape) {
@@ -620,6 +627,7 @@ body {
 .question-answer:nth-child(odd) {
     background-color: #dadada;
 }
+
 
 <?php if (!$small_device) { ?>
 
