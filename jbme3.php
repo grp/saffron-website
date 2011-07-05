@@ -19,7 +19,6 @@ if(preg_match('!^Mozilla/5\.0 \((\w+).*OS ([0-9_]+) like Mac OS X.*Mobile/([^ ]+
 }
 
 $dangerous = $small_device && substr($version, 0, 3) == '4.2' ? ($device == 'iPhone' ? 'iPhone 3G' : 'iPod touch (2nd generation)') : '';
-$supported = true;
 
 //$device = 'iPhone'; $version = '4.3.1'; $small_device = $supported = true; $dangerous = '';
 
@@ -60,7 +59,10 @@ ENDE;
 <!-- hey there, source code reader, who probably wants to ask if you can use this design on your homepage. -->
 <!-- while I don't have an issue with it, the code is SO horrible and awful that it's much, much easier to -->
 <!-- just make your own version of the design, which is completely cool with us: most of the design's from -->
-<!-- apple's websites and apps anyway. -->
+<!-- apple's app store app anyway. again: you can use the design (but not the content) where you want, but -->
+<!-- it's awful, so for your sake, make your own. also, see Cydia's Info.plist for another of these equal- -->
+<!-- line-length paragraphs, which inspired this one. it's actually easier than i thought it'd be to make! -->
+<!-- chpwn -->
 
 <style type="text/css">
 
@@ -68,6 +70,7 @@ body {
     margin: 0;
     padding: 0;
 
+    /* helvetica neue is only availble on retina devices, but it's the system font there, so use it if we can */
     font-family: Helvetica NeueUI, Helvetica Neue, Helvetica, Arial, Verdana, sans-serif;
     color: black;
 }
@@ -93,6 +96,7 @@ li {
     padding: 1px 10px;
 }
 
+/* links look better like this */
 .body a, .body1 a {
     text-decoration: none;
 }
@@ -1015,7 +1019,7 @@ If you do, you won't be able to jailbreak until a new tool is released.
 
 <div class="navigation-view navigation-view-failure bodypad">
 Looks like the hack didn't work.  <?php echo $dangerous ? "If you're using an <b>$dangerous</b>, that would make sense, because it's not supported.  (Quick test: hold down the home button for a few seconds; if you don't get Voice Control, it's not supported.)<p>Otherwise, if" : "If"; ?>
-you're already jailbroken, do you have <b>PDF Patcher 2</b> installed?
+ you're already jailbroken, do you have <b>PDF Patcher 2</b> installed?
 <p>
 Otherwise, <a href="mailto:comexk@gmail.com">email me.</a>
 </div>
@@ -1080,7 +1084,7 @@ Thanks!
 <h3 class="subtitle">Jailbreak by comex.</h3>
 </div>
 
-<?php if ($device != "computer") { ?>
+<?php if ($supported) { ?>
 <div class="button-holder">
 <div style="z-index: 2;" class="button-wrapper">
 <div class="button-container button-blue" id="button-container">
@@ -1088,7 +1092,9 @@ Thanks!
 </div>
 </div>
 </div>
-<?php } else { ?>
+<?php } else if ($device != 'computer' && !$small_device) { ?>
+<p style="color: red; font-weight: bold; text-align: center; margin-left: 30px; margin-right: 30px;" class="body">Not supported on your device. You can <a href="http://jailbrea.kr/">try here</a> for an alternate jailbreak method.</p>
+<?php } else if ($device == 'computer') { ?>
 <p style="color: red; font-weight: bold; text-align: center; margin-left: 30px; margin-right: 30px;">Come back on your iOS device to use JailbreakMe.</p>
 <?php } ?>
 
@@ -1101,8 +1107,8 @@ Thanks!
 <script>
 if(window.devicePixelRatio > 1) document.write('<div style="color: red; font-weight: bold">Not supported on <?php echo $dangerous; ?>.</div>');
 </script>
-<?php } else if (!$supported && $device != 'computer') { ?>
-<p style="color: red; font-weight: bold; text-align: center; <?php if ($small_device) echo "margin-top: 5px;"; ?>">Not supported on your device and firwmare combination. You might want to <a href="http://jailbrea.kr/">try here</a> for an alternate method.</p>
+<?php } else if (!$supported && $device != 'computer' && $small_device) { ?>
+<p style="color: red; font-weight: bold; text-align: center; margin-top: 5px;">Not supported on your device. You can <a href="http://jailbrea.kr/">try here</a> for an alternate method.</p>
 <?php } ?>
 <p><i>Finally.</i> JailbreakMe is the easiest way to free your device. Experience iOS as it could be, fully customizable, themeable, and with every tweak you could possibly imagine.</p>
 <p>Safe and completely reversible (just restore in iTunes), jailbreaking gives you control over the device you own. It only takes a minute or two, and as always, it's completely free.</p>
@@ -1274,9 +1280,6 @@ document.ontouchstart = document.onmousedown = function(evt) {
 }
 
 <?php } else { /* supported */ ?>
-/*document.ontouchstart = document.onmousedown = function(evt) {
-    return false;
-}*/
 function resetButton() {}
 
 <?php } /* supported */ ?>
