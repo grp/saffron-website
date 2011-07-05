@@ -18,9 +18,10 @@ if(preg_match('!^Mozilla/5\.0 \((\w+).*OS ([0-9_]+) like Mac OS X.*Mobile/([^ ]+
     $supported = false;
 }
 
-$dangerous = $small_device && substr($version, 0, 3) == '4.2' ? ($device == 'iPhone' ? 'iPhone 3G' : 'iPod touch (2nd generation)') : '';
+$dangerous = $small_device && $version == '4.2.1' ? ($device == 'iPhone' ? 'iPhone 3G' : 'iPod touch (2nd generation)') : '';
 
 //$device = 'iPhone'; $version = '4.3.1'; $small_device = $supported = true; $dangerous = '';
+//$device = 'iPad'; $version = '4.3.1'; $small_device = false; $supported = true; $dangerous = '';
 
 $_2x = ($small_device && substr($version, 0, 3) != '4.2') ? '@2x' : '';
 
@@ -114,7 +115,6 @@ li {
 
 .button-container {
     z-index: 10;
-    display: table-cell;
     vertical-align: middle;
 }
 
@@ -151,6 +151,8 @@ li {
 <?php if (!$supported) { ?>
     opacity: 0.4;
 <?php } ?>
+    
+    -webkit-transform: scaleX(1.001);
 }
 
 .button-shadow {
@@ -229,7 +231,6 @@ li {
     -webkit-transition-property: -webkit-transform, background-image, border-color;
     -webkit-transition-timing-function: ease-in-out;
     -webkit-transition-duration: 0.2s;
-    -webkit-transform: scaleX(1);
 }
 
 .button-squashed .button {
