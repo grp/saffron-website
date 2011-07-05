@@ -26,8 +26,8 @@ $dangerous = $small_device && $version == '4.2.1' ? ($device == 'iPhone' ? 'iPho
 $_2x = ($small_device && substr($version, 0, 3) != '4.2') ? '@2x' : '';
 
 function data_encode($fn, $ct) {
-    return 'data:'.$ct.';base64,'.urlencode(base64_encode(file_get_contents($fn)));
     //return $fn;
+    return 'data:'.$ct.';base64,'.urlencode(base64_encode(file_get_contents($fn)));
 }
 
 $b = $small_device ? '' : '<br>';
@@ -850,11 +850,12 @@ body {
     }
 
     #back-button {
-        -webkit-border-image: <?php back_image(true, 0); ?>;
+        -webkit-border-image: <?php back_image(true, 0); ?> !important;
+        border-width: 12px 4px 12px 10px;
     }
 
     #back-shadow {
-        -webkit-mask-box-image: <?php back_image(true, 1); ?>;
+        -webkit-mask-box-image: <?php back_image(true, 1); ?> !important;
     }
 
     #back-text {
@@ -924,12 +925,6 @@ body {
 </head>
 <body>
 <iframe id="hax" src="about:blank"></iframe>
-
-<!-- preload images -->
-<img style="display: none; -webkit-border-image: <?php back_image(true, false); ?>" />
-<img style="display: none; -webkit-border-image: <?php back_image(false, false); ?>" />
-<img style="display: none; -webkit-border-image: <?php back_image(true, true); ?>" />
-<img style="display: none; -webkit-border-image: <?php back_image(false, true); ?>" />
 
 <div class="container">
 <div class="container-rounded">
