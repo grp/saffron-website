@@ -1454,4 +1454,5 @@ if($browser != 'gecko') $contents = preg_replace('/-moz-.*;/sU', ';', $contents)
 if($browser != 'opera') $contents = preg_replace('/-o-.*;/sU', ';', $contents);
 file_put_contents($cachefn, $contents);
 echo $contents;
+@ob_flush();
 ?>
