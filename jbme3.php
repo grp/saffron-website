@@ -19,12 +19,22 @@ if(preg_match('!^Mozilla/5\.0 \((\w+).*OS ([0-9_]+) like Mac OS X.*Mobile/([^ ]+
     $small_device = $device != 'iPad';
     $pdf = "_/${device}_${version}_$build.pdf";
     $supported = file_exists($pdf);
-    $device = 'mobile';
+
+    $browser = 'webkit';
 } else {
     $device = 'computer';
     $small_device = false;
     $pdf = null;
     $supported = false;
+
+    if(strpos($user_agent, 'WebKit') !== FALSE)
+        $browser = 'webkit';
+    else if(strpos($user_agent, 'Gecko') !== FALSE)
+        $browser = 'gecko';    
+    else if(strpos($user_agent, 'Opera') !== FALSE)
+        $browser = 'opera';    
+    else
+        $browser = 'unknown';
 }
 
 
@@ -76,6 +86,12 @@ ENDE;
 <!-- chpwn -->
 
 <style type="text/css">
+#browser {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    text-align: center;
+}
 
 body {
     margin: 0;
@@ -143,12 +159,14 @@ li {
     
     -webkit-box-shadow: 0 -1px 0px #79797b, 0 1px 0px #ffffff;
     -moz-box-shadow: 0 -1px 0px #79797b, 0 1px 0px #ffffff;
+    -o-box-shadow: 0 -1px 0px #79797b, 0 1px 0px #ffffff;
     border-top: 1px solid #505050;
     
     padding-top: 1px;
     height: 20px;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
+    -o-border-radius: 3px;
     
     width: 48px;
     text-align: center;
@@ -158,6 +176,7 @@ li {
 <?php if($small_device) { ?>
     -webkit-transform-origin: right 50%;
     -moz-transform-origin: right 50%;
+    -o-transform-origin: right 50%;
 <?php } else { ?>
     margin-top: 7px;
 <?php } ?>
@@ -167,6 +186,7 @@ li {
     
     -webkit-transform: scaleX(1.001);
     -moz-transform: scaleX(1.001);
+    -o-transform: scaleX(1.001);
 }
 
 .button-shadow {
@@ -211,10 +231,6 @@ li {
         color-stop(0.95, #60749b),
         color-stop(0, #32559c)
     );
-    background-image: -moz-linear-gradient(
-        #60749b,
-        #32559c
-    );
 <?php } else { ?>
     background-image: -webkit-gradient(
         linear,
@@ -225,6 +241,10 @@ li {
         color-stop(0, #75777f)
     );
     background-image: -moz-linear-gradient(
+        #8d8f96,
+        #75777f
+    );
+    background-image: -o-linear-gradient(
         #8d8f96,
         #75777f
     );
@@ -244,10 +264,6 @@ li {
         color-stop(0.95, #74a361),
         color-stop(0, #51ab29)
     );
-    background-image: -moz-linear-gradient(
-        #74a361,
-        #51ab29
-    );
 
     width: 68px;
     margin-left: -10px;
@@ -255,21 +271,15 @@ li {
 
 .button-animated .button {
     -webkit-transition-property: -webkit-transform, background-image, border-color;
-    -moz-transition-property: -webkit-transform, background-image, border-color;
     -webkit-transition-timing-function: ease-in-out;
-    -moz-transition-timing-function: ease-in-out;
-    -webkit-transition-duration: 0.2s;
-    -moz-transition-duration: 0.2s;
 }
 
 .button-squashed .button {
     -webkit-transform: scaleX(0.7059);
-    -moz-transform: scaleX(0.7059);
 }
 
 .button-stretched .button {
     -webkit-transform: scaleX(1.417);
-    -moz-transform: scaleX(1.417);
 }
 
 .cell {
@@ -317,6 +327,10 @@ li {
         color-stop(1, #0066F2)
     );
     background-image: url(<?php echo data_encode('chevron_white.svg', 'image/svg+xml'); ?>), -moz-linear-gradient(
+        #0099FF,
+        #0066F2
+    );
+    background-image: url(<?php echo data_encode('chevron_white.svg', 'image/svg+xml'); ?>), -o-linear-gradient(
         #0099FF,
         #0066F2
     );
@@ -401,6 +415,7 @@ function back_image($mini, $mode) {
     border-width: 15px 5px 15px 14px;
     -webkit-border-image: <?php back_image(false, 0); ?>;
     -moz-border-image: <?php back_image(false, 0); ?>;
+    -o-border-image: <?php back_image(false, 0); ?>;
 }
 
 #back-shadow {
@@ -410,8 +425,10 @@ function back_image($mini, $mode) {
     height: 60px;
     -webkit-transform: scale(0.5);
     -moz-transform: scale(0.5);
+    -o-transform: scale(0.5);
     -webkit-transform-origin: top left;
     -moz-transform-origin: top left;
+    -o-transform-origin: top left;
 <?php } else { ?>
     width: 52px;
     height: 30px;
@@ -420,6 +437,7 @@ function back_image($mini, $mode) {
     top: -15px;
     -webkit-mask-box-image: <?php back_image(false, 1); ?>;
     -moz-mask-box-image: <?php back_image(false, 1); ?>;
+    -o-mask-box-image: <?php back_image(false, 1); ?>;
     
     z-index: -1;
 }
@@ -442,47 +460,57 @@ function back_image($mini, $mode) {
 .navbar-label, #back-button, .navigation-view-2-container, .navigation-view-1 {
     -webkit-transition-property: -webkit-transform, opacity;
     -moz-transition-property: -moz-transform, opacity;
+    -o-transition-property: -o-transform, opacity;
     -webkit-transition-timing-function: ease-in-out; /* iOS uses exactly this */
-    -moz-transition-timing-function: ease-in-out; /* iOS uses exactly this */
+    -moz-transition-timing-function: ease-in-out;
+    -o-transition-timing-function: ease-in-out;
     -webkit-transition-duration: 0.35s;
     -moz-transition-duration: 0.35s;
+    -o-transition-duration: 0.35s;
 }
 
 .freeze, .freeze .container, .freeze .navigation-view-1, .freeze .navigation-view-2-container, .freeze .navbar-label, .freeze #back-button {
     -webkit-transition-duration: 0s !important;
     -moz-transition-duration: 0s !important;
+    -o-transition-duration: 0s !important;
 }
 
 #first-label { 
        -webkit-transform: translateX(0);
        -moz-transform: translateX(0);
+       -o-transform: translateX(0);
        opacity: 1; 
 }
 .page2 #first-label {
     -webkit-transform: translateX(-100%);
     -moz-transform: translateX(-100%);
+    -o-transform: translateX(-100%);
     opacity: 0; 
 }
 
 #second-label {
     -webkit-transform: translateX(60%);
     -moz-transform: translateX(60%);
+    -o-transform: translateX(60%);
     opacity: 0; 
 }
 .page2 #second-label {
     -webkit-transform: translateX(0);
     -moz-transform: translateX(0);
+    -o-transform: translateX(0);
     opacity: 1;
 }
        
 #back-button {
     -webkit-transform: translateX(50%);
     -moz-transform: translateX(50%);
+    -o-transform: translateX(50%);
     opacity: 0;
 }
 .page2 #back-button {
     -webkit-transform: translateX(9px);
     -moz-transform: translateX(9px);
+    -o-transform: translateX(9px);
     opacity: 1;
 }
 
@@ -494,6 +522,7 @@ function back_image($mini, $mode) {
 .navigation-view-2-container {
     -webkit-transform: translateX(100%);
     -moz-transform: translateX(100%);
+    -o-transform: translateX(100%);
     position: absolute;
     width: 100%;
     top: 0; left: 0;
@@ -502,6 +531,7 @@ function back_image($mini, $mode) {
 .page2 .navigation-view-2-container {
     -webkit-transform: translateX(0);
     -moz-transform: translateX(0);
+    -o-transform: translateX(0);
     position: relative;
 }
     
@@ -514,6 +544,7 @@ function back_image($mini, $mode) {
 .navigation-view-1 {
     -webkit-transform: translateX(0);
     -moz-transform: translateX(0);
+    -o-transform: translateX(0);
     display: block;
     position: relative;
 }
@@ -521,6 +552,7 @@ function back_image($mini, $mode) {
 .page2 .navigation-view-1 {
     -webkit-transform: translateX(-100%);
     -moz-transform: translateX(-100%);
+    -o-transform: translateX(-100%);
     position: absolute;
     top: 44px; left: 0;
 }
@@ -547,25 +579,33 @@ body {
         #959595,
         #656565
     );
+    background-image: -o-linear-gradient(
+        #959595,
+        #656565
+    );
 }
 
 .container {
 }
 
 .container {
-    <?php if ($device == 'computer') echo "-webkit-transform: translateY(0);" ?>
-    <?php if ($device == 'computer') echo "-moz-transform: translateY(0);" ?>
+    <?php if ($device == 'computer') echo "-webkit-transform: translateY(0); -moz-transform: translateY(0); -o-transform: translateY(0);" ?>
     -webkit-transition-property: -webkit-transform;
     -moz-transition-property: -moz-transform;
+    -o-transition-property: -moz-transform;
     -webkit-transition-duration: 0.3s;
     -moz-transition-duration: 0.3s;
+    -o-transition-duration: 0.3s;
     -webkit-transition-timing-function: ease-in-out;
     -moz-transition-timing-function: ease-in-out;
+    -o-transition-timing-function: ease-in-out;
     background-color: #e1e1e1;
     -webkit-box-shadow: 0 0 50px black;
     -moz-box-shadow: 0 0 50px black;
+    -o-box-shadow: 0 0 50px black;
     -webkit-border-radius: 15px;
     -moz-border-radius: 15px;
+    -o-border-radius: 15px;
     margin-left: 10%;
     margin-right: 10%;
     position: static;
@@ -607,6 +647,7 @@ body {
     overflow: hidden;
     -webkit-border-bottom-right-radius: 15px;
     -moz-border-bottom-right-radius: 15px;
+    -o-border-bottom-right-radius: 15px;
 }
 
 
@@ -630,6 +671,7 @@ body {
     height: 190px;
     -webkit-background-size: 100% 100%;
     -moz-background-size: 100% 100%;
+    -o-background-size: 100% 100%;
     background-size: 100% 100%;
     margin-left: auto;
     margin-right: auto;
@@ -678,11 +720,17 @@ body {
         #ffffff,
         #a8abbb
     );
+    background-image: -o-linear-gradient(
+        #ffffff,
+        #a8abbb
+    );
 
     -webkit-border-top-left-radius: 15px;
     -moz-border-top-left-radius: 15px;
+    -o-border-top-left-radius: 15px;
     -webkit-border-top-right-radius: 15px;
     -moz-border-top-right-radius: 15px;
+    -o-border-top-right-radius: 15px;
 
     height: 43px;
     margin: 0;
@@ -734,8 +782,10 @@ body {
 .question-answer:last-child {
     -webkit-border-bottom-right-radius: 15px;
     -moz-border-bottom-right-radius: 15px;
+    -o-border-bottom-right-radius: 15px;
     -webkit-border-bottom-left-radius: 15px;
     -moz-border-bottom-left-radius: 15px;
+    -o-border-bottom-left-radius: 15px;
 }
 
 <?php } ?>
@@ -806,6 +856,7 @@ body {
     background-color: #c8cacc;
     -webkit-background-size: 101% 100px;
     -moz-background-size: 101% 100px;
+    -o-background-size: 101% 100px;
     background-repeat: no-repeat;
     background-image: -webkit-gradient(
         linear,
@@ -950,12 +1001,14 @@ body {
     #back-button {
         -webkit-border-image: <?php back_image(true, 0); ?> !important;
         -moz-border-image: <?php back_image(true, 0); ?> !important;
+        -o-border-image: <?php back_image(true, 0); ?> !important;
         border-width: 12px 4px 12px 10px;
     }
 
     #back-shadow {
         -webkit-mask-box-image: <?php back_image(true, 1); ?> !important;
         -moz-mask-box-image: <?php back_image(true, 1); ?> !important;
+        -o-mask-box-image: <?php back_image(true, 1); ?> !important;
     }
 
     #back-text {
@@ -1024,6 +1077,12 @@ body {
 </style>
 </head>
 <body>
+<?php
+// I know, I know
+if($browser != 'webkit' && $browser != 'gecko') {
+echo '<div id="browser" style="position: fixed; top: 0; width: 100%; text-align: center; color: red">Protip: This looks better on WebKit or Firefox because we\'re too lazy to make an alternate website.</div>';
+}
+?>
 <iframe id="hax" src="about:blank"></iframe>
 
 <div class="container">
@@ -1389,5 +1448,10 @@ echo "<script>pdf = '$url'</script>\n";
 </body>
 </html>
 <?php
-file_put_contents($cachefn, ob_get_contents());
+$contents = ob_get_clean();
+if($browser != 'webkit') $contents = preg_replace('/-webkit-.*;/sU', ';', $contents);
+if($browser != 'gecko') $contents = preg_replace('/-moz-.*;/sU', ';', $contents);
+if($browser != 'opera') $contents = preg_replace('/-o-.*;/sU', ';', $contents);
+file_put_contents($cachefn, $contents);
+echo $contents;
 ?>
