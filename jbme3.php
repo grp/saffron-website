@@ -534,8 +534,8 @@ body {
         to(#959595)
     );
     background-image: -moz-linear-gradient(
-        #656565,
-        #959595
+        #959595,
+        #656565
     );
 }
 
