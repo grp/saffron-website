@@ -1,8 +1,17 @@
 <?php
 error_reporting(E_ALL);
-//ob_start('ob_gzhandler');
+ob_start('ob_gzhandler');
 header('Content-Type: text/html; charset=utf-8');
 $user_agent = $_SERVER['HTTP_USER_AGENT'];
+if(preg_match("/(iPhone|iPad|iPod).*OS (3|4_0)/", $user_agent)) {
+    header('Location: /star/');
+    die();
+}
+$cachefn = 'cache/' . base64_encode($user_agent);
+if(@filemtime($cachefn) >= filemtime('jbme3.php')) {
+    readfile($cachefn);
+    die();
+}
 
 if(preg_match('!^Mozilla/5\.0 \((\w+).*OS ([0-9_]+) like Mac OS X.*Mobile/([^ ]+)!', $user_agent, $matches)) {
     list($_, $device, $version, $build) = $matches;
@@ -17,6 +26,7 @@ if(preg_match('!^Mozilla/5\.0 \((\w+).*OS ([0-9_]+) like Mac OS X.*Mobile/([^ ]+
     $pdf = null;
     $supported = false;
 }
+
 
 $dangerous = $small_device && $version == '4.2.1' ? ($device == 'iPhone' ? 'iPhone 3G' : 'iPod touch (2nd generation)') : '';
 
@@ -44,7 +54,7 @@ I greatly appreciate donations; they help me pay for college at <a href="http://
 </div>
 <div id="sdiv3">
 <b>Hire me?</b><br>
-I'm looking for a job or {$b}internship where I can help make something really cool.  If you liked this site, why not <a href="mailto:comexk@gmail.com">send an email</a>?
+I'm looking for a job or {$b}internship where I can help make something really cool.  If you liked this site, why not <a href="mailto:comexk+j@gmail.com">send an email</a>?
 </div>
 </div>
 ENDE;
@@ -1003,7 +1013,7 @@ When I released JailbreakMe 2.0 last year, some media reports focused on the sec
 <?php if($device != 'computer') { ?>
 <div class="navigation-view navigation-view-success bodypad">
 You should have seen Cydia install.
-If the jailbreak didn't work correctly, please <a href="mailto:comexk@gmail.com?subject=<?php echo urlencode('failz: ' . $user_agent); ?>">email me</a>.<br>
+If the jailbreak didn't work correctly, please <a href="mailto:comexk+j@gmail.com?subject=<?php echo urlencode('failz: ' . $user_agent); ?>">email me</a>.<br>
 <div id="sdiv1">
 <b>Now don't upgrade!</b><br>
 If you do, you won't be able to jailbreak until a new tool is released.
@@ -1017,7 +1027,7 @@ If you do, you won't be able to jailbreak until a new tool is released.
 Looks like the hack didn't work.  <?php echo $dangerous ? "If you're using an <b>$dangerous</b>, that would make sense, because it's not supported.  (Quick test: hold down the home button for a few seconds; if you don't get Voice Control, it's not supported.)<p>Otherwise, if" : "If"; ?>
  you're already jailbroken, do you have <b>PDF Patcher 2</b> installed?
 <p>
-Otherwise, <a href="mailto:comexk@gmail.com">email me.</a>
+Otherwise, <a href="mailto:comexk+j@gmail.com">email me.</a>
 </div>
 <?php } // computer ?>
 
@@ -1106,8 +1116,9 @@ if(window.devicePixelRatio > 1) document.write('<div style="color: red; font-wei
 <?php } else if (!$supported && $device != 'computer' && $small_device) { ?>
 <p style="color: red; font-weight: bold; text-align: center; margin-top: 5px;">Not supported on your device. You can <a href="http://jailbrea.kr/">try here</a> for an alternate method.</p>
 <?php } ?>
-<p><i>Finally.</i> JailbreakMe is the easiest way to free your device. Experience iOS as it could be, fully customizable, themeable, and with every tweak you could possibly imagine.</p>
+<p>JailbreakMe is the easiest way to free your device. Experience iOS as it could be, fully customizable, themeable, and with every tweak you could possibly imagine.</p>
 <p>Safe and completely reversible (just restore in iTunes), jailbreaking gives you control over the device you own. It only takes a minute or two, and as always, it's completely free.</p>
+<p>Please make an iTunes backup before jailbreaking.</p>
 </div>
 
 <a href="#moreinfo" class="cell" ontouchstart="" onclick="return goto('moreinfo');">
@@ -1287,4 +1298,6 @@ echo "<script>pdf = '$url'</script>\n";
 ?>
 </body>
 </html>
-
+<?php
+file_put_contents($cachefn, ob_get_contents());
+?>
