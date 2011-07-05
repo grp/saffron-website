@@ -1133,6 +1133,7 @@ if(window.devicePixelRatio > 1) document.write('<div style="color: red; font-wei
 </div>
 
 <script type="text/javascript">
+var timeout = null;
 var buttonState = 0;
 var pdf = null;
 var container = document.getElementsByClassName('container')[0];
@@ -1177,9 +1178,8 @@ var currentTime = new Date().getTime();
 var old_orientation = window.orientation;
 (window.onorientationchange = function(e) {
     var newTime = new Date().getTime();
-    if(buttonState == 3 && newTime - currentTime > 900) {
+    if(buttonState == 3 && newTime - currentTime > 2000) {
         // discontinuity
-        document.getElementById('hax').src = '';
         goto('success');
     }
     currentTime = newTime;
@@ -1236,16 +1236,16 @@ buttonContainer.ontouchend = buttonContainer.onmouseup = function() {
         buttonState = 3;
         document.getElementById('hax').src = pdf;
         buttonContainer.className = 'button-container button-green button-disabled';
-        setTimeout(function() {
-            if(buttonState == 3) {
-                goto('failure');
-            }
-        }, 1000);
+        timeout = setTimeout(function() {
+            goto('failure');
+        }, 5000);
         break;
     }
 }
 
 function resetButton() {
+    if(timeout) { clearTimeout(timeout); timeout = null; }
+    document.getElementById('hax').src = '';
     if(!buttonContainer || buttonState <= 0) return;
     buttonState = -1;
     buttonContainer.className = 'button-container button-blue button-stretched';
