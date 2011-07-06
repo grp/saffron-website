@@ -1,13 +1,14 @@
 <?php
 error_reporting(E_ALL);
 header('Content-Type: text/html; charset=utf-8');
+header('Vary: User-Agent');
 $user_agent = $_SERVER['HTTP_USER_AGENT'];
 if(preg_match("/(iPhone|iPad|iPod).*OS (3|4_0)/", $user_agent)) {
     header('Location: /star/');
     die();
 }
 $cachefn = 'cache/' . base64_encode($user_agent);
-if(@filemtime($cachefn) >= filemtime('jbme3.php')) {
+if(0 && @filemtime($cachefn) >= filemtime('jbme3.php')) {
     ob_start('ob_gzhandler');
     readfile($cachefn);
     die();
@@ -48,7 +49,7 @@ $dangerous = $small_device && $version == '4.2.1' ? ($device == 'iPhone' ? 'iPho
 $_2x = ($small_device && substr($version, 0, 3) != '4.2') ? '@2x' : '';
 
 function data_encode($fn, $ct) {
-    return $fn;
+    //return $fn;
     return 'data:'.$ct.';base64,'.urlencode(base64_encode(file_get_contents($fn)));
 }
 
@@ -61,7 +62,7 @@ I greatly appreciate donations; they help me pay for college at <a href="http://
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="sform">
 <input type="hidden" name="cmd" value="_s-xclick">
 <input type="hidden" name="hosted_button_id" value="CTALSP2HYEFKN">
-<input type="image" src="btn_donate_LG.gif" width="92" height="26" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+<input type="image" src="/saffron/btn_donate_LG.gif" width="92" height="26" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
 </form>
 </div>
 <div id="sdiv3">
@@ -74,7 +75,6 @@ ENDE;
 ?>
 <html>
 <head>
-<base href="/saffron/" />
 <meta name="viewport" content="width=device-width, maximum-scale=1.0, user-scalable=no">
 <meta name="format-detection" content="telephone=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -678,7 +678,7 @@ body {
     background-size: 100% 100%;
     margin-left: auto;
     margin-right: auto;
-    background-image: url(holybejesus.png);
+    background-image: url(/saffron/holybejesus.png);
 
     -webkit-box-reflect: below 4px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(0.8, transparent), to(rgba(1, 1, 1, 0.5)));
 }
@@ -1217,7 +1217,7 @@ Thanks!
 <div class="container3">
 
 <div class="header">
-<img class="icon" src="icon@2x.png" width="59" height="59" />
+<img class="icon" src="/saffron/icon@2x.png" width="59" height="59" />
 <div class="bigicon"></div>
 <div class="headertext">
 <h1 class="title">Cydia</h1>
@@ -1450,7 +1450,7 @@ $contents = ob_get_clean();
 if($browser != 'webkit') $contents = preg_replace('/-webkit-.*;/sU', ';', $contents);
 if($browser != 'gecko') $contents = preg_replace('/-moz-.*;/sU', ';', $contents);
 if($browser != 'opera') $contents = preg_replace('/-o-.*;/sU', ';', $contents);
-file_put_contents($cachefn, $contents);
+if(0) file_put_contents($cachefn, $contents);
 ob_start('ob_gzhandler');
 echo $contents;
 ?>
