@@ -1385,6 +1385,7 @@ buttonContainer.ontouchend = buttonContainer.onmouseup = function() {
         buttonContainer.className = 'button-container button-green button-disabled';
         _gaq.push(['_trackEvent', 'jailbreak', 'jailbreak']); // track jailbreaks!
         timeout = setTimeout(function() {
+            _gaq.push(['_trackEvent', 'failed', 'failure']);
             goto('failure');
         }, 5000);
         break;
