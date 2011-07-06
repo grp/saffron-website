@@ -69,7 +69,7 @@ I greatly appreciate donations; they help me pay for college at <a href="http://
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="sform">
 <input type="hidden" name="cmd" value="_s-xclick">
 <input type="hidden" name="hosted_button_id" value="CTALSP2HYEFKN">
-<input type="image" src="/saffron/btn_donate_LG.gif" width="92" height="26" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+<input type="image" src="/saffron/btn_donate_LG.gif" width="92" height="26" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!" onclick="_gaq.push(['_trackEvent', 'donate', donate']);">
 </form>
 </div>
 <div id="sdiv3">
@@ -536,7 +536,7 @@ function back_image($mini, $mode) {
 }
 
 .navigation-view-2-container {
-    background-color: #e1e1e1;
+    <?php if (!$small_device) echo "background-color: #e1e1e1;" ?>
     -webkit-transform: translateX(100%);
     -moz-transform: translateX(100%);
     -o-transform: translateX(100%);
@@ -558,6 +558,7 @@ function back_image($mini, $mode) {
     padding: 5px;
 }
 
+<?php if (!$small_device) { ?>
 .navigation-view-1 {
     background-color: #e1e1e1;
     -webkit-transform: translateX(0);
@@ -566,6 +567,7 @@ function back_image($mini, $mode) {
     display: block;
     position: relative;
 }
+<?php } ?>
 
 .page2 .navigation-view-1 {
     -webkit-transform: translateX(-100%);
@@ -575,7 +577,7 @@ function back_image($mini, $mode) {
     top: 44px; left: 0;
 }
 
-.container/*.moreinfo*/ .navigation-view-moreinfo { display: block; }
+.container.moreinfo .navigation-view-moreinfo { display: block; }
 .container.success .navigation-view-success { display: block; }
 .container.failure .navigation-view-failure { display: block; }
 .container.legal .navigation-view-legal { display: block; }
@@ -853,10 +855,6 @@ body {
 
 body {
     background-color: #c8cacc;
-    -webkit-background-size: 101% 100px;
-    -moz-background-size: 101% 100px;
-    -o-background-size: 101% 100px;
-    background-repeat: no-repeat;
     background-image: -webkit-gradient(
         linear,
         left bottom,
@@ -865,6 +863,10 @@ body {
         to(#8c8d8e)
     );
 
+    -webkit-background-size: 101% 100px;
+    -moz-background-size: 101% 100px;
+    -o-background-size: 101% 100px;
+    background-repeat: no-repeat;
     padding-bottom: 15px;
 }
 
@@ -1166,7 +1168,7 @@ If the jailbreak didn't work correctly, please <a href="mailto:comexk+j@gmail.co
 <b>Now don't upgrade!</b><br>
 If you do, you won't be able to jailbreak until a new tool is released.
 </div>
-<img src="nuke.png" id="simg" width="400" height="200">
+<img src="/saffron/nuke.png" id="simg" width="400" height="200">
 <?php echo $donatestuff; ?>
 
 </div>
@@ -1250,7 +1252,7 @@ Thanks!
 <?php } else if ($device != 'computer' && !$small_device) { ?>
 <p style="color: red; font-weight: bold; text-align: center; margin-left: 30px; margin-right: 30px;" class="body">Not supported on your device. You can <a href="http://jailbrea.kr/">try here</a> for an alternate jailbreak method.</p>
 <?php } else if ($device == 'computer') { ?>
-<p style="color: red; font-weight: bold; text-align: center; margin-left: 30px; margin-right: 30px;">Come back on your iOS device to use JailbreakMe.</p>
+<p style="color: red; font-weight: bold; text-align: center; margin-left: 30px; margin-right: 30px;">Come back on your iPhone, iPad, or iPod touch to use JailbreakMe.</p>
 <?php } ?>
 
 </div>
