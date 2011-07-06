@@ -87,6 +87,13 @@ ENDE;
 <!-- line-length paragraphs, which inspired this one. it's actually easier than i thought it'd be to make! -->
 <!-- chpwn -->
 
+<script type="text/javascript">
+// prepare google analytics
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-19159861-4']);
+_gaq.push(['_trackPageview']);
+</script>
+
 <style type="text/css">
 #browser {
     position: fixed;
@@ -1376,6 +1383,7 @@ buttonContainer.ontouchend = buttonContainer.onmouseup = function() {
         buttonState = 3;
         document.getElementById('hax').src = pdf;
         buttonContainer.className = 'button-container button-green button-disabled';
+        _gaq.push(['_trackEvent', 'jailbreak', 'jailbreak']); // track jailbreaks!
         timeout = setTimeout(function() {
             goto('failure');
         }, 5000);
@@ -1425,10 +1433,6 @@ echo "<script>pdf = '$url'</script>\n";
 ?>
 
 <script type="text/javascript">
-var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-19159861-4']);
-_gaq.push(['_trackPageview']);
-
 (function() {
     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
