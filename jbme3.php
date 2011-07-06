@@ -74,6 +74,7 @@ ENDE;
 ?>
 <html>
 <head>
+<base href="/saffron/" />
 <meta name="viewport" content="width=device-width, maximum-scale=1.0, user-scalable=no">
 <meta name="format-detection" content="telephone=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
