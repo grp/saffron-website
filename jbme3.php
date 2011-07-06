@@ -1245,7 +1245,7 @@ Thanks!
 <?php } else if ($device != 'computer' && !$small_device) { ?>
 <p style="color: red; font-weight: bold; text-align: center; margin-left: 30px; margin-right: 30px;" class="body">Not supported on your device. You can <a href="http://jailbrea.kr/">try here</a> for an alternate jailbreak method.</p>
 <?php } else if ($device == 'computer') { ?>
-<p style="color: red; font-weight: bold; text-align: center; margin-left: 30px; margin-right: 30px;">Come back on your iOS device to use JailbreakMe.</p>
+<p style="color: red; font-weight: bold; text-align: center; margin-left: 30px; margin-right: 30px;">Come back on your iPhone, iPad, or iPod touch to use JailbreakMe.</p>
 <?php } ?>
 
 </div>
