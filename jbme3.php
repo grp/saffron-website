@@ -41,7 +41,14 @@ if(preg_match('!^Mozilla/5\.0 \((\w+).*OS ([0-9_]+) like Mac OS X.*Mobile/([^ ]+
 }
 
 
-$dangerous = $small_device && $version == '4.2.1' ? ($device == 'iPhone' ? 'iPhone 3G' : 'iPod touch (2nd generation)') : '';
+$dangerous = '';
+$dangerous1xonly = false;
+if($small_device && $version == '4.2.1') {
+    $dangerous = ($device == 'iPhone' ? 'iPhone 3G' : 'iPod touch (2nd generation)');
+    $dangerous1xonly = true;
+} else if($device == 'iPad' && ($version == '4.3' || $version == '4.3.1' || $version == '4.3.2')) {
+    $dangerous = 'iPad 2';
+}
 
 //$device = 'iPhone'; $version = '4.3.1'; $small_device = $supported = true; $dangerous = '';
 //$device = 'iPad'; $version = '4.3.1'; $small_device = false; $supported = true; $dangerous = '';
@@ -1251,11 +1258,13 @@ Thanks!
 <div class="notheader">
 
 <div class="body1">
-<?php if($dangerous) { ?>
-<script>
-if(window.devicePixelRatio > 1) document.write('<div style="color: red; font-weight: bold">Not supported on <?php echo $dangerous; ?>.</div>');
-</script>
-<?php } else if (!$supported && $device != 'computer' && $small_device) { ?>
+<?php if($dangerous) {
+    if($dangerous1xonly) echo "<script> if(window.devicePixelRatio < 1.1) document.write('";
+    echo "<p style=\"color: red; font-weight: bold; text-align: center; margin-top: 5px;\">Not supported on $dangerous.";
+    if($dangerous == 'iPad 2') echo '  Upgrade to 4.3.3 to use on iPad 2.';
+    echo "</p>";
+    if($dangerous1xonly) echo "');</script>";
+} else if (!$supported && $device != 'computer' && $small_device) { ?>
 <p style="color: red; font-weight: bold; text-align: center; margin-top: 5px;">Not supported on your device. You can <a href="http://jailbrea.kr/">try here</a> for an alternate method.</p>
 <?php } ?>
 <p>JailbreakMe is the easiest way to free your device. Experience iOS as it could be, fully customizable, themeable, and with every tweak you could possibly imagine.</p>
