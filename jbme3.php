@@ -8,7 +8,7 @@ if(preg_match("/(iPhone|iPad|iPod).*OS (3|4_0)/", $user_agent)) {
     die();
 }
 $cachefn = 'cache/' . base64_encode($user_agent);
-if(0 && @filemtime($cachefn) >= filemtime('jbme3.php')) {
+if(1 && @filemtime($cachefn) >= filemtime('jbme3.php')) {
     ob_start('ob_gzhandler');
     readfile($cachefn);
     die();
@@ -1476,7 +1476,7 @@ $contents = ob_get_clean();
 if($browser != 'webkit') $contents = preg_replace('/-webkit-.*;/sU', ';', $contents);
 if($browser != 'gecko') $contents = preg_replace('/-moz-.*;/sU', ';', $contents);
 if($browser != 'opera') $contents = preg_replace('/-o-.*;/sU', ';', $contents);
-if(0) file_put_contents($cachefn, $contents);
+if(1) file_put_contents($cachefn, $contents);
 ob_start('ob_gzhandler');
 echo $contents;
 ?>
