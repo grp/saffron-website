@@ -467,7 +467,6 @@ function back_image($mini, $mode) {
 }
 
 .navbar-label, #back-button, .navigation-view-2-container, .navigation-view-1 {
-    border-radius: 15px;
     -webkit-transition-property: -webkit-transform, opacity;
     -moz-transition-property: -moz-transform, opacity;
     -o-transition-property: -o-transform, opacity;
@@ -595,6 +594,10 @@ body {
         #959595,
         #656565
     );
+}
+
+.navbar-label, #back-button, .navigation-view-2-container, .navigation-view-1 {
+    border-radius: 15px;
 }
 
 .container {
@@ -830,6 +833,10 @@ body {
 }
 
 <?php } else { // small_device ?>
+
+.navigation-view-1 {
+    padding-top: 1px;
+}
 
 .button-container {
     position: absolute;
