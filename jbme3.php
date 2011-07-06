@@ -121,7 +121,7 @@ body {
 }
 
 * {
-    -webkit-user-select: none !important;
+    <?php if ($device != 'computer') echo "-webkit-user-select: none !important;"; ?>
     -webkit-text-size-adjust: none;
 }
 
