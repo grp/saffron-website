@@ -570,7 +570,7 @@ function back_image($mini, $mode) {
     top: 44px; left: 0;
 }
 
-.container/*.moreinfo*/ .navigation-view-moreinfo { display: block; }
+.container.moreinfo .navigation-view-moreinfo { display: block; }
 .container.success .navigation-view-success { display: block; }
 .container.failure .navigation-view-failure { display: block; }
 .container.legal .navigation-view-legal { display: block; }
