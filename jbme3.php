@@ -62,7 +62,7 @@ I greatly appreciate donations; they help me pay for college at <a href="http://
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="sform">
 <input type="hidden" name="cmd" value="_s-xclick">
 <input type="hidden" name="hosted_button_id" value="CTALSP2HYEFKN">
-<input type="image" src="/saffron/btn_donate_LG.gif" width="92" height="26" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+<input type="image" src="/saffron/btn_donate_LG.gif" width="92" height="26" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!" onclick="_gaq.push(['_trackEvent', 'donate', donate']);">
 </form>
 </div>
 <div id="sdiv3">
