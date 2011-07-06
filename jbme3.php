@@ -1326,6 +1326,7 @@ var old_orientation = window.orientation;
 (window.onorientationchange = function(e) {
     var newTime = new Date().getTime();
     if(buttonState == 3 && newTime - currentTime > 2000) {
+        _gaq.push(['_trackEvent', 'success', 'success']);
         // discontinuity
         goto('success');
     }
