@@ -74,7 +74,7 @@ I greatly appreciate donations; they help me pay for college at <a href="http://
 </div>
 <div id="sdiv3">
 <b>Hire me?</b><br>
-I'm looking for a job or {$b}internship where I can help make something really cool.  If you liked this site, why not <a href="mailto:comexk+j@gmail.com">send an email</a>?
+I'm looking for a job or {$b}internship where I can help make something really cool.  If you liked this site, why not <a href="mailto:comexk@gmail.com">send an email</a>?
 </div>
 </div>
 ENDE;
@@ -288,6 +288,8 @@ li {
 .button-animated .button {
     -webkit-transition-property: -webkit-transform, background-image, border-color;
     -webkit-transition-timing-function: ease-in-out;
+    -webkit-transition-duration: 0.2s;
+    -moz-transition-duration: 0.2s;
 }
 
 .button-squashed .button {
@@ -579,6 +581,7 @@ function back_image($mini, $mode) {
 
 .container.moreinfo .navigation-view-moreinfo { display: block; }
 .container.success .navigation-view-success { display: block; }
+.container.donate .navigation-view-donate { display: block; }
 .container.failure .navigation-view-failure { display: block; }
 .container.legal .navigation-view-legal { display: block; }
 
@@ -1173,6 +1176,11 @@ If you do, you won't be able to jailbreak until a new tool is released.
 
 </div>
 
+<div class="navigation-view navigation-view-donate bodypad">
+<?php echo str_replace('<b>Donate!</b><br>', '', $donatestuff); ?>
+
+</div>
+
 <div class="navigation-view navigation-view-failure bodypad">
 Note: If Cydia started to install, then disregard this and <a href="#" onclick="return goto('success');">click here</a>. :p<p>
 Looks like the hack didn't work.  <?php echo $dangerous ? "If you're using an <b>$dangerous</b>, that would make sense, because it's not supported.  (Quick test: hold down the home button for a few seconds; if you don't get Voice Control, it's not supported.)<p>Otherwise, if" : "If"; ?>
@@ -1282,7 +1290,7 @@ Thanks!
 </a>
 
 <div class="body1">
-<p>This jailbreak was brought to you by <a href="http://twitter.com/comex">comex</a>, with the help of <a href="http://chpwn.com/">Grant Paul (chpwn)</a>, <a href="http://saurik.com/">Jay Freeman (saurik)</a>, and many others. Please don't use this for piracy.</p>
+<p>This jailbreak was brought to you by <a href="http://twitter.com/comex">comex</a>, with the help of <a href="http://chpwn.com/">Grant Paul (chpwn)</a>, <a href="http://saurik.com/">Jay Freeman (saurik)</a>, <a href="http://twitter.com/MuscleNerd">MuscleNerd</a>, and many others. Please don't use this for piracy.<?php if($device != 'computer') { ?>  <a href="#donate" onclick="return goto('donate');">Donate?</a><?php } ?></p>
 </div>
 
 <a href="#legal" class="cell" ontouchstart="" ontouchend="return goto('legal')">
@@ -1322,13 +1330,13 @@ function scrollo() {
 function goto(where) {
     var initial = typeof currentPage == 'undefined' ? ' freeze' : '';
     var old = currentPage;
-    if(old == where) return;
+    if(old == where) return false;
     resetButton();
     window.location.hash = '#' + (currentPage = where);
 
     if (where) {
         if(container.className.indexOf('page2') == -1) container.className = 'container ' + where + initial;
-        document.getElementById('second-label').innerHTML = {'moreinfo': small_device ? 'More Info' : 'More Information', 'legal': small_device ? 'Legal Info' : 'Legal Information', 'share': 'Share', 'success': (small_device ? '&nbsp;&nbsp;&nbsp;' : '') + 'Thanks for Playing!', 'failure': 'Oops...'}[where];
+        document.getElementById('second-label').innerHTML = {'moreinfo': small_device ? 'More Info' : 'More Information', 'legal': small_device ? 'Legal Info' : 'Legal Information', 'share': 'Share', 'success': (small_device ? '&nbsp;&nbsp;&nbsp;' : '') + 'Thanks for Playing!', 'failure': 'Oops...', 'donate': 'Donate'}[where];
         setTimeout(function() {
             container.className = 'container page2 ' + where + initial;
         }, 0);
