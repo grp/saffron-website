@@ -1,6 +1,5 @@
 <?php
 error_reporting(E_ALL);
-ob_start('ob_gzhandler');
 header('Content-Type: text/html; charset=utf-8');
 $user_agent = $_SERVER['HTTP_USER_AGENT'];
 if(preg_match("/(iPhone|iPad|iPod).*OS (3|4_0)/", $user_agent)) {
@@ -9,9 +8,12 @@ if(preg_match("/(iPhone|iPad|iPod).*OS (3|4_0)/", $user_agent)) {
 }
 $cachefn = 'cache/' . base64_encode($user_agent);
 if(@filemtime($cachefn) >= filemtime('jbme3.php')) {
+    ob_start('ob_gzhandler');
     readfile($cachefn);
     die();
 }
+
+ob_start();
 
 if(preg_match('!^Mozilla/5\.0 \((\w+).*OS ([0-9_]+) like Mac OS X.*Mobile/([^ ]+)!', $user_agent, $matches)) {
     list($_, $device, $version, $build) = $matches;
@@ -46,7 +48,7 @@ $dangerous = $small_device && $version == '4.2.1' ? ($device == 'iPhone' ? 'iPho
 $_2x = ($small_device && substr($version, 0, 3) != '4.2') ? '@2x' : '';
 
 function data_encode($fn, $ct) {
-    //return $fn;
+    return $fn;
     return 'data:'.$ct.';base64,'.urlencode(base64_encode(file_get_contents($fn)));
 }
 
@@ -130,9 +132,10 @@ li {
 
 #hax {
     position: fixed;
-    opacity: 0.001;
+    opacity: 0.000001;
     top: 0; left: 0;
     width: 20px; height: 40px;
+    -webkit-transform: scale(0.001);
 }
 
 .container {
@@ -164,9 +167,7 @@ li {
     
     padding-top: 1px;
     height: 20px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    -o-border-radius: 3px;
+    border-radius: 3px;
     
     width: 48px;
     text-align: center;
@@ -433,7 +434,7 @@ function back_image($mini, $mode) {
     width: 52px;
     height: 30px;
 <?php } ?>
-    left: -14px;
+    left: -13px;
     top: -15px;
     -webkit-mask-box-image: <?php back_image(false, 1); ?>;
     -moz-mask-box-image: <?php back_image(false, 1); ?>;
@@ -458,6 +459,7 @@ function back_image($mini, $mode) {
 }
 
 .navbar-label, #back-button, .navigation-view-2-container, .navigation-view-1 {
+    border-radius: 15px;
     -webkit-transition-property: -webkit-transform, opacity;
     -moz-transition-property: -moz-transform, opacity;
     -o-transition-property: -o-transform, opacity;
@@ -520,6 +522,7 @@ function back_image($mini, $mode) {
 }
 
 .navigation-view-2-container {
+    background-color: #e1e1e1;
     -webkit-transform: translateX(100%);
     -moz-transform: translateX(100%);
     -o-transform: translateX(100%);
@@ -542,6 +545,7 @@ function back_image($mini, $mode) {
 }
 
 .navigation-view-1 {
+    background-color: #e1e1e1;
     -webkit-transform: translateX(0);
     -moz-transform: translateX(0);
     -o-transform: translateX(0);
@@ -557,7 +561,7 @@ function back_image($mini, $mode) {
     top: 44px; left: 0;
 }
 
-.container.moreinfo .navigation-view-moreinfo { display: block; }
+.container/*.moreinfo*/ .navigation-view-moreinfo { display: block; }
 .container.success .navigation-view-success { display: block; }
 .container.failure .navigation-view-failure { display: block; }
 .container.legal .navigation-view-legal { display: block; }
@@ -586,9 +590,6 @@ body {
 }
 
 .container {
-}
-
-.container {
     <?php if ($device == 'computer') echo "-webkit-transform: translateY(0); -moz-transform: translateY(0); -o-transform: translateY(0);" ?>
     -webkit-transition-property: -webkit-transform;
     -moz-transition-property: -moz-transform;
@@ -599,13 +600,8 @@ body {
     -webkit-transition-timing-function: ease-in-out;
     -moz-transition-timing-function: ease-in-out;
     -o-transition-timing-function: ease-in-out;
-    background-color: #e1e1e1;
-    -webkit-box-shadow: 0 0 50px black;
-    -moz-box-shadow: 0 0 50px black;
-    -o-box-shadow: 0 0 50px black;
-    -webkit-border-radius: 15px;
-    -moz-border-radius: 15px;
-    -o-border-radius: 15px;
+
+    border-radius: 15px;
     margin-left: 10%;
     margin-right: 10%;
     position: static;
@@ -615,7 +611,8 @@ body {
 
 .container-rounded {
     position:relative; 
-    overflow: hidden;
+    background-color: #e1e1e1;
+    border-radius: 15px;
 }
 
 .container2 {
@@ -645,9 +642,7 @@ body {
     vertical-align: top;
 
     overflow: hidden;
-    -webkit-border-bottom-right-radius: 15px;
-    -moz-border-bottom-right-radius: 15px;
-    -o-border-bottom-right-radius: 15px;
+    border-bottom-right-radius: 15px;
 }
 
 
@@ -725,12 +720,8 @@ body {
         #a8abbb
     );
 
-    -webkit-border-top-left-radius: 15px;
-    -moz-border-top-left-radius: 15px;
-    -o-border-top-left-radius: 15px;
-    -webkit-border-top-right-radius: 15px;
-    -moz-border-top-right-radius: 15px;
-    -o-border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
 
     height: 43px;
     margin: 0;
@@ -761,10 +752,10 @@ body {
 
 @media only screen and (orientation: landscape) {
     .container {
-        margin-top: 8%;
-        margin-bottom: 8%;
-        margin-left: 15%;
-        margin-right: 15%;
+        margin-top: 4%;
+        margin-bottom: 4%;
+        margin-left: 11%;
+        margin-right: 11%;
     }
 }
 
@@ -775,20 +766,6 @@ body {
 .question-answer:nth-child(odd) {
     background-color: #dadada;
 }
-
-
-<?php if (!$small_device) { ?>
-
-.question-answer:last-child {
-    -webkit-border-bottom-right-radius: 15px;
-    -moz-border-bottom-right-radius: 15px;
-    -o-border-bottom-right-radius: 15px;
-    -webkit-border-bottom-left-radius: 15px;
-    -moz-border-bottom-left-radius: 15px;
-    -o-border-bottom-left-radius: 15px;
-}
-
-<?php } ?>
 
 #sdiv1 {
     padding-top: 63px;
@@ -1173,6 +1150,7 @@ If you do, you won't be able to jailbreak until a new tool is released.
 </div>
 
 <div class="navigation-view navigation-view-failure bodypad">
+Note: If Cydia started to install, then disregard this and <a href="#" onclick="return goto('success');">click here</a>. :p<p>
 Looks like the hack didn't work.  <?php echo $dangerous ? "If you're using an <b>$dangerous</b>, that would make sense, because it's not supported.  (Quick test: hold down the home button for a few seconds; if you don't get Voice Control, it's not supported.)<p>Otherwise, if" : "If"; ?>
  you're already jailbroken, do you have <b>PDF Patcher 2</b> installed?
 <p>
@@ -1270,7 +1248,7 @@ if(window.devicePixelRatio > 1) document.write('<div style="color: red; font-wei
 <p>Please make an iTunes backup before jailbreaking.</p>
 </div>
 
-<a href="#moreinfo" class="cell" ontouchstart="" onclick="return goto('moreinfo');">
+<a href="#moreinfo" class="cell" ontouchstart="" ontouchend="return goto('moreinfo');">
 <span>More Information</span>
 </a>
 <a href="mailto:?Subject=Jailbreak%20your%20iOS%20device%21&Body=Jailbreak%20your%20iPhone%2C%20iPod%20touch%2C%20or%20iPad%20directly%20from%20the%20device%20itself%21%20JailbreakMe%20is%20the%20simplest%20way%20to%20free%20your%20device.%20Experience%20iOS%20as%20it%20could%20be%2C%20fully%20customizable%2C%20themeable%2C%20and%20with%20every%20tweak%20you%20could%20possibly%20imagine.%0A%0ACheck%20it%20out%20by%20visiting%20http%3A//jailbreakme.com/%20on%20your%20iOS%20device." class="cell" ontouchstart="">
@@ -1281,7 +1259,7 @@ if(window.devicePixelRatio > 1) document.write('<div style="color: red; font-wei
 <p>This jailbreak was brought to you by <a href="http://twitter.com/comex">comex</a>, with the help of <a href="http://chpwn.com/">Grant Paul (chpwn)</a>, <a href="http://saurik.com/">Jay Freeman (saurik)</a>, and many others. Please don't use this for piracy.</p>
 </div>
 
-<a href="#media" class="cell" ontouchstart="" onclick="return goto('legal')">
+<a href="#media" class="cell" ontouchstart="" ontouchend="return goto('legal')">
 <span>Legal</span>
 </a>
 
@@ -1453,6 +1431,6 @@ if($browser != 'webkit') $contents = preg_replace('/-webkit-.*;/sU', ';', $conte
 if($browser != 'gecko') $contents = preg_replace('/-moz-.*;/sU', ';', $contents);
 if($browser != 'opera') $contents = preg_replace('/-o-.*;/sU', ';', $contents);
 file_put_contents($cachefn, $contents);
+ob_start('ob_gzhandler');
 echo $contents;
-@ob_flush();
 ?>
