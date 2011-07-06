@@ -1267,7 +1267,7 @@ if(window.devicePixelRatio > 1) document.write('<div style="color: red; font-wei
 <p>This jailbreak was brought to you by <a href="http://twitter.com/comex">comex</a>, with the help of <a href="http://chpwn.com/">Grant Paul (chpwn)</a>, <a href="http://saurik.com/">Jay Freeman (saurik)</a>, and many others. Please don't use this for piracy.</p>
 </div>
 
-<a href="#media" class="cell" ontouchstart="" ontouchend="return goto('legal')">
+<a href="#legal" class="cell" ontouchstart="" ontouchend="return goto('legal')">
 <span>Legal</span>
 </a>
 
