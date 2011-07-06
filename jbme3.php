@@ -16,6 +16,7 @@ if(1 && @filemtime($cachefn) >= filemtime('jbme3.php')) {
 
 ob_start();
 
+// Mozilla/5.0 (iPad OS 4_3_3 like Mac OS X Mobile/8J2 WebKit
 if(preg_match('!^Mozilla/5\.0 \((\w+).*OS ([0-9_]+) like Mac OS X.*Mobile/([^ ]+)!', $user_agent, $matches)) {
     list($_, $device, $version, $build) = $matches;
     $version = str_replace('_', '.' ,$version);
@@ -827,10 +828,13 @@ body {
 
 <?php if($device == 'computer') { ?>
 #sdiv2 {
-    width: 240px;
+    width: 50%;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 #sdiv3 {
-    height: 130px;
+    padding-right: 20px;
+    padding-bottom: 10px;
 }
 
 #sbigdiv {
@@ -1176,11 +1180,6 @@ If you do, you won't be able to jailbreak until a new tool is released.
 
 </div>
 
-<div class="navigation-view navigation-view-donate bodypad">
-<?php echo str_replace('<b>Donate!</b><br>', '', $donatestuff); ?>
-
-</div>
-
 <div class="navigation-view navigation-view-failure bodypad">
 Note: If Cydia started to install, then disregard this and <a href="#" onclick="return goto('success');">click here</a>. :p<p>
 Looks like the hack didn't work.  <?php echo $dangerous ? "If you're using an <b>$dangerous</b>, that would make sense, because it's not supported.  (Quick test: hold down the home button for a few seconds; if you don't get Voice Control, it's not supported.)<p>Otherwise, if" : "If"; ?>
@@ -1189,6 +1188,12 @@ Looks like the hack didn't work.  <?php echo $dangerous ? "If you're using an <b
 Otherwise, <a href="mailto:comexk+j@gmail.com">email me.</a>
 </div>
 <?php } // computer ?>
+
+<div class="navigation-view navigation-view-donate bodypad">
+<?php echo $donatestuff; ?>
+
+</div>
+
 
 <div class="navigation-view navigation-view-legal body bodypad">
 Various parts of saffron use code from the following:<br>
@@ -1290,7 +1295,7 @@ Thanks!
 </a>
 
 <div class="body1">
-<p>This jailbreak was brought to you by <a href="http://twitter.com/comex">comex</a>, with the help of <a href="http://chpwn.com/">Grant Paul (chpwn)</a>, <a href="http://saurik.com/">Jay Freeman (saurik)</a>, <a href="http://twitter.com/MuscleNerd">MuscleNerd</a>, and many others. Please don't use this for piracy.<?php if($device != 'computer') { ?>  <a href="#donate" onclick="return goto('donate');">Donate?</a><?php } ?></p>
+<p>This jailbreak was brought to you by <a href="http://twitter.com/comex">comex</a>, with the help of <a href="http://chpwn.com/">Grant Paul (chpwn)</a>, <a href="http://saurik.com/">Jay Freeman (saurik)</a>, <a href="http://twitter.com/MuscleNerd">MuscleNerd</a>, and many others. Please don't use this for piracy.  <a href="#donate" onclick="return goto('donate');">Donate?</a></p>
 </div>
 
 <a href="#legal" class="cell" ontouchstart="" ontouchend="return goto('legal')">
