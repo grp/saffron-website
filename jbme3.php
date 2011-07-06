@@ -529,7 +529,7 @@ function back_image($mini, $mode) {
 }
 
 .navigation-view-2-container {
-    background-color: #e1e1e1;
+    <?php if (!$small_device) echo "background-color: #e1e1e1;" ?>
     -webkit-transform: translateX(100%);
     -moz-transform: translateX(100%);
     -o-transform: translateX(100%);
@@ -1161,7 +1161,7 @@ If the jailbreak didn't work correctly, please <a href="mailto:comexk+j@gmail.co
 <b>Now don't upgrade!</b><br>
 If you do, you won't be able to jailbreak until a new tool is released.
 </div>
-<img src="nuke.png" id="simg" width="400" height="200">
+<img src="/saffron/nuke.png" id="simg" width="400" height="200">
 <?php echo $donatestuff; ?>
 
 </div>
