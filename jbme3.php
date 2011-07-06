@@ -551,6 +551,7 @@ function back_image($mini, $mode) {
     padding: 5px;
 }
 
+<?php if (!$small_device) { ?>
 .navigation-view-1 {
     background-color: #e1e1e1;
     -webkit-transform: translateX(0);
@@ -559,6 +560,7 @@ function back_image($mini, $mode) {
     display: block;
     position: relative;
 }
+<?php } ?>
 
 .page2 .navigation-view-1 {
     -webkit-transform: translateX(-100%);
@@ -846,10 +848,6 @@ body {
 
 body {
     background-color: #c8cacc;
-    -webkit-background-size: 101% 100px;
-    -moz-background-size: 101% 100px;
-    -o-background-size: 101% 100px;
-    background-repeat: no-repeat;
     background-image: -webkit-gradient(
         linear,
         left bottom,
@@ -858,6 +856,10 @@ body {
         to(#8c8d8e)
     );
 
+    -webkit-background-size: 101% 100px;
+    -moz-background-size: 101% 100px;
+    -o-background-size: 101% 100px;
+    background-repeat: no-repeat;
     padding-bottom: 15px;
 }
 
